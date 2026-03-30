@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, MapPin, ExternalLink } from 'lucide-react';
 import { SectionWrapper } from '@/components/shared/SectionWrapper';
@@ -19,13 +19,63 @@ export function Testimonials() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [userInteracted, setUserInteracted] = useState(false);
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const checkScroll = () => {
+  const checkScroll = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
     setCanScrollLeft(el.scrollLeft > 10);
     setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
-  };
+  }, []);
+
+  const scrollBy = useCallback((direction: 'left' | 'right') => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = 344; // min-w + gap
+    el.scrollBy({
+      left: direction === 'left' ? -cardWidth : cardWidth,
+      behavior: 'smooth',
+    });
+  }, []);
+
+  // Auto-scroll: slow continuous drift until user interacts
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || userInteracted) return;
+
+    let rafId: number;
+    let lastTime = 0;
+
+    const tick = (time: number) => {
+      if (lastTime) {
+        const delta = time - lastTime;
+        el.scrollLeft += delta * 0.03; // pixels per ms — gentle drift
+
+        // Loop back when reaching the end
+        if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 1) {
+          el.scrollLeft = 0;
+        }
+      }
+      lastTime = time;
+      rafId = requestAnimationFrame(tick);
+    };
+
+    // Start after a short delay so the section has time to animate in
+    const timeout = setTimeout(() => {
+      rafId = requestAnimationFrame(tick);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeout);
+      cancelAnimationFrame(rafId);
+    };
+  }, [userInteracted]);
+
+  // Stop auto-scroll on any user interaction with the carousel
+  const handleUserInteraction = useCallback(() => {
+    if (!userInteracted) setUserInteracted(true);
+  }, [userInteracted]);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -37,17 +87,7 @@ export function Testimonials() {
       el.removeEventListener('scroll', checkScroll);
       window.removeEventListener('resize', checkScroll);
     };
-  }, []);
-
-  const scroll = (direction: 'left' | 'right') => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const cardWidth = el.querySelector('div')?.offsetWidth || 360;
-    el.scrollBy({
-      left: direction === 'left' ? -cardWidth - 24 : cardWidth + 24,
-      behavior: 'smooth',
-    });
-  };
+  }, [checkScroll]);
 
   return (
     <SectionWrapper id="testimonials" fullWidth>
@@ -104,7 +144,7 @@ export function Testimonials() {
             {/* Carousel controls */}
             <div className="flex gap-2 ml-4">
               <button
-                onClick={() => scroll('left')}
+                onClick={() => { handleUserInteraction(); scrollBy('left'); }}
                 disabled={!canScrollLeft}
                 className="w-10 h-10 rounded-xl bg-background-tertiary border border-border flex items-center justify-center text-foreground-muted hover:text-foreground hover:border-accent/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 aria-label="Previous reviews"
@@ -112,7 +152,7 @@ export function Testimonials() {
                 <ChevronLeft size={18} />
               </button>
               <button
-                onClick={() => scroll('right')}
+                onClick={() => { handleUserInteraction(); scrollBy('right'); }}
                 disabled={!canScrollRight}
                 className="w-10 h-10 rounded-xl bg-background-tertiary border border-border flex items-center justify-center text-foreground-muted hover:text-foreground hover:border-accent/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 aria-label="Next reviews"
@@ -124,16 +164,18 @@ export function Testimonials() {
         </div>
       </div>
 
-      {/* Scrollable carousel */}
+      {/* Scrollable carousel — auto-scrolls until user touches it */}
       <div className="relative">
         {/* Fade edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
         <div
           ref={scrollRef}
+          onMouseDown={handleUserInteraction}
+          onTouchStart={handleUserInteraction}
+          onWheel={handleUserInteraction}
           className="flex gap-6 overflow-x-auto scrollbar-hide px-6 lg:px-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] pb-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {TESTIMONIALS.map((testimonial, i) => (
             <motion.div

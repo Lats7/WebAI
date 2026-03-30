@@ -9,7 +9,7 @@ export const COMPANY = {
   url: 'https://webai.com.au',
   abn: 'ABN 00 000 000 000',
   socials: {
-    linkedin: 'https://www.linkedin.com/company/webaiprotech/?viewAsMember=true',
+    linkedin: 'https://www.linkedin.com/company/webaiprotech/',
     freelancer: 'https://www.freelancer.com/u/Lats7',
   },
 } as const;
@@ -52,24 +52,6 @@ export const services: Service[] = [
     mobileOrder: 1,
   },
   {
-    slug: 'salesforce',
-    title: 'Salesforce Consulting',
-    icon: 'Cloud',
-    shortDescription:
-      'Expert Salesforce administration, optimisation, and project delivery.',
-    description:
-      'From day-to-day BAU support to complex implementations and data migrations. We keep your Salesforce org healthy, optimised, and aligned with your business goals.',
-    features: [
-      'BAU Administration & Support',
-      'Custom Development & Flows',
-      'Data Migration & Cleanup',
-      'Integration & API Development',
-      'User Training & Adoption',
-      'Health Checks & Optimisation',
-    ],
-    mobileOrder: 2,
-  },
-  {
     slug: 'it-support',
     title: 'IT Support & Infrastructure',
     icon: 'Monitor',
@@ -85,23 +67,41 @@ export const services: Service[] = [
       'Network & Infrastructure',
       'Vendor Management',
     ],
+    mobileOrder: 2,
+  },
+  {
+    slug: 'full-stack-development',
+    title: 'Full-Stack AI Development',
+    icon: 'Code',
+    shortDescription:
+      'End-to-end development from AI-powered backends to polished frontends.',
+    description:
+      'We build the full picture — intelligent backends, clean APIs, and modern frontends. Whether it\'s a standalone product or integrating AI into your existing stack, we ship production-ready code and manage the dev team to get it there.',
+    features: [
+      'Full-Stack Web Applications',
+      'AI-Powered Backend Systems',
+      'API Design & Integration',
+      'Dev Team Leadership',
+      'Cloud Deployment & DevOps',
+      'Technical Architecture',
+    ],
     mobileOrder: 3,
   },
   {
-    slug: 'project-management',
-    title: 'Project Management',
-    icon: 'Kanban',
+    slug: 'salesforce',
+    title: 'Salesforce Consulting',
+    icon: 'Cloud',
     shortDescription:
-      'Technology project delivery with structure, transparency, and accountability.',
+      'Expert Salesforce administration, optimisation, and project delivery.',
     description:
-      'Experienced project managers who understand technology. We deliver complex IT projects on time and on budget, with clear communication throughout.',
+      'From day-to-day BAU support to complex implementations and data migrations. We keep your Salesforce org healthy, optimised, and aligned with your business goals.',
     features: [
-      'Agile & Waterfall Delivery',
-      'Stakeholder Management',
-      'Risk & Issue Management',
-      'Vendor Coordination',
-      'Change Management',
-      'Post-Implementation Reviews',
+      'BAU Administration & Support',
+      'Custom Development & Flows',
+      'Data Migration & Cleanup',
+      'Integration & API Development',
+      'User Training & Adoption',
+      'Health Checks & Optimisation',
     ],
     mobileOrder: 4,
   },

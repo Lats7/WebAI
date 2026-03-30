@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Cloud, Monitor, Sparkles, Kanban, ArrowUpRight, Check } from 'lucide-react';
+import { Cloud, Monitor, Sparkles, Code, ArrowUpRight, Check } from 'lucide-react';
 import { SectionWrapper } from '@/components/shared/SectionWrapper';
 import { services } from '@/lib/constants';
 import { cn } from '@/lib/utils';
@@ -10,15 +10,15 @@ const iconMap: Record<string, React.ElementType> = {
   Cloud,
   Monitor,
   Sparkles,
-  Kanban,
+  Code,
 };
 
 // Each card gets a subtle unique accent gradient — keyed by slug for stable mapping
 const cardAccentMap: Record<string, string> = {
   'ai-automation': 'from-indigo-500 via-blue-500 to-cyan-400',
-  'salesforce': 'from-blue-500 via-blue-400 to-cyan-400',
   'it-support': 'from-sky-500 via-cyan-400 to-teal-400',
-  'project-management': 'from-blue-600 via-indigo-500 to-purple-400',
+  'full-stack-development': 'from-blue-600 via-indigo-500 to-purple-400',
+  'salesforce': 'from-blue-500 via-blue-400 to-cyan-400',
 };
 
 const cardVariants = {
