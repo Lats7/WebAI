@@ -13,13 +13,13 @@ const iconMap: Record<string, React.ElementType> = {
   Kanban,
 };
 
-// Each card gets a subtle unique accent gradient for the top border
-const cardAccents = [
-  'from-blue-500 via-blue-400 to-cyan-400',
-  'from-sky-500 via-cyan-400 to-teal-400',
-  'from-indigo-500 via-blue-500 to-sky-400',
-  'from-blue-600 via-indigo-500 to-purple-400',
-];
+// Each card gets a subtle unique accent gradient — keyed by slug for stable mapping
+const cardAccentMap: Record<string, string> = {
+  'ai-automation': 'from-indigo-500 via-blue-500 to-cyan-400',
+  'salesforce': 'from-blue-500 via-blue-400 to-cyan-400',
+  'it-support': 'from-sky-500 via-cyan-400 to-teal-400',
+  'project-management': 'from-blue-600 via-indigo-500 to-purple-400',
+};
 
 const cardVariants = {
   hidden: { opacity: 0, y: 50, scale: 0.95 },
@@ -68,6 +68,7 @@ export function Services() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
         {services.map((service, i) => {
           const Icon = iconMap[service.icon];
+          const accent = cardAccentMap[service.slug] || 'from-blue-500 to-cyan-400';
 
           return (
             <motion.div
@@ -78,19 +79,14 @@ export function Services() {
               whileInView="visible"
               viewport={{ once: true }}
               whileHover={{ y: -8, transition: { duration: 0.3, ease: 'easeOut' } }}
-              className="group relative cursor-pointer"
+              className={cn('group relative cursor-pointer', `order-none md:order-none`)}
+              style={{ order: undefined }}
             >
               {/* Gradient border — top edge */}
               <div className={cn(
                 'absolute top-0 left-6 right-6 h-[2px] rounded-full bg-gradient-to-r opacity-40 group-hover:opacity-100 group-hover:left-4 group-hover:right-4 transition-all duration-500',
-                cardAccents[i]
+                accent
               )} />
-
-              {/* Glow on hover */}
-              <div className={cn(
-                'absolute -inset-px rounded-3xl bg-gradient-to-b opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl -z-10',
-                cardAccents[i].replace('from-', 'from-').split(' ').map(c => c + '/5').join(' ')
-              )} style={{ opacity: 'var(--hover-glow, 0)' }} />
 
               <div className="relative glass-card rounded-3xl p-8 lg:p-10 h-full flex flex-col group-hover:shadow-2xl group-hover:shadow-accent/[0.08] transition-shadow duration-500">
                 {/* Header row: icon + arrow */}

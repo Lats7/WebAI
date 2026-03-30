@@ -9,8 +9,8 @@ export const COMPANY = {
   url: 'https://webai.com.au',
   abn: 'ABN 00 000 000 000',
   socials: {
-    linkedin: 'https://linkedin.com/company/webai',
-    github: 'https://github.com/webai',
+    linkedin: 'https://www.linkedin.com/company/webaiprotech/?viewAsMember=true',
+    freelancer: 'https://www.freelancer.com/u/Lats7',
   },
 } as const;
 
@@ -29,9 +29,28 @@ export interface Service {
   shortDescription: string;
   description: string;
   features: string[];
+  mobileOrder: number;
 }
 
 export const services: Service[] = [
+  {
+    slug: 'ai-automation',
+    title: 'AI & Automation',
+    icon: 'Sparkles',
+    shortDescription:
+      'Intelligent automation and AI strategy to transform your operations.',
+    description:
+      'Leverage AI and automation to eliminate manual work, improve decision-making, and gain competitive advantage. We build practical AI solutions that deliver real ROI.',
+    features: [
+      'AI Strategy & Roadmapping',
+      'Workflow Automation',
+      'Intelligent Document Processing',
+      'Custom AI Tooling',
+      'ChatBot & Agent Development',
+      'Data Analytics & Insights',
+    ],
+    mobileOrder: 1,
+  },
   {
     slug: 'salesforce',
     title: 'Salesforce Consulting',
@@ -48,6 +67,7 @@ export const services: Service[] = [
       'User Training & Adoption',
       'Health Checks & Optimisation',
     ],
+    mobileOrder: 2,
   },
   {
     slug: 'it-support',
@@ -65,23 +85,7 @@ export const services: Service[] = [
       'Network & Infrastructure',
       'Vendor Management',
     ],
-  },
-  {
-    slug: 'ai-automation',
-    title: 'AI & Automation',
-    icon: 'Sparkles',
-    shortDescription:
-      'Intelligent automation and AI strategy to transform your operations.',
-    description:
-      'Leverage AI and automation to eliminate manual work, improve decision-making, and gain competitive advantage. We build practical AI solutions that deliver real ROI.',
-    features: [
-      'AI Strategy & Roadmapping',
-      'Workflow Automation',
-      'Intelligent Document Processing',
-      'Custom AI Tooling',
-      'ChatBot & Agent Development',
-      'Data Analytics & Insights',
-    ],
+    mobileOrder: 3,
   },
   {
     slug: 'project-management',
@@ -99,6 +103,7 @@ export const services: Service[] = [
       'Change Management',
       'Post-Implementation Reviews',
     ],
+    mobileOrder: 4,
   },
 ];
 
@@ -132,24 +137,87 @@ export const PROCESS_STEPS = [
 export const TESTIMONIALS = [
   {
     quote:
-      'WebAI transformed our Salesforce instance from a mess into our most valuable business tool. Their team actually understood our business, not just the technology.',
-    author: 'Sarah Chen',
-    role: 'Head of Operations',
-    company: 'Meridian Group',
+      'They really did great job for my AI project and were very responsive to provide a working solution. A++!',
+    author: 'Christian G.',
+    project: 'AI Chatbot Platform',
+    location: 'Switzerland',
   },
   {
     quote:
-      'We replaced a full-time IT manager with WebAI\'s managed services and got better coverage at half the cost. The response times are incredible.',
-    author: 'James Whitfield',
-    role: 'Managing Director',
-    company: 'Apex Industries',
+      'I recently collaborated with Stefan, a highly skilled professional in Python and AI projects. Their expertise and dedication significantly enhanced our project\'s success. I highly recommend Stefan for any Python or AI endeavors.',
+    author: 'Mohammed A.',
+    project: 'Multi-Agent RAG System',
+    location: 'Saudi Arabia',
   },
   {
     quote:
-      'The AI automation work they did for our document processing saved us 30 hours a week. Practical, measurable results — not just buzzwords.',
-    author: 'Priya Sharma',
-    role: 'CFO',
-    company: 'Coastal Finance',
+      'Stefan did a custom web order system for us. Great work and efficient.',
+    author: 'Alwin N.',
+    project: 'Custom Order System',
+    location: 'Hong Kong',
+  },
+  {
+    quote:
+      'WebAIProTech demonstrated exceptional skill and efficiency, completing the project exactly within the agreed timeframe. His level of communication was incredible — responsive and kept me updated at every step.',
+    author: 'Alessandro V.',
+    project: 'Chrome Extension',
+    location: 'Italy',
+  },
+  {
+    quote:
+      'Stefan was great at understanding the scope of the project, and going above and beyond to tweak the code to better suit the goals of the tool he built.',
+    author: 'Brett C.',
+    project: 'PDF Parsing & AI Tool',
+    location: 'United States',
+  },
+  {
+    quote:
+      'Very easy to work with, great communication, and quick delivery. Would definitely work with again.',
+    author: 'Matt J.',
+    project: 'SvelteKit SaaS Chatbot',
+    location: 'United States',
+  },
+  {
+    quote:
+      'Great work! Always on time and went the extra mile for his tasks.',
+    author: 'Stefan P.',
+    project: 'Medical Data Extraction',
+    location: 'Switzerland',
+  },
+  {
+    quote:
+      'Stefan is a life saver, he went above and beyond to help me fix an issue I was having with my server. He will be working with me a lot.',
+    author: 'Jhoan A.',
+    project: 'Server Setup & Fix',
+    location: 'United States',
+  },
+  {
+    quote:
+      'Stefan has delivered quality work, on time and budget. He is a very proactive Freelancer and works on the project with the end goal in mind. Pleasure to deal with.',
+    author: 'Former Client',
+    project: 'Website Design',
+    location: 'Australia',
+  },
+  {
+    quote:
+      'Good knowledge of AI & appropriate support systems.',
+    author: 'Jared A.',
+    project: 'Voice-Powered Diagnostics',
+    location: 'United States',
+  },
+  {
+    quote:
+      'I highly recommend to work with Stefan, very professional and delivers on time.',
+    author: 'Rabih J.',
+    project: 'Ubuntu Server Admin',
+    location: 'United States',
+  },
+  {
+    quote:
+      'They really understood the project and the issue and were quickly able to resolve and provide a working solution.',
+    author: 'Bradley M.',
+    project: 'Python Development',
+    location: 'Australia',
   },
 ] as const;
 

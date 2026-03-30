@@ -1,5 +1,5 @@
 import { COMPANY, NAV_ITEMS } from '@/lib/constants';
-import { Linkedin, Github } from 'lucide-react';
+import { Linkedin, Award } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -15,7 +15,7 @@ export function Footer() {
             <p className="text-foreground-muted max-w-sm text-sm leading-relaxed">
               {COMPANY.tagline}. Enterprise expertise with boutique attention, based in Melbourne, Australia.
             </p>
-            <div className="flex gap-4 pt-2">
+            <div className="flex gap-5 pt-2 items-center">
               <a
                 href={COMPANY.socials.linkedin}
                 target="_blank"
@@ -23,16 +23,17 @@ export function Footer() {
                 aria-label="LinkedIn"
                 className="text-foreground-muted hover:text-accent transition-colors"
               >
-                <Linkedin size={20} />
+                <Linkedin size={28} />
               </a>
               <a
-                href={COMPANY.socials.github}
+                href={COMPANY.socials.freelancer}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="text-foreground-muted hover:text-accent transition-colors"
+                aria-label="Freelancer Reviews"
+                className="text-foreground-muted hover:text-accent transition-colors flex items-center gap-1.5"
               >
-                <Github size={20} />
+                <Award size={28} />
+                <span className="text-xs font-medium">5.0</span>
               </a>
             </div>
           </div>
@@ -63,7 +64,11 @@ export function Footer() {
                   {COMPANY.email}
                 </a>
               </li>
-              <li>{COMPANY.phone}</li>
+              <li>
+                <a href={`tel:${COMPANY.phone.replace(/\s/g, '')}`} className="hover:text-foreground transition-colors">
+                  {COMPANY.phone}
+                </a>
+              </li>
               <li>{COMPANY.location}</li>
             </ul>
           </div>
