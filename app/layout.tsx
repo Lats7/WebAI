@@ -97,7 +97,39 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased" style={{ backgroundColor: '#6b21a8' }}>
+        {/* TEMP TEST OVERLAY — purple bg + green smiley. Remove to revert. */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(107, 33, 168, 0.35)',
+            pointerEvents: 'none',
+            zIndex: 9998,
+          }}
+        />
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            top: '24px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 'min(40vw, 360px)',
+            height: 'min(40vw, 360px)',
+            pointerEvents: 'none',
+            zIndex: 9999,
+            filter: 'drop-shadow(0 6px 24px rgba(0,0,0,0.35))',
+          }}
+        >
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+            <circle cx="50" cy="50" r="46" fill="#22c55e" stroke="#14532d" strokeWidth="3" />
+            <circle cx="36" cy="40" r="6" fill="#14532d" />
+            <circle cx="64" cy="40" r="6" fill="#14532d" />
+            <path d="M30 60 Q50 82 70 60" fill="none" stroke="#14532d" strokeWidth="6" strokeLinecap="round" />
+          </svg>
+        </div>
         {children}
       </body>
     </html>
