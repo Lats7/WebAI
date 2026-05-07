@@ -58,11 +58,11 @@ export const services: Service[] = [
     shortDescription:
       'Microsoft 365, infrastructure management, and responsive IT support.',
     description:
-      'Comprehensive IT support that keeps your team productive. From Microsoft 365 migrations to ongoing infrastructure management and security hardening.',
+      'Comprehensive IT support that keeps your team productive. From Microsoft 365 migrations to ongoing infrastructure management and performance optimisation.',
     features: [
       'Microsoft 365 Administration',
       'Cloud Migration & Setup',
-      'Security & Compliance',
+      'System Monitoring & Alerts',
       'Help Desk & User Support',
       'Network & Infrastructure',
       'Vendor Management',
