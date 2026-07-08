@@ -14,11 +14,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          'relative inline-flex items-center justify-center font-heading font-semibold tracking-tight rounded-2xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none active:scale-[0.97]',
+          'relative inline-flex items-center justify-center font-heading font-semibold tracking-tight rounded-xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]',
           {
-            'gradient-accent text-white shadow-lg shadow-accent/20 hover:shadow-xl hover:shadow-accent/30 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md':
+            'bg-accent text-white shadow-[0_0_0_1px_rgba(59,130,246,0.4),0_8px_24px_-8px_rgba(59,130,246,0.5)] hover:bg-accent-hover hover:shadow-[0_0_0_1px_rgba(59,130,246,0.5),0_8px_32px_-6px_rgba(59,130,246,0.6)]':
               variant === 'primary',
-            'bg-background-tertiary text-foreground border border-border hover:border-accent/30 hover:bg-background-secondary hover:-translate-y-0.5 active:translate-y-0':
+            'bg-background-tertiary/60 text-foreground border border-border-strong hover:border-accent/40 hover:bg-background-tertiary':
               variant === 'secondary',
             'text-foreground-secondary hover:text-foreground hover:bg-background-tertiary':
               variant === 'ghost',

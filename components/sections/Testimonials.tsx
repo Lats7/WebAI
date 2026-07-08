@@ -2,18 +2,9 @@
 
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, MapPin, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, ExternalLink, Star } from 'lucide-react';
 import { SectionWrapper } from '@/components/shared/SectionWrapper';
 import { TESTIMONIALS, COMPANY } from '@/lib/constants';
-
-const avatarColors = [
-  'from-blue-500 to-cyan-400',
-  'from-indigo-500 to-blue-400',
-  'from-sky-500 to-teal-400',
-  'from-blue-600 to-indigo-400',
-  'from-cyan-500 to-blue-400',
-  'from-blue-400 to-sky-400',
-];
 
 export function Testimonials() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -99,16 +90,16 @@ export function Testimonials() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              className="text-accent font-heading font-semibold text-sm tracking-wider uppercase"
+              className="eyebrow eyebrow-left"
             >
-              5.0 Rating — 18 Reviews
+              Client Reviews
             </motion.span>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="mt-3 font-heading text-heading md:text-display-sm font-bold text-foreground"
+              className="mt-4 font-heading text-heading md:text-display-sm font-bold text-foreground tracking-tight"
             >
               Trusted Worldwide
             </motion.h2>
@@ -117,9 +108,14 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="mt-3 text-foreground-secondary max-w-lg leading-relaxed"
+              className="mt-3 text-foreground-secondary max-w-lg leading-relaxed flex items-center gap-3 flex-wrap"
             >
-              Real reviews from real clients across 10+ countries.
+              <span className="inline-flex items-center gap-1" aria-label="5.0 star rating">
+                {Array.from({ length: 5 }).map((_, s) => (
+                  <Star key={s} size={14} className="text-accent fill-accent" />
+                ))}
+              </span>
+              <span className="font-mono text-sm text-foreground-muted">5.0 — 18 reviews across 10+ countries</span>
             </motion.p>
           </div>
 
@@ -146,7 +142,7 @@ export function Testimonials() {
               <button
                 onClick={() => { handleUserInteraction(); scrollBy('left'); }}
                 disabled={!canScrollLeft}
-                className="w-10 h-10 rounded-xl bg-background-tertiary border border-border flex items-center justify-center text-foreground-muted hover:text-foreground hover:border-accent/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="w-10 h-10 rounded-lg bg-background-tertiary/60 border border-border-strong flex items-center justify-center text-foreground-muted hover:text-foreground hover:border-accent/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 aria-label="Previous reviews"
               >
                 <ChevronLeft size={18} />
@@ -154,7 +150,7 @@ export function Testimonials() {
               <button
                 onClick={() => { handleUserInteraction(); scrollBy('right'); }}
                 disabled={!canScrollRight}
-                className="w-10 h-10 rounded-xl bg-background-tertiary border border-border flex items-center justify-center text-foreground-muted hover:text-foreground hover:border-accent/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                className="w-10 h-10 rounded-lg bg-background-tertiary/60 border border-border-strong flex items-center justify-center text-foreground-muted hover:text-foreground hover:border-accent/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 aria-label="Next reviews"
               >
                 <ChevronRight size={18} />
@@ -184,24 +180,24 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: Math.min(i * 0.08, 0.5), duration: 0.5 }}
-              className="glass-card rounded-3xl p-7 lg:p-8 flex flex-col justify-between min-w-[320px] max-w-[380px] flex-shrink-0 group hover:shadow-lg hover:shadow-accent/5 transition-shadow"
+              className="glass-card rounded-2xl p-7 lg:p-8 flex flex-col justify-between min-w-[320px] max-w-[380px] flex-shrink-0 group"
             >
               <div>
-                {/* Decorative quote */}
-                <div className="relative">
-                  <span className="absolute -top-2 -left-1 text-5xl font-heading font-bold text-accent/10 leading-none select-none" aria-hidden="true">
-                    &ldquo;
-                  </span>
-                  <p className="text-foreground leading-relaxed pl-4 pt-3 text-[15px]">
-                    {testimonial.quote}
-                  </p>
+                {/* Star rating */}
+                <div className="flex items-center gap-1 mb-4" aria-label="5 star review">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} size={12} className="text-accent fill-accent" />
+                  ))}
                 </div>
+                <p className="text-foreground-secondary leading-relaxed text-[15px]">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </p>
               </div>
 
               <div className="mt-6 pt-5 border-t border-border">
                 <div className="flex items-center gap-3">
                   {/* Avatar */}
-                  <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${avatarColors[i % avatarColors.length]} flex items-center justify-center text-white font-heading font-bold text-xs shadow-md flex-shrink-0`}>
+                  <div className="w-10 h-10 rounded-lg border border-border-strong bg-accent/[0.08] flex items-center justify-center text-accent font-mono font-medium text-xs flex-shrink-0">
                     {testimonial.author.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div className="min-w-0">
@@ -210,7 +206,7 @@ export function Testimonials() {
                     </p>
                     <div className="flex items-center gap-2 text-xs text-foreground-muted">
                       <span className="truncate">{testimonial.project}</span>
-                      <span className="text-border">·</span>
+                      <span className="text-border-strong">·</span>
                       <span className="flex items-center gap-0.5 flex-shrink-0">
                         <MapPin size={10} />
                         {testimonial.location}

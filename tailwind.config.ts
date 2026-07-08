@@ -24,14 +24,17 @@ const config: Config = {
           DEFAULT: 'var(--accent)',
           hover: 'var(--accent-hover)',
           glow: 'var(--accent-glow)',
+          secondary: 'var(--accent-2)',
         },
         border: {
           DEFAULT: 'var(--border)',
+          strong: 'var(--border-strong)',
         },
       },
       fontFamily: {
         heading: ['var(--font-heading)', 'system-ui', 'sans-serif'],
         body: ['var(--font-body)', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       fontSize: {
         'display': ['4.5rem', { lineHeight: '1.05', letterSpacing: '-0.03em' }],

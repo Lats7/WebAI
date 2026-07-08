@@ -47,16 +47,16 @@ export function Hero() {
       >
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="inline-flex items-center gap-2.5 rounded-full border border-accent/20 bg-accent/5 backdrop-blur-sm px-5 py-2 mb-10"
+          className="inline-flex items-center gap-2.5 rounded-full border border-border-strong bg-background-secondary/60 backdrop-blur-sm px-5 py-2 mb-10"
         >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-pulse-glow rounded-full bg-accent-secondary" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent-secondary" />
           </span>
-          <span className="text-xs font-semibold text-accent tracking-wide uppercase">
+          <span className="font-mono text-[11px] font-medium text-foreground-secondary tracking-[0.18em] uppercase">
             Melbourne-Based Technology Consultancy
           </span>
         </motion.div>
@@ -72,7 +72,7 @@ export function Hero() {
             AI that does the job.
           </motion.span>
           <br />
-          <motion.span variants={wordChild} className="inline-block text-foreground">
+          <motion.span variants={wordChild} className="inline-block gradient-accent-text">
             Not just the pitch.
           </motion.span>
         </motion.h1>
@@ -82,28 +82,30 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.55 }}
-          className="mt-8 text-xl md:text-2xl font-heading font-semibold text-foreground-secondary max-w-2xl mx-auto leading-snug text-balance"
+          className="mt-8 text-lg md:text-xl text-foreground-secondary max-w-2xl mx-auto leading-relaxed text-balance"
         >
-          From buzzword to bottom line.
+          From buzzword to bottom line. Senior consultants who design, build, and run
+          the systems your business depends on.
         </motion.p>
 
-        {/* Service pills */}
+        {/* Capability index — technical chip row */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.65 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
+          className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3"
         >
           {[
             'AI & Automation',
             'IT Infrastructure',
             'Salesforce Optimisation',
             'Full-Stack Development',
-          ].map((label) => (
+          ].map((label, i) => (
             <span
               key={label}
-              className="rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm font-medium text-accent/90"
+              className="inline-flex items-center gap-2.5 font-mono text-xs text-foreground-muted tracking-wider uppercase"
             >
+              <span className="text-accent/70">{String(i + 1).padStart(2, '0')}</span>
               {label}
             </span>
           ))}
@@ -144,7 +146,7 @@ export function Hero() {
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-[10px] font-medium text-foreground-muted uppercase tracking-widest">
+          <span className="font-mono text-[10px] font-medium text-foreground-muted uppercase tracking-[0.25em]">
             Scroll
           </span>
           <ChevronDown className="h-5 w-5 text-foreground-muted" />

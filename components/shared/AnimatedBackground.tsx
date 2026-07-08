@@ -5,35 +5,27 @@ import { motion } from 'framer-motion';
 export function AnimatedBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Mesh gradient base — adds color depth behind the neural canvas */}
+      {/* Mesh gradient base — colour depth behind the constellation canvas */}
       <div className="mesh-gradient absolute inset-0" />
 
-      {/* Floating orbs — large, slow, atmospheric */}
+      {/* Engineering grid — fades out radially from the headline */}
+      <div className="bg-grid absolute inset-0" />
+
+      {/* Two slow ambient glows — barely-there atmosphere */}
       <motion.div
-        className="absolute top-1/4 left-1/5 w-[500px] h-[500px] rounded-full bg-blue-500/[0.04] blur-[100px]"
-        animate={{
-          x: [0, 60, -40, 0],
-          y: [0, -50, 30, 0],
-          scale: [1, 1.15, 0.9, 1],
-        }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-[15%] left-[12%] w-[520px] h-[520px] rounded-full bg-blue-500/[0.05] blur-[120px]"
+        animate={{ opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute bottom-1/4 right-1/5 w-[400px] h-[400px] rounded-full bg-cyan-500/[0.03] blur-[100px]"
-        animate={{
-          x: [0, -50, 40, 0],
-          y: [0, 40, -60, 0],
-          scale: [1, 0.85, 1.1, 1],
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-[18%] right-[10%] w-[440px] h-[440px] rounded-full bg-cyan-500/[0.04] blur-[120px]"
+        animate={{ opacity: [1, 0.55, 1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-indigo-500/[0.02] blur-[120px]"
-        animate={{
-          scale: [1, 1.2, 0.95, 1],
-        }}
-        transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }}
-      />
+
+      {/* Horizon line — thin accent glow anchoring the fold */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent" />
+      <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-[50%] h-48 rounded-[100%] bg-accent/[0.06] blur-[60px]" />
     </div>
   );
 }

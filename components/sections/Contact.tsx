@@ -48,10 +48,10 @@ export function Contact() {
           className="lg:col-span-2 space-y-10"
         >
           <div>
-            <span className="text-accent font-heading font-semibold text-sm tracking-wider uppercase">
+            <span className="eyebrow eyebrow-left">
               Get in Touch
             </span>
-            <h2 className="mt-3 font-heading text-heading md:text-display-sm font-bold text-foreground">
+            <h2 className="mt-4 font-heading text-heading md:text-display-sm font-bold text-foreground tracking-tight">
               Let&apos;s Talk.
             </h2>
             <p className="mt-4 text-foreground-secondary leading-relaxed text-lg">
@@ -65,7 +65,7 @@ export function Contact() {
               className="flex items-center gap-4 text-foreground-secondary hover:text-foreground transition-all duration-200 group p-3 -m-3 rounded-2xl hover:bg-background-tertiary/50"
               aria-label={`Email us at ${COMPANY.email}`}
             >
-              <div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent/20 group-hover:scale-105 transition-all duration-300">
+              <div className="w-11 h-11 rounded-lg border border-border-strong bg-accent/[0.06] flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300">
                 <Mail size={18} />
               </div>
               <span className="text-sm font-medium">{COMPANY.email}</span>
@@ -76,7 +76,7 @@ export function Contact() {
               className="flex items-center gap-4 text-foreground-secondary hover:text-foreground transition-all duration-200 group p-3 -m-3 rounded-2xl hover:bg-background-tertiary/50"
               aria-label={`Call us at ${COMPANY.phone}`}
             >
-              <div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent/20 group-hover:scale-105 transition-all duration-300">
+              <div className="w-11 h-11 rounded-lg border border-border-strong bg-accent/[0.06] flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300">
                 <Phone size={18} />
               </div>
               <span className="text-sm font-medium">{COMPANY.phone}</span>
@@ -89,7 +89,7 @@ export function Contact() {
               className="flex items-center gap-4 text-foreground-secondary hover:text-foreground transition-all duration-200 group p-3 -m-3 rounded-2xl hover:bg-background-tertiary/50"
               aria-label="Find us in Melbourne, Australia"
             >
-              <div className="w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent/20 group-hover:scale-105 transition-all duration-300">
+              <div className="w-11 h-11 rounded-lg border border-border-strong bg-accent/[0.06] flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300">
                 <MapPin size={18} />
               </div>
               <span className="text-sm font-medium">{COMPANY.location}</span>
@@ -108,7 +108,7 @@ export function Contact() {
           <form
             ref={formRef}
             onSubmit={handleSubmit}
-            className="glass-card rounded-3xl p-8 lg:p-10 space-y-6"
+            className="glass-card rounded-2xl p-8 lg:p-10 space-y-6"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <Input
@@ -146,7 +146,7 @@ export function Contact() {
                   <select
                     id="service"
                     name="service"
-                    className="w-full appearance-none rounded-xl bg-background-tertiary border border-border px-4 py-3 pr-10 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent/50 transition-all duration-200 font-body cursor-pointer"
+                    className="w-full appearance-none rounded-lg bg-background-tertiary/70 border border-border-strong px-4 py-3 pr-10 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent/50 transition-all duration-200 font-body cursor-pointer"
                     defaultValue=""
                   >
                     <option value="" disabled>Select a service</option>

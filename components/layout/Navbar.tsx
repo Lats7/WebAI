@@ -108,7 +108,7 @@ export function Navbar() {
           >
             <span className="text-2xl font-heading font-bold tracking-tight text-foreground transition-colors duration-200">
               Web<span className="text-accent group-hover:text-cyan-400 transition-colors duration-300">AI</span>
-              <span className="text-xs font-medium text-foreground-muted ml-1.5 tracking-wide">ProTech</span>
+              <span className="font-mono text-[10px] font-medium text-foreground-muted ml-2 tracking-[0.2em] uppercase">ProTech</span>
             </span>
           </a>
 

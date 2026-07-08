@@ -72,10 +72,10 @@ function StatItem({ value, label, isInView }: { value: string; label: string; is
 
   return (
     <div className="text-center sm:text-left">
-      <div className="text-3xl md:text-4xl font-heading font-bold text-foreground tabular-nums">
+      <div className="text-3xl md:text-4xl font-heading font-bold gradient-accent-text tabular-nums">
         {display}
       </div>
-      <div className="text-sm text-foreground-muted mt-1.5">{label}</div>
+      <div className="font-mono text-xs text-foreground-muted mt-2 tracking-wider uppercase">{label}</div>
     </div>
   );
 }
@@ -93,7 +93,7 @@ export function About() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-accent font-heading font-semibold text-sm tracking-wider uppercase"
+            className="eyebrow eyebrow-left"
           >
             Why WebAI
           </motion.span>
@@ -102,11 +102,11 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mt-3 font-heading text-heading md:text-display-sm font-bold text-foreground"
+            className="mt-4 font-heading text-heading md:text-display-sm font-bold text-foreground tracking-tight"
           >
             Built Different.
             <br />
-            <span className="gradient-text">On Purpose.</span>
+            <span className="gradient-accent-text">On Purpose.</span>
           </motion.h2>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -152,14 +152,13 @@ export function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.5 }}
-              whileHover={{ x: 6, transition: { duration: 0.25 } }}
-              className="glass-card rounded-2xl p-6 lg:p-7 flex gap-5 group cursor-default"
+              className="glass-card rounded-xl p-6 lg:p-7 flex gap-5 group cursor-default"
             >
-              <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-accent/10 flex items-center justify-center text-accent group-hover:bg-accent/20 group-hover:scale-110 transition-all duration-300">
-                <item.icon size={20} />
+              <div className="flex-shrink-0 w-11 h-11 rounded-lg border border-border-strong bg-accent/[0.06] flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300">
+                <item.icon size={19} strokeWidth={1.8} />
               </div>
               <div>
-                <h3 className="font-heading font-semibold text-foreground mb-1.5 group-hover:text-accent transition-colors duration-300">{item.title}</h3>
+                <h3 className="font-heading font-semibold text-foreground mb-1.5 tracking-tight">{item.title}</h3>
                 <p className="text-sm text-foreground-secondary leading-relaxed">{item.description}</p>
               </div>
             </motion.div>
