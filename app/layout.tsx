@@ -30,13 +30,14 @@ export const metadata: Metadata = {
     template: '%s | WebAI',
   },
   description:
-    'Salesforce Consulting, IT Support, AI & Automation, and Project Management. Senior-led technology services for mid-market Australian businesses. Based in Melbourne.',
+    'AI Readiness Reviews, IT Support, AI & Automation, and Full-Stack Development. Senior-led technology services for mid-market Australian businesses. Based in Melbourne.',
   keywords: [
     'managed technology services',
-    'Salesforce consulting Melbourne',
+    'AI readiness review Melbourne',
+    'AI governance consulting',
+    'safe AI adoption',
     'IT support Melbourne',
     'AI automation consulting',
-    'project management services',
     'technology consultancy Australia',
     'Microsoft 365 support',
     'WebAI',
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     siteName: 'WebAI',
     title: 'WebAI — Managed Technology Services | Melbourne',
     description:
-      'Salesforce, IT Support, AI & Automation, and Project Management — delivered by senior consultants who understand your business.',
+      'AI Readiness Reviews, IT Support, AI & Automation, and Full-Stack Development — delivered by senior consultants who understand your business.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'WebAI — Managed Technology Services' }],
   },
   twitter: {
@@ -80,7 +81,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'LocalBusiness',
               name: 'WebAI',
-              description: 'Managed Technology Services — Salesforce, IT Support, AI & Automation, Project Management',
+              description: 'Managed Technology Services — AI Readiness Reviews, IT Support, AI & Automation, Full-Stack Development',
               url: 'https://webai.com.au',
               email: 'hello@webai.com.au',
               telephone: '+61390000000',
@@ -95,10 +96,10 @@ export default function RootLayout({
                 name: 'Australia',
               },
               serviceType: [
-                'Salesforce Consulting',
+                'AI Readiness Review',
                 'IT Support',
                 'AI & Automation',
-                'Project Management',
+                'Full-Stack Development',
               ],
             }),
           }}

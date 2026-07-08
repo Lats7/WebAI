@@ -1,13 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Cloud, Monitor, Sparkles, Code, ArrowUpRight, Check } from 'lucide-react';
+import { ShieldCheck, Monitor, Sparkles, Code, ArrowUpRight, Check } from 'lucide-react';
 import { SectionWrapper } from '@/components/shared/SectionWrapper';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { services } from '@/lib/constants';
 
 const iconMap: Record<string, React.ElementType> = {
-  Cloud,
+  ShieldCheck,
   Monitor,
   Sparkles,
   Code,

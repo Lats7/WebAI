@@ -98,7 +98,7 @@ export function Hero() {
           {[
             'AI & Automation',
             'IT Infrastructure',
-            'Salesforce Optimisation',
+            'AI Readiness Review',
             'Full-Stack Development',
           ].map((label, i) => (
             <span
