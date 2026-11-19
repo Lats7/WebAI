@@ -1,4 +1,12 @@
 import type { Config } from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
+
+/**
+ * Colours are stored as RGB channels in CSS variables (see app/globals.css)
+ * so every token works with Tailwind opacity modifiers, e.g. `bg-accent/10`.
+ * The two site styles ("mission" and "workspace") redefine the same tokens.
+ */
+const channel = (name: string) => `rgb(var(${name}) / <alpha-value>)`;
 
 const config: Config = {
   content: [
@@ -6,80 +14,82 @@ const config: Config = {
     './components/**/*.{ts,tsx}',
     './lib/**/*.{ts,tsx}',
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        background: {
-          DEFAULT: 'var(--background)',
-          secondary: 'var(--background-secondary)',
-          tertiary: 'var(--background-tertiary)',
+        bg: channel('--bg'),
+        panel: channel('--panel'),
+        raised: channel('--raised'),
+        fg: {
+          DEFAULT: channel('--fg'),
+          2: channel('--fg-2'),
+          3: channel('--fg-3'),
         },
-        foreground: {
-          DEFAULT: 'var(--foreground)',
-          secondary: 'var(--foreground-secondary)',
-          muted: 'var(--foreground-muted)',
+        line: channel('--line'),
+        edge: {
+          DEFAULT: 'rgb(var(--line) / var(--edge-alpha))',
+          strong: 'rgb(var(--line) / var(--edge-strong-alpha))',
         },
         accent: {
-          DEFAULT: 'var(--accent)',
-          hover: 'var(--accent-hover)',
-          glow: 'var(--accent-glow)',
-          secondary: 'var(--accent-2)',
+          DEFAULT: channel('--accent'),
+          2: channel('--accent-2'),
         },
-        border: {
-          DEFAULT: 'var(--border)',
-          strong: 'var(--border-strong)',
-        },
+        'on-accent': channel('--on-accent'),
+        ok: channel('--ok'),
+        warn: channel('--warn'),
+        alert: channel('--alert'),
+        star: channel('--star'),
+        // Signal colour inherited from the nearest [data-kind] element.
+        k: channel('--k'),
       },
       fontFamily: {
-        heading: ['var(--font-heading)', 'system-ui', 'sans-serif'],
-        body: ['var(--font-body)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-jakarta)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
-      },
-      fontSize: {
-        'display': ['4.5rem', { lineHeight: '1.05', letterSpacing: '-0.03em' }],
-        'display-sm': ['3.25rem', { lineHeight: '1.1', letterSpacing: '-0.025em' }],
-        'heading': ['2.25rem', { lineHeight: '1.15', letterSpacing: '-0.02em' }],
-        'subheading': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
-      },
-      spacing: {
-        '18': '4.5rem',
-        '22': '5.5rem',
-        '30': '7.5rem',
-        'section': '6rem',
-        'section-lg': '8rem',
+        serif: ['var(--font-serif)', 'Georgia', 'serif'],
       },
       borderRadius: {
-        '2xl': '1rem',
-        '3xl': '1.5rem',
-        '4xl': '2rem',
+        card: 'var(--radius-card)',
+        ctl: 'var(--radius-ctl)',
+        chip: 'var(--radius-chip)',
       },
-      backdropBlur: {
-        xs: '2px',
+      boxShadow: {
+        card: 'var(--shadow-card)',
+        pop: 'var(--shadow-pop)',
+      },
+      maxWidth: {
+        site: '78rem',
+      },
+      // `sweep` is defined in app/globals.css because the hero radar uses it too.
+      keyframes: {
+        ping: {
+          '0%': { transform: 'scale(1)', opacity: '0.7' },
+          '80%, 100%': { transform: 'scale(2.4)', opacity: '0' },
+        },
+        dash: {
+          to: { strokeDashoffset: '-24' },
+        },
+        travel: {
+          '0%': { top: '0%', opacity: '0' },
+          '8%': { opacity: '1' },
+          '92%': { opacity: '1' },
+          '100%': { top: '100%', opacity: '0' },
+        },
       },
       animation: {
-        'gradient': 'gradient 8s ease infinite',
-        'float': 'float 6s ease-in-out infinite',
-        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
-      },
-      keyframes: {
-        gradient: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        'pulse-glow': {
-          '0%, 100%': { opacity: '0.4' },
-          '50%': { opacity: '0.8' },
-        },
+        sweep: 'sweep 9s linear infinite',
+        ping: 'ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite',
+        dash: 'dash 1.6s linear infinite',
+        travel: 'travel 5s linear infinite',
       },
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),
+    // `mc:` styles apply in Mission Control, `ws:` styles apply in Workspace.
+    plugin(({ addVariant }) => {
+      addVariant('mc', ':root[data-theme="mission"] &');
+      addVariant('ws', ':root[data-theme="workspace"] &');
+    }),
   ],
 };
 
