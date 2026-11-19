@@ -1,214 +1,205 @@
 'use client';
 
-import { useRef, useState, type FormEvent } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Mail, Phone, MapPin, CheckCircle2, ChevronDown } from 'lucide-react';
-import { SectionWrapper } from '@/components/shared/SectionWrapper';
-import { Button } from '@/components/ui/Button';
-import { Input, Textarea } from '@/components/ui/Input';
-import { COMPANY, services } from '@/lib/constants';
+import { useState, type FormEvent } from 'react';
+import { ArrowRight, Check, ChevronDown, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { Reveal } from '@/components/shared/Reveal';
+import { Section } from '@/components/shared/Section';
+import { SectionHeader } from '@/components/shared/SectionHeader';
+import { COMPANY, CONTACT_INTERESTS, NEXT_STEPS } from '@/lib/constants';
+
+const CHANNELS = [
+  { Icon: Mail, label: 'Email', value: COMPANY.email, href: `mailto:${COMPANY.email}` },
+  { Icon: Phone, label: 'Phone', value: COMPANY.phone, href: `tel:${COMPANY.phone.replace(/\s/g, '')}` },
+  { Icon: Linkedin, label: 'LinkedIn', value: 'WebAI ProTech', href: COMPANY.socials.linkedin, external: true },
+  { Icon: MapPin, label: 'Based in', value: COMPANY.location },
+];
 
 export function Contact() {
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [opened, setOpened] = useState(false);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setIsSubmitting(true);
+  // There is no backend. The form hands a pre-filled email to the visitor's mail app.
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const field = (name: string) => String(data.get(name) ?? '').trim();
 
-    const form = e.currentTarget;
-    const data = new FormData(form);
+    const subject = `Website enquiry: ${field('interest') || 'General'}${field('company') ? ` (${field('company')})` : ''}`;
+    const body = [
+      `Name: ${field('name')}`,
+      `Email: ${field('email')}`,
+      `Company: ${field('company') || 'Not provided'}`,
+      `Interested in: ${field('interest') || 'Not specified'}`,
+      '',
+      field('message'),
+    ].join('\n');
 
-    const subject = encodeURIComponent(`Website Enquiry — ${data.get('company') || 'New Lead'}`);
-    const body = encodeURIComponent(
-      `Name: ${data.get('name')}\nEmail: ${data.get('email')}\nCompany: ${data.get('company')}\nService: ${data.get('service')}\n\n${data.get('message')}`
-    );
-
-    window.location.href = `mailto:${COMPANY.email}?subject=${subject}&body=${body}`;
-
-    // Show success state, then reset
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      formRef.current?.reset();
-    }, 500);
-
-    setTimeout(() => setSubmitted(false), 5000);
+    window.location.href = `mailto:${COMPANY.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setOpened(true);
   }
 
   return (
-    <SectionWrapper id="contact">
-      <div className="grid lg:grid-cols-5 gap-16 lg:gap-20">
-        {/* Left — Info */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="lg:col-span-2 space-y-10"
-        >
-          <div>
-            <span className="eyebrow eyebrow-left">
-              Get in Touch
-            </span>
-            <h2 className="mt-4 font-heading text-heading md:text-display-sm font-bold text-foreground tracking-tight">
-              Let&apos;s Talk.
-            </h2>
-            <p className="mt-4 text-foreground-secondary leading-relaxed text-lg">
-              Whether you need ongoing support or a specific project delivered, we&apos;d love to hear from you. No hard sell, just an honest conversation about how we can help.
-            </p>
-          </div>
+    <Section id="contact">
+      <SectionHeader
+        code="07"
+        eyebrow="Contact"
+        title={
+          <>
+            Tell us what you want <span className="accent-word">off your plate.</span>
+          </>
+        }
+        description="A paragraph is enough to start. Say what is slow, risky, or manual, and we will tell you honestly whether we can help."
+      />
 
-          <div className="space-y-4">
-            <a
-              href={`mailto:${COMPANY.email}`}
-              className="flex items-center gap-4 text-foreground-secondary hover:text-foreground transition-all duration-200 group p-3 -m-3 rounded-2xl hover:bg-background-tertiary/50"
-              aria-label={`Email us at ${COMPANY.email}`}
-            >
-              <div className="w-11 h-11 rounded-lg border border-border-strong bg-accent/[0.06] flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300">
-                <Mail size={18} />
-              </div>
-              <span className="text-sm font-medium">{COMPANY.email}</span>
-            </a>
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <Reveal className="lg:col-span-5">
+          <h3 className="label text-fg-3">What happens next</h3>
+          <ol className="mt-5 space-y-4">
+            {NEXT_STEPS.map((step, index) => (
+              <li key={step} className="flex items-start gap-4">
+                <span className="grid h-7 w-7 shrink-0 place-items-center border border-accent/50 font-mono text-xs text-accent mc:rounded-[2px] ws:rounded-full ws:border-transparent ws:bg-accent/10 ws:font-body ws:font-semibold">
+                  {index + 1}
+                </span>
+                <span className="pt-0.5 text-fg">{step}</span>
+              </li>
+            ))}
+          </ol>
 
-            <a
-              href={`tel:${COMPANY.phone.replace(/\s/g, '')}`}
-              className="flex items-center gap-4 text-foreground-secondary hover:text-foreground transition-all duration-200 group p-3 -m-3 rounded-2xl hover:bg-background-tertiary/50"
-              aria-label={`Call us at ${COMPANY.phone}`}
-            >
-              <div className="w-11 h-11 rounded-lg border border-border-strong bg-accent/[0.06] flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300">
-                <Phone size={18} />
-              </div>
-              <span className="text-sm font-medium">{COMPANY.phone}</span>
-            </a>
+          <ul className="mt-10 grid gap-px overflow-hidden border border-edge bg-edge mc:rounded-[2px] ws:rounded-2xl">
+            {CHANNELS.map(({ Icon, label, value, href, external }) => {
+              const content = (
+                <>
+                  <span className="grid h-10 w-10 shrink-0 place-items-center border border-edge-strong text-accent mc:rounded-[2px] mc:bg-accent/10 ws:rounded-xl ws:border-transparent ws:bg-accent/10">
+                    <Icon size={17} strokeWidth={1.75} aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="label block text-fg-3 mc:!text-[0.625rem]">{label}</span>
+                    <span className="mt-0.5 block truncate text-[0.9375rem] font-medium text-fg">{value}</span>
+                  </span>
+                </>
+              );
+              return (
+                <li key={label} className="bg-bg ws:bg-panel">
+                  {href ? (
+                    <a
+                      href={href}
+                      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="flex items-center gap-4 p-4 transition-colors hover:bg-accent/[0.06]"
+                    >
+                      {content}
+                      {external && <span className="sr-only">(opens in a new tab)</span>}
+                    </a>
+                  ) : (
+                    <div className="flex items-center gap-4 p-4">{content}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </Reveal>
 
-            <a
-              href="https://maps.google.com/?q=Melbourne+Australia"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 text-foreground-secondary hover:text-foreground transition-all duration-200 group p-3 -m-3 rounded-2xl hover:bg-background-tertiary/50"
-              aria-label="Find us in Melbourne, Australia"
-            >
-              <div className="w-11 h-11 rounded-lg border border-border-strong bg-accent/[0.06] flex items-center justify-center text-accent group-hover:border-accent/40 group-hover:bg-accent/10 transition-colors duration-300">
-                <MapPin size={18} />
-              </div>
-              <span className="text-sm font-medium">{COMPANY.location}</span>
-            </a>
-          </div>
-        </motion.div>
-
-        {/* Right — Form */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15 }}
-          className="lg:col-span-3"
-        >
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="glass-card rounded-2xl p-8 lg:p-10 space-y-6"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Input
-                id="name"
-                name="name"
-                label="Name"
-                placeholder="Your name"
-                required
-                autoComplete="name"
-              />
-              <Input
-                id="email"
-                name="email"
-                label="Email"
-                type="email"
-                placeholder="you@company.com"
-                required
-                autoComplete="email"
-              />
+        <Reveal delay={0.1} className="lg:col-span-7">
+          <form onSubmit={handleSubmit} className="card p-6 sm:p-9">
+            <div className="mb-7 flex items-center justify-between gap-4 border-b border-edge pb-5">
+              <p className="label text-fg-2">
+                <span className="mc-only">{'// '}</span>New project brief
+              </p>
+              <span className="mc-only label text-fg-3" aria-hidden="true">
+                FORM.01
+              </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <Input
-                id="company"
-                name="company"
-                label="Company"
-                placeholder="Your company"
-                autoComplete="organization"
-              />
-              <div className="space-y-2">
-                <label htmlFor="service" className="block text-sm font-medium text-foreground-secondary">
-                  Service Interest
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-fg">
+                  Name
+                </label>
+                <input id="name" name="name" required autoComplete="name" placeholder="Your name" className="field" />
+              </div>
+              <div>
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-fg">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="you@company.com"
+                  className="field"
+                />
+              </div>
+              <div>
+                <label htmlFor="company" className="mb-2 block text-sm font-medium text-fg">
+                  Company <span className="font-normal text-fg-3">(optional)</span>
+                </label>
+                <input
+                  id="company"
+                  name="company"
+                  autoComplete="organization"
+                  placeholder="Where you work"
+                  className="field"
+                />
+              </div>
+              <div>
+                <label htmlFor="interest" className="mb-2 block text-sm font-medium text-fg">
+                  Interested in
                 </label>
                 <div className="relative">
-                  <select
-                    id="service"
-                    name="service"
-                    className="w-full appearance-none rounded-lg bg-background-tertiary/70 border border-border-strong px-4 py-3 pr-10 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent/50 transition-all duration-200 font-body cursor-pointer"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>Select a service</option>
-                    {services.map((s) => (
-                      <option key={s.slug} value={s.slug}>{s.title}</option>
+                  <select id="interest" name="interest" defaultValue="" className="field">
+                    <option value="" disabled>
+                      Choose one
+                    </option>
+                    {CONTACT_INTERESTS.map((interest) => (
+                      <option key={interest} value={interest}>
+                        {interest}
+                      </option>
                     ))}
-                    <option value="general">General Enquiry</option>
                   </select>
-                  <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground-muted pointer-events-none" />
+                  <ChevronDown
+                    size={16}
+                    className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-fg-3"
+                    aria-hidden="true"
+                  />
                 </div>
+              </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="message" className="mb-2 block text-sm font-medium text-fg">
+                  What do you need?
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="What is slow, risky, or manual right now?"
+                  className="field resize-y"
+                />
               </div>
             </div>
 
-            <Textarea
-              id="message"
-              name="message"
-              label="Message"
-              placeholder="Tell us about your project or what you need help with..."
-              rows={5}
-              required
-            />
-
-            {/* Submit + Success feedback */}
-            <div className="flex items-center gap-4 flex-wrap">
-              <Button
-                type="submit"
-                size="lg"
-                className="group/send"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    Sending...
-                    <div className="ml-2 h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                  </>
+            <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <button type="submit" className="btn btn-primary btn-lg">
+                Send the brief
+                <ArrowRight size={16} aria-hidden="true" />
+              </button>
+              <p className="text-sm text-fg-3" role="status" aria-live="polite">
+                {opened ? (
+                  <span className="flex items-start gap-2 text-ok">
+                    <Check size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+                    <span>
+                      Your email app should now be open with the brief filled in. If nothing opened,
+                      email {COMPANY.email} directly.
+                    </span>
+                  </span>
                 ) : (
-                  <>
-                    Send Message
-                    <Send className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/send:translate-x-0.5 group-hover/send:-translate-y-0.5" />
-                  </>
+                  'This opens your email app with the brief filled in.'
                 )}
-              </Button>
-
-              <AnimatePresence>
-                {submitted && (
-                  <motion.span
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="flex items-center gap-2 text-sm text-emerald-400 font-medium"
-                    role="status"
-                    aria-live="polite"
-                  >
-                    <CheckCircle2 size={16} />
-                    Email client opened!
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              </p>
             </div>
           </form>
-        </motion.div>
+        </Reveal>
       </div>
-    </SectionWrapper>
+    </Section>
   );
 }

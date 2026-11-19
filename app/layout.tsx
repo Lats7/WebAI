@@ -1,113 +1,133 @@
-import type { Metadata } from 'next';
-import { Space_Grotesk, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google';
+import { COMPANY, SERVICES } from '@/lib/constants';
+import { THEME_INIT_SCRIPT, THEME_META } from '@/lib/theme-config';
 import './globals.css';
 
-const heading = Space_Grotesk({
+// Display face for Mission Control.
+const grotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-heading',
+  variable: '--font-grotesk',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['500', '600', '700'],
 });
 
-const body = Plus_Jakarta_Sans({
+// Body face for both styles, and the display face for Workspace.
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-body',
+  variable: '--font-jakarta',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 const mono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-  weight: ['400', '500'],
+  weight: ['400', '500', '600'],
 });
 
+// Headline accent in Workspace.
+const serif = Instrument_Serif({
+  subsets: ['latin'],
+  variable: '--font-serif',
+  display: 'swap',
+  weight: '400',
+  style: ['normal', 'italic'],
+});
+
+const title = `${COMPANY.fullName} | AI agents, automation, and cyber security in Melbourne`;
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://webai.com.au'),
+  metadataBase: new URL(COMPANY.url),
   title: {
-    default: 'WebAI — Managed Technology Services | Melbourne',
-    template: '%s | WebAI',
+    default: title,
+    template: `%s | ${COMPANY.fullName}`,
   },
-  description:
-    'AI Readiness Reviews, IT Support, AI & Automation, and Full-Stack Development. Senior-led technology services for mid-market Australian businesses. Based in Melbourne.',
+  description: COMPANY.description,
   keywords: [
-    'managed technology services',
-    'AI readiness review Melbourne',
-    'AI governance consulting',
-    'safe AI adoption',
-    'IT support Melbourne',
-    'AI automation consulting',
-    'technology consultancy Australia',
-    'Microsoft 365 support',
-    'WebAI',
+    'AI agents Melbourne',
+    'agentic AI consulting',
+    'AI automation Australia',
+    'cyber security consultant Melbourne',
+    'Essential Eight assessment',
+    'ISO 27001 readiness',
+    'AI governance',
+    'AI readiness review',
+    'LLM security testing',
+    'CRM implementation',
+    'Salesforce consulting',
+    'web and app development',
+    COMPANY.fullName,
   ],
-  authors: [{ name: 'WebAI' }],
-  creator: 'WebAI',
+  authors: [{ name: COMPANY.fullName }],
+  creator: COMPANY.fullName,
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_AU',
-    url: 'https://webai.com.au',
-    siteName: 'WebAI',
-    title: 'WebAI — Managed Technology Services | Melbourne',
-    description:
-      'AI Readiness Reviews, IT Support, AI & Automation, and Full-Stack Development — delivered by senior consultants who understand your business.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'WebAI — Managed Technology Services' }],
+    url: COMPANY.url,
+    siteName: COMPANY.fullName,
+    title,
+    description: COMPANY.description,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'WebAI — Managed Technology Services',
-    description: 'Senior-led technology services for mid-market Australian businesses.',
-    images: ['/og-image.png'],
+    title,
+    description: COMPANY.description,
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = {
+  themeColor: THEME_META.mission.themeColor,
+  width: 'device-width',
+  initialScale: 1,
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: COMPANY.fullName,
+  description: COMPANY.description,
+  url: COMPANY.url,
+  email: COMPANY.email,
+  telephone: COMPANY.phone.replace(/\s/g, ''),
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Melbourne',
+    addressRegion: 'VIC',
+    addressCountry: 'AU',
+  },
+  areaServed: { '@type': 'Country', name: 'Australia' },
+  sameAs: [COMPANY.socials.linkedin, COMPANY.socials.freelancer],
+  serviceType: SERVICES.map((service) => service.title),
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${heading.variable} ${body.variable} ${mono.variable}`}>
+    <html
+      lang="en-AU"
+      data-theme="mission"
+      className={`${grotesk.variable} ${jakarta.variable} ${mono.variable} ${serif.variable}`}
+      suppressHydrationWarning
+    >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <noscript>
+          <style
+            dangerouslySetInnerHTML={{
+              __html:
+                '[style*="opacity:0"],.step[data-state="pending"]{opacity:1!important;transform:none!important;filter:none!important}',
+            }}
+          />
+        </noscript>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'LocalBusiness',
-              name: 'WebAI',
-              description: 'Managed Technology Services — AI Readiness Reviews, IT Support, AI & Automation, Full-Stack Development',
-              url: 'https://webai.com.au',
-              email: 'hello@webai.com.au',
-              telephone: '+61390000000',
-              address: {
-                '@type': 'PostalAddress',
-                addressLocality: 'Melbourne',
-                addressRegion: 'VIC',
-                addressCountry: 'AU',
-              },
-              areaServed: {
-                '@type': 'Country',
-                name: 'Australia',
-              },
-              serviceType: [
-                'AI Readiness Review',
-                'IT Support',
-                'AI & Automation',
-                'Full-Stack Development',
-              ],
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
         />
       </head>
-      <body className="font-body antialiased">
-        {children}
-      </body>
+      <body className="font-body antialiased">{children}</body>
     </html>
   );
 }

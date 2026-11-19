@@ -1,36 +1,36 @@
-import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { Hero } from '@/components/sections/Hero';
-import { Services } from '@/components/sections/Services';
-import { About } from '@/components/sections/About';
-import { HowWeWork } from '@/components/sections/HowWeWork';
-import { Testimonials } from '@/components/sections/Testimonials';
+import { Navbar } from '@/components/layout/Navbar';
+import { StatusBar } from '@/components/layout/StatusBar';
+import { Agents } from '@/components/sections/Agents';
+import { Approach } from '@/components/sections/Approach';
+import { Build } from '@/components/sections/Build';
 import { Contact } from '@/components/sections/Contact';
-import { GrainOverlay } from '@/components/shared/GrainOverlay';
+import { Hero } from '@/components/sections/Hero';
+import { Reviews } from '@/components/sections/Reviews';
+import { Security } from '@/components/sections/Security';
+import { Services } from '@/components/sections/Services';
+import { Backdrop } from '@/components/shared/Backdrop';
+import { Motion } from '@/components/shared/Motion';
 import { ScrollProgress } from '@/components/shared/ScrollProgress';
-import { NeuralBackground } from '@/components/shared/NeuralBackground';
 
 export default function Home() {
   return (
-    <>
-      <NeuralBackground />
-      <GrainOverlay />
+    <Motion>
+      <Backdrop />
       <ScrollProgress />
       <Navbar />
-      <main>
+      <main id="main">
         <Hero />
-        <div className="section-divider" aria-hidden="true" />
         <Services />
-        <div className="section-divider" aria-hidden="true" />
-        <About />
-        <div className="section-divider" aria-hidden="true" />
-        <HowWeWork />
-        <div className="section-divider" aria-hidden="true" />
-        <Testimonials />
-        <div className="section-divider" aria-hidden="true" />
+        <Agents />
+        <Security />
+        <Build />
+        <Approach />
+        <Reviews />
         <Contact />
       </main>
       <Footer />
-    </>
+      <StatusBar />
+    </Motion>
   );
 }
