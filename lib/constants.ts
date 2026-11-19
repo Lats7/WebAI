@@ -13,7 +13,8 @@ export const COMPANY = {
   email: 'info@webaiprotech.com',
   phone: '+61 433 062 942',
   location: 'Melbourne, Australia',
-  url: 'https://webai.com.au',
+  // The domain that serves the site. Canonical link, sitemap, and share image all build on it.
+  url: 'https://www.webaiprotech.com',
   // Replace with your real ABN. The footer hides it while it is all zeros.
   abn: 'ABN 00 000 000 000',
   socials: {
