@@ -56,7 +56,7 @@ export function Contact() {
           <ol className="mt-5 space-y-4">
             {NEXT_STEPS.map((step, index) => (
               <li key={step} className="flex items-start gap-4">
-                <span className="grid h-7 w-7 shrink-0 place-items-center border border-accent/50 font-mono text-xs text-accent mc:rounded-[2px] ws:rounded-full ws:border-transparent ws:bg-accent/10 ws:font-body ws:font-semibold">
+                <span className="grid h-7 w-7 shrink-0 place-items-center border border-accent/50 font-mono text-xs text-accent mc:rounded-[3px] ws:rounded-full ws:border-transparent ws:bg-accent/10 ws:font-sans ws:font-medium">
                   {index + 1}
                 </span>
                 <span className="pt-0.5 text-fg">{step}</span>
@@ -64,11 +64,11 @@ export function Contact() {
             ))}
           </ol>
 
-          <ul className="mt-10 grid gap-px overflow-hidden border border-edge bg-edge mc:rounded-[2px] ws:rounded-2xl">
+          <ul className="mt-10 grid gap-px overflow-hidden border border-edge bg-edge mc:rounded-[3px] ws:rounded-2xl">
             {CHANNELS.map(({ Icon, label, value, href, external }) => {
               const content = (
                 <>
-                  <span className="grid h-10 w-10 shrink-0 place-items-center border border-edge-strong text-accent mc:rounded-[2px] mc:bg-accent/10 ws:rounded-xl ws:border-transparent ws:bg-accent/10">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center border border-edge-strong text-accent mc:rounded-[3px] mc:bg-accent/10 ws:rounded-xl ws:border-transparent ws:bg-accent/10">
                     <Icon size={17} strokeWidth={1.75} aria-hidden="true" />
                   </span>
                   <span className="min-w-0">
@@ -98,25 +98,23 @@ export function Contact() {
         </Reveal>
 
         <Reveal delay={0.1} className="lg:col-span-7">
-          <form onSubmit={handleSubmit} className="card p-6 sm:p-9">
+          <form onSubmit={handleSubmit} className="card bracketed p-6 shadow-pop sm:p-9">
             <div className="mb-7 flex items-center justify-between gap-4 border-b border-edge pb-5">
-              <p className="label text-fg-2">
-                <span className="mc-only">{'// '}</span>New project brief
-              </p>
-              <span className="mc-only label text-fg-3" aria-hidden="true">
-                FORM.01
+              <p className="label text-fg-2">New project brief</p>
+              <span className="mc-only label text-signal" aria-hidden="true">
+                Form 01
               </span>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label htmlFor="name" className="mb-2 block text-sm font-medium text-fg">
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-fg-2">
                   Name
                 </label>
                 <input id="name" name="name" required autoComplete="name" placeholder="Your name" className="field" />
               </div>
               <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-medium text-fg">
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-fg-2">
                   Email
                 </label>
                 <input
@@ -130,7 +128,7 @@ export function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="company" className="mb-2 block text-sm font-medium text-fg">
+                <label htmlFor="company" className="mb-2 block text-sm font-medium text-fg-2">
                   Company <span className="font-normal text-fg-3">(optional)</span>
                 </label>
                 <input
@@ -142,7 +140,7 @@ export function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="interest" className="mb-2 block text-sm font-medium text-fg">
+                <label htmlFor="interest" className="mb-2 block text-sm font-medium text-fg-2">
                   Interested in
                 </label>
                 <div className="relative">
@@ -164,7 +162,7 @@ export function Contact() {
                 </div>
               </div>
               <div className="sm:col-span-2">
-                <label htmlFor="message" className="mb-2 block text-sm font-medium text-fg">
+                <label htmlFor="message" className="mb-2 block text-sm font-medium text-fg-2">
                   What do you need?
                 </label>
                 <textarea

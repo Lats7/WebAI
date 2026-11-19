@@ -1,30 +1,21 @@
 import type { Metadata, Viewport } from 'next';
-import { Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google';
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import { COMPANY, SERVICES } from '@/lib/constants';
 import { THEME_INIT_SCRIPT, THEME_META } from '@/lib/theme-config';
 import './globals.css';
 
-// Display face for Mission Control.
-const grotesk = Space_Grotesk({
+// One sans for both styles. Each style sets its own weight and tracking.
+const sans = Geist({
   subsets: ['latin'],
-  variable: '--font-grotesk',
+  variable: '--font-sans',
   display: 'swap',
-  weight: ['500', '600', '700'],
 });
 
-// Body face for both styles, and the display face for Workspace.
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-jakarta',
-  display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
-});
-
-const mono = JetBrains_Mono({
+// Labels, codes, and the console in Mission Control.
+const mono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-  weight: ['400', '500', '600'],
 });
 
 // Headline accent in Workspace.
@@ -109,7 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en-AU"
       data-theme="mission"
-      className={`${grotesk.variable} ${jakarta.variable} ${mono.variable} ${serif.variable}`}
+      className={`${sans.variable} ${mono.variable} ${serif.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -127,7 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
         />
       </head>
-      <body className="font-body antialiased">{children}</body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

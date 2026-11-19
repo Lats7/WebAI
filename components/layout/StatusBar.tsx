@@ -44,7 +44,7 @@ export function StatusBar() {
 
   return (
     <div
-      className="mc-only fixed inset-x-0 bottom-0 z-40 hidden h-8 items-center justify-between gap-6 border-t border-edge bg-bg/85 px-5 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-fg-3 backdrop-blur-xl md:flex"
+      className="mc-only fixed inset-x-0 bottom-0 z-40 hidden h-8 items-center justify-between gap-6 border-t border-edge bg-bg/85 px-5 font-mono text-[0.625rem] uppercase tracking-[0.12em] text-fg-3 backdrop-blur-xl md:flex"
       aria-hidden="true"
     >
       <div className="flex items-center gap-5">
@@ -57,6 +57,13 @@ export function StatusBar() {
         </span>
         <span className="hidden lg:inline">
           MEL <span className="tabular-nums text-fg-2">{time}</span>
+        </span>
+        <span className="hidden xl:inline">
+          <span className="text-fg-2">
+            <span className="mac-only">⌘</span>
+            <span className="pc-only">Ctrl </span>K
+          </span>{' '}
+          Command menu
         </span>
       </div>
 

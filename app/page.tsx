@@ -10,6 +10,7 @@ import { Reviews } from '@/components/sections/Reviews';
 import { Security } from '@/components/sections/Security';
 import { Services } from '@/components/sections/Services';
 import { Backdrop } from '@/components/shared/Backdrop';
+import { CommandMenu } from '@/components/shared/CommandMenu';
 import { Motion } from '@/components/shared/Motion';
 import { ScrollProgress } from '@/components/shared/ScrollProgress';
 
@@ -31,6 +32,7 @@ export default function Home() {
       </main>
       <Footer />
       <StatusBar />
+      <CommandMenu />
     </Motion>
   );
 }

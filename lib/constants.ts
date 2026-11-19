@@ -13,6 +13,7 @@ export const COMPANY = {
   email: 'info@webaiprotech.com',
   phone: '+61 433 062 942',
   location: 'Melbourne, Australia',
+  coordinates: { lat: '-37.8136', lon: '144.9631' },
   // The domain that serves the site. Canonical link, sitemap, and share image all build on it.
   url: 'https://www.webaiprotech.com',
   // Replace with your real ABN. The footer hides it while it is all zeros.
@@ -66,6 +67,12 @@ export const STEP_KIND_LABEL: Record<StepKind, string> = {
 export interface AgentRun {
   id: string;
   title: string;
+  domain: string;
+  /** Role that signs off the approval step. */
+  approver: string;
+  autonomy: string;
+  /** Scope check, output check, and approval gate, in that order. */
+  guardrails: [string, string, string];
   steps: { t: string; kind: StepKind; text: string }[];
 }
 
@@ -74,6 +81,10 @@ export const AGENT_RUNS: AgentRun[] = [
   {
     id: 'invoice-intake',
     title: 'Invoice intake',
+    domain: 'Finance',
+    approver: 'Finance lead',
+    autonomy: 'Drafts, then asks',
+    guardrails: ['Least-privilege scope', 'Totals and ABN validated', 'Spend limit gate'],
     steps: [
       { t: '00:00.0', kind: 'trigger', text: 'New invoice email lands in the accounts inbox' },
       { t: '00:00.6', kind: 'plan', text: 'Extract the fields, match the purchase order, draft the bill' },
@@ -87,6 +98,10 @@ export const AGENT_RUNS: AgentRun[] = [
   {
     id: 'alert-triage',
     title: 'Security alert triage',
+    domain: 'Security operations',
+    approver: 'Duty analyst',
+    autonomy: 'Recommends only',
+    guardrails: ['Read-only scope', 'Evidence preserved', 'Containment gate'],
     steps: [
       { t: '00:00.0', kind: 'trigger', text: 'Impossible-travel sign-in alert raised by the SIEM' },
       { t: '00:00.5', kind: 'plan', text: 'Enrich the user, device, and IP, then score the risk' },
@@ -100,6 +115,10 @@ export const AGENT_RUNS: AgentRun[] = [
   {
     id: 'lead-response',
     title: 'Lead response',
+    domain: 'Sales',
+    approver: 'Account owner',
+    autonomy: 'Drafts, then asks',
+    guardrails: ['CRM scope only', 'Consent and messaging check', 'First-touch review'],
     steps: [
       { t: '00:00.0', kind: 'trigger', text: 'New enquiry submitted through the website form' },
       { t: '00:00.4', kind: 'plan', text: 'Qualify the lead, check CRM history, draft a reply' },
@@ -340,6 +359,15 @@ export const AUTOMATIONS = [
     title: 'Back-office workflows',
     description: 'Onboarding, approvals, and renewals that run the same way every time.',
   },
+] as const;
+
+/** The stages drawn in the automation pipeline diagram. */
+export const AUTOMATION_PIPELINE = [
+  { icon: 'Inbox', label: 'Capture', detail: 'Email, forms, files' },
+  { icon: 'ScanSearch', label: 'Extract', detail: 'Fields and line items' },
+  { icon: 'ListChecks', label: 'Validate', detail: 'Rules and totals' },
+  { icon: 'GitBranch', label: 'Route', detail: 'By type and value' },
+  { icon: 'Database', label: 'Update', detail: 'CRM, accounts, reports' },
 ] as const;
 
 /* -------------------------------------------------------------------------- */
@@ -736,6 +764,16 @@ export const TESTIMONIALS = [
     location: 'Australia',
   },
 ] as const;
+
+/**
+ * The review shown large above the others. `lead` and `rest` are the same
+ * quote split in two, so the first sentence can be set at full contrast.
+ */
+export const FEATURED_REVIEW = {
+  author: 'Mohammed A.',
+  lead: 'I recently collaborated with Stefan, a highly skilled professional in Python and AI projects.',
+  rest: "Their expertise and dedication significantly enhanced our project's success. I highly recommend Stefan for any Python or AI endeavors.",
+} as const;
 
 /* -------------------------------------------------------------------------- */
 /* Contact                                                                    */

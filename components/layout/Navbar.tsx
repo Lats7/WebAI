@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, Search, X } from 'lucide-react';
+import { openCommandMenu } from '@/components/shared/CommandMenu';
 import { Logo } from '@/components/shared/Logo';
 import { StyleHint } from '@/components/theme/StyleHint';
 import { ThemeSwitch } from '@/components/theme/ThemeSwitch';
@@ -67,8 +68,8 @@ export function Navbar() {
         <nav
           aria-label="Main"
           className={cn(
-            'mx-auto flex h-16 max-w-site items-center justify-between gap-3 px-5 sm:px-8',
-            'ws:h-14 ws:rounded-full ws:border ws:pl-5 ws:pr-2.5 ws:transition-[background-color,border-color,box-shadow] ws:duration-300 sm:ws:pl-6',
+            'mx-auto flex h-16 max-w-site items-center justify-between gap-3 px-5 sm:px-8 lg:px-14',
+            'ws:h-14 ws:max-w-[75.5rem] ws:rounded-full ws:border ws:pl-5 ws:pr-2.5 ws:transition-[background-color,border-color,box-shadow] ws:duration-300 sm:ws:pl-5 lg:ws:pl-5',
             solid
               ? 'ws:border-edge ws:bg-panel/85 ws:shadow-card ws:backdrop-blur-xl'
               : 'ws:border-transparent'
@@ -116,6 +117,19 @@ export function Navbar() {
               </div>
               <StyleHint />
             </div>
+
+            <button
+              type="button"
+              onClick={openCommandMenu}
+              aria-label="Open the command menu"
+              className="hidden h-9 items-center gap-2 border border-edge-strong px-2.5 text-fg-3 transition-colors hover:border-accent hover:text-fg xl:flex mc:rounded-[3px] ws:rounded-full ws:bg-panel/70 ws:px-3"
+            >
+              <Search size={14} aria-hidden="true" />
+              <span className="whitespace-nowrap font-mono text-[0.6875rem] leading-none" aria-hidden="true">
+                <span className="mac-only">⌘</span>
+                <span className="pc-only">Ctrl </span>K
+              </span>
+            </button>
 
             <a href="#contact" className="btn btn-primary btn-sm hidden sm:inline-flex">
               Start a project

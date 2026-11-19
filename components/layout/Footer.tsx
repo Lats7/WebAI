@@ -1,4 +1,4 @@
-import { ArrowUpRight, Linkedin, Star } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Linkedin, Star } from 'lucide-react';
 import { Logo } from '@/components/shared/Logo';
 import { ThemeSwitch } from '@/components/theme/ThemeSwitch';
 import { COMPANY, NAV_ITEMS } from '@/lib/constants';
@@ -7,9 +7,21 @@ const hasRealAbn = /[1-9]/.test(COMPANY.abn);
 
 export function Footer() {
   return (
-    <footer className="border-t border-edge bg-panel/50 mc:pb-8 ws:bg-panel/70">
-      <div className="mx-auto max-w-site px-5 py-14 sm:px-8 lg:py-16">
-        <div className="grid gap-12 md:grid-cols-12">
+    <footer className="relative mc:pb-8">
+      <div className="frame">
+        {/* Closing call to action */}
+        <div className="cell cell-marks flex flex-col gap-8 px-5 py-16 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:px-14 lg:py-24">
+          <p className="statement max-w-3xl text-[clamp(1.8rem,4vw,3.25rem)]">
+            Have something slow, risky, or manual?{' '}
+            <span className="muted">Tell us about it and we will say honestly whether we can help.</span>
+          </p>
+          <a href="#contact" className="btn btn-primary btn-lg shrink-0 self-start lg:self-auto">
+            Start a project
+            <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+
+        <div className="cell grid gap-12 px-5 py-14 sm:px-8 md:grid-cols-12 lg:px-14 lg:py-16">
           <div className="md:col-span-5">
             <Logo />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-fg-2">{COMPANY.description}</p>
@@ -75,7 +87,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-5 border-t border-edge pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="cell flex flex-col gap-5 px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-14">
           <p className="text-xs text-fg-3">
             &copy; {new Date().getFullYear()} {COMPANY.fullName}. All rights reserved.
             {hasRealAbn && <span className="ml-3">{COMPANY.abn}</span>}
@@ -84,6 +96,14 @@ export function Footer() {
             <span className="label text-fg-3">Site style</span>
             <ThemeSwitch size="compact" />
           </div>
+        </div>
+
+        {/* Wordmark, cropped by the bottom of the page */}
+        <div className="cell wordmark-wrap overflow-hidden" aria-hidden="true">
+          <p className="wordmark -mb-[0.13em] select-none whitespace-nowrap pt-5 text-center leading-[0.85]">
+            {COMPANY.name}
+            <span className="wordmark-thin">{COMPANY.suffix}</span>
+          </p>
         </div>
       </div>
     </footer>

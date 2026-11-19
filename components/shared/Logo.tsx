@@ -31,7 +31,7 @@ export function Logo({ className }: { className?: string }) {
     <span className={cn('inline-flex items-center gap-2.5', className)}>
       <LogoMark />
       <span className="flex items-baseline gap-2">
-        <span className="font-display text-[1.3rem] font-bold leading-none tracking-tight text-fg">
+        <span className="text-[1.3rem] font-semibold leading-none tracking-[-0.04em] text-fg">
           {COMPANY.name.replace('AI', '')}
           <span className="text-accent">AI</span>
         </span>

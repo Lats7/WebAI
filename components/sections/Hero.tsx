@@ -3,33 +3,26 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';
 import { AgentConsole } from '@/components/shared/AgentConsole';
+import { CountUp } from '@/components/shared/CountUp';
+import { CELL_X } from '@/components/shared/Section';
 import { COMPANY, STATS } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 
 const rise = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 26 },
   visible: (delay: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] as const },
   }),
 };
 
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pb-16 pt-28 sm:pt-36 lg:pb-24 lg:pt-44">
-      {/* Mission: radar sweep behind the console */}
-      <div
-        className="radar mc-only -right-[9rem] top-8 hidden w-[46rem] lg:block"
-        aria-hidden="true"
-      />
-      {/* Workspace: soft colour wash behind the console */}
-      <div
-        className="ws-only absolute right-[4%] top-28 hidden h-[30rem] w-[34rem] rounded-full bg-accent/15 blur-[110px] lg:block"
-        aria-hidden="true"
-      />
-
-      <div className="relative mx-auto grid max-w-site items-center gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-10">
-        <div className="[container-type:inline-size] lg:col-span-6">
+    <section id="top" className="relative">
+      <div className="frame">
+        {/* Headline */}
+        <div className={cn(CELL_X, 'pb-12 pt-32 sm:pt-36 lg:pb-16 lg:pt-44')}>
           <motion.p
             variants={rise}
             initial="hidden"
@@ -51,99 +44,110 @@ export function Hero() {
             </span>
           </motion.p>
 
-          <motion.h1
-            variants={rise}
-            initial="hidden"
-            animate="visible"
-            custom={0.15}
-            className="display hero-title mt-7 text-fg"
-          >
-            Put AI to work.
-            <br />
-            <span className="accent-word">Stay in control.</span>
-          </motion.h1>
+          <div className="mt-8 grid gap-8 xl:grid-cols-12 xl:items-end xl:gap-10">
+            <div className="[container-type:inline-size] xl:col-span-8">
+              <motion.h1
+                variants={rise}
+                initial="hidden"
+                animate="visible"
+                custom={0.14}
+                className="display hero-title text-fg"
+              >
+                Put AI to work.
+                <br />
+                <span className="accent-word">Stay in control.</span>
+              </motion.h1>
+            </div>
 
-          <motion.p
-            variants={rise}
-            initial="hidden"
-            animate="visible"
-            custom={0.28}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-fg-2 sm:text-xl"
-          >
-            We build AI agents and automation that take real work off your team, with the
-            security engineering and governance to run them safely. Led by a cyber security
-            engineer.
-          </motion.p>
-
-          <motion.div
-            variants={rise}
-            initial="hidden"
-            animate="visible"
-            custom={0.4}
-            className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-          >
-            <a href="#contact" className="btn btn-primary btn-lg">
-              Start a project
-              <ArrowRight size={16} aria-hidden="true" />
-            </a>
-            <a href="#agents" className="btn btn-secondary btn-lg">
-              See how the agents work
-            </a>
-          </motion.div>
-
-          <motion.dl
-            variants={rise}
-            initial="hidden"
-            animate="visible"
-            custom={0.52}
-            className="mt-10 grid max-w-xl grid-cols-3 gap-px overflow-hidden border border-edge bg-edge mc:rounded-[2px] ws:rounded-2xl ws:shadow-card"
-          >
-            <div className="bg-bg p-4 ws:bg-panel">
-              <dt className="sr-only">Client rating</dt>
-              <dd>
-                <a
-                  href={COMPANY.socials.freelancer}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="display text-2xl text-fg">{COMPANY.reviews.rating}</span>
-                    <span className="hidden gap-px text-star sm:flex" aria-hidden="true">
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <Star key={index} size={11} className="fill-current" />
-                      ))}
-                    </span>
-                  </span>
-                  <span className="mt-1 block text-xs text-fg-3 transition-colors group-hover:text-accent">
-                    {COMPANY.reviews.count} reviews on Freelancer
-                    <span className="sr-only"> (opens in a new tab)</span>
-                  </span>
+            <motion.div
+              variants={rise}
+              initial="hidden"
+              animate="visible"
+              custom={0.28}
+              className="xl:col-span-4 xl:pb-2"
+            >
+              <p className="max-w-2xl text-lg leading-relaxed text-fg-2">
+                We build AI agents and automation that take real work off your team, with the security
+                engineering and governance to run them safely.{' '}
+                <span className="text-fg">Led by a cyber security engineer.</span>
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <a href="#contact" className="btn btn-primary btn-lg">
+                  Start a project
+                  <ArrowRight size={16} aria-hidden="true" />
                 </a>
-              </dd>
-            </div>
-            <div className="bg-bg p-4 ws:bg-panel">
-              <dd className="display text-2xl text-fg">{STATS[0].value}</dd>
-              <dt className="mt-1 text-xs text-fg-3">Projects delivered</dt>
-            </div>
-            <div className="bg-bg p-4 ws:bg-panel">
-              <dd className="display text-2xl text-fg">{COMPANY.reviews.countries}</dd>
-              <dt className="mt-1 text-xs text-fg-3">Countries served</dt>
-            </div>
-          </motion.dl>
+                <a href="#agents" className="btn btn-secondary btn-lg">
+                  See the agents
+                </a>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
+        {/* Console on its stage */}
         <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="lg:col-span-6 lg:pl-4"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="px-3 sm:px-6 lg:px-10"
         >
-          <AgentConsole />
-          <p className="mt-4 text-center text-xs text-fg-3 lg:text-left">
-            A simulated run. Real agents stop at the same point and wait for a person.
-          </p>
+          <div className="stage px-3 pb-4 pt-12 sm:px-6 sm:pb-6 lg:px-12 lg:pb-10 lg:pt-16 ws:pt-6 sm:ws:pt-8 lg:ws:pt-12">
+            <div
+              className="radar mc-only left-1/2 top-1/2 w-[70rem] -translate-x-1/2 -translate-y-1/2"
+              aria-hidden="true"
+            />
+            <div className="mc-only absolute inset-x-4 top-4 flex items-center justify-between gap-4" aria-hidden="true">
+              <span className="label !text-[0.625rem] text-fg-3">
+                <span className="text-signal">Stage 01</span> {'//'} Live demo
+              </span>
+              <span className="label hidden !text-[0.625rem] tabular-nums text-fg-3 sm:block">
+                Lat {COMPANY.coordinates.lat} <span className="mx-1 text-edge-strong">|</span> Lon{' '}
+                {COMPANY.coordinates.lon} <span className="mx-1 text-edge-strong">|</span>{' '}
+                <span className="text-fg-2">Melbourne</span>
+              </span>
+            </div>
+
+            <div className="relative">
+              <AgentConsole />
+            </div>
+            <p className="relative mt-4 text-center text-xs text-fg-3 ws:text-fg-2">
+              A simulated run. Real agents stop at the same point and wait for a person.
+            </p>
+          </div>
         </motion.div>
+
+        {/* Proof row */}
+        <dl className="mt-10 grid grid-cols-2 border-t border-edge lg:mt-14 lg:grid-cols-4">
+          {STATS.map((stat, index) => (
+            <div
+              key={stat.label}
+              className={cn(
+                'flex flex-col-reverse gap-2 border-edge px-5 py-7 sm:px-8 lg:px-14 lg:py-9',
+                index % 2 === 1 && 'border-l',
+                index >= 2 && 'border-t lg:border-t-0',
+                index === 2 && 'lg:border-l'
+              )}
+            >
+              <dt className="label text-fg-3">{stat.label}</dt>
+              <dd className="display flex items-center gap-3 text-4xl text-fg sm:text-5xl">
+                <CountUp value={stat.value} />
+                {index === 1 && (
+                  <a
+                    href={COMPANY.socials.freelancer}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex gap-0.5 text-star"
+                    aria-label="See the reviews on Freelancer (opens in a new tab)"
+                  >
+                    {Array.from({ length: 5 }).map((_, star) => (
+                      <Star key={star} size={13} className="fill-current" aria-hidden="true" />
+                    ))}
+                  </a>
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
