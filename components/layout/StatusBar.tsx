@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useScroll, useMotionValueEvent } from 'framer-motion';
-import { SECTIONS } from '@/lib/constants';
+import { PAGES, SECTIONS } from '@/lib/constants';
 import { setTheme } from '@/lib/theme';
 import { useActiveSection } from '@/lib/useActiveSection';
 
@@ -17,12 +18,21 @@ const clock = new Intl.DateTimeFormat('en-AU', {
   hour12: false,
 });
 
+/** The page the visitor is on, matched by the longest path so nested pages resolve. */
+function pageLabel(pathname: string) {
+  const match = [...PAGES]
+    .sort((a, b) => b.href.length - a.href.length)
+    .find((page) => pathname === page.href || (page.href !== '/' && pathname.startsWith(`${page.href}/`)));
+  return match?.label ?? 'Page';
+}
+
 /**
- * Mission Control status bar. Every readout is real: Melbourne time, the
- * section in view, and how far down the page the visitor is.
+ * Mission Control status bar. Every readout is real: Melbourne time, where the
+ * visitor is on the site, and how far down the page they are.
  */
 export function StatusBar() {
-  const active = useActiveSection(SECTION_IDS);
+  const pathname = usePathname();
+  const active = useActiveSection(SECTION_IDS, pathname);
   const [time, setTime] = useState('--:--:--');
   const [progress, setProgress] = useState(0);
   const { scrollYProgress } = useScroll();
@@ -38,8 +48,8 @@ export function StatusBar() {
     return () => window.clearInterval(id);
   }, []);
 
+  const onHome = pathname === '/';
   const index = Math.max(0, SECTIONS.findIndex((section) => section.id === active));
-  const section = SECTIONS[index];
   const filled = Math.round((progress / 100) * CELLS);
 
   return (
@@ -68,20 +78,23 @@ export function StatusBar() {
       </div>
 
       <div className="flex items-center gap-5">
-        <span>
-          SEC{' '}
-          <span className="tabular-nums text-fg-2">
-            {String(index + 1).padStart(2, '0')}/{String(SECTIONS.length).padStart(2, '0')}
-          </span>{' '}
-          <span className="text-accent">{section.label}</span>
-        </span>
+        {onHome ? (
+          <span>
+            SEC{' '}
+            <span className="tabular-nums text-fg-2">
+              {String(index + 1).padStart(2, '0')}/{String(SECTIONS.length).padStart(2, '0')}
+            </span>{' '}
+            <span className="text-accent">{SECTIONS[index].label}</span>
+          </span>
+        ) : (
+          <span>
+            Page <span className="text-accent">{pageLabel(pathname)}</span>
+          </span>
+        )}
         <span className="hidden items-center gap-2 lg:flex">
           <span className="flex gap-[2px]">
             {Array.from({ length: CELLS }).map((_, cell) => (
-              <span
-                key={cell}
-                className={cell < filled ? 'h-2.5 w-[3px] bg-accent' : 'h-2.5 w-[3px] bg-line/20'}
-              />
+              <span key={cell} className={cell < filled ? 'h-2.5 w-[3px] bg-accent' : 'h-2.5 w-[3px] bg-line/20'} />
             ))}
           </span>
           <span className="w-9 text-right tabular-nums text-fg-2">{String(progress).padStart(3, '0')}%</span>
@@ -90,7 +103,7 @@ export function StatusBar() {
           type="button"
           tabIndex={-1}
           onClick={(event) => setTheme('workspace', { x: event.clientX, y: event.clientY })}
-          className="pointer-events-auto text-fg-3 underline decoration-edge-strong underline-offset-4 transition-colors hover:text-accent"
+          className="text-fg-3 underline decoration-edge-strong underline-offset-4 transition-colors hover:text-accent"
         >
           Mode: Mission Control
         </button>

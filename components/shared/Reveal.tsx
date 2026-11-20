@@ -1,26 +1,25 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { type ReactNode } from 'react';
+import { type CSSProperties, type ReactNode } from 'react';
 
 interface RevealProps {
   children: ReactNode;
+  /** Seconds to wait after the element scrolls into view. */
   delay?: number;
-  y?: number;
   className?: string;
 }
 
-/** Fades content up once as it scrolls into view. */
-export function Reveal({ children, delay = 0, y = 20, className }: RevealProps) {
+/**
+ * Fades content up once as it scrolls into view.
+ *
+ * This renders plain markup. The hidden state is CSS that applies only when
+ * JavaScript is running (`.js [data-reveal]`), and one observer for the whole
+ * page (RevealObserver) switches each element on. Content is visible with
+ * JavaScript off, and nothing here delays the first paint.
+ */
+export function Reveal({ children, delay = 0, className }: RevealProps) {
+  const style = delay ? ({ '--reveal-delay': `${delay}s` } as CSSProperties) : undefined;
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-70px' }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
+    <div data-reveal="" className={className} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

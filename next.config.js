@@ -33,6 +33,10 @@ const nextConfig = {
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   },
+  async rewrites() {
+    // The standard location for security.txt. The route itself lives at /security.txt.
+    return [{ source: '/.well-known/security.txt', destination: '/security.txt' }];
+  },
 };
 
 module.exports = nextConfig;

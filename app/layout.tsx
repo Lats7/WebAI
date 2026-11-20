@@ -1,6 +1,17 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
-import { COMPANY, SERVICES } from '@/lib/constants';
+import { Analytics } from '@vercel/analytics/next';
+import { Footer } from '@/components/layout/Footer';
+import { Navbar } from '@/components/layout/Navbar';
+import { StatusBar } from '@/components/layout/StatusBar';
+import { AttributionCapture } from '@/components/shared/AttributionCapture';
+import { Backdrop } from '@/components/shared/Backdrop';
+import { CommandMenuLoader } from '@/components/shared/CommandMenuLoader';
+import { JsonLd } from '@/components/shared/JsonLd';
+import { Motion } from '@/components/shared/Motion';
+import { RevealObserver } from '@/components/shared/RevealObserver';
+import { ScrollProgress } from '@/components/shared/ScrollProgress';
+import { COMPANY, META_DESCRIPTION, SERVICES } from '@/lib/constants';
 import { THEME_INIT_SCRIPT, THEME_META } from '@/lib/theme-config';
 import './globals.css';
 
@@ -27,7 +38,7 @@ const serif = Instrument_Serif({
   style: ['normal', 'italic'],
 });
 
-const title = `${COMPANY.fullName} | AI agents, automation, and cyber security in Melbourne`;
+const title = `${COMPANY.fullName} | Secure AI agents and automation, Melbourne`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(COMPANY.url),
@@ -35,37 +46,20 @@ export const metadata: Metadata = {
     default: title,
     template: `%s | ${COMPANY.fullName}`,
   },
-  description: COMPANY.description,
-  keywords: [
-    'AI agents Melbourne',
-    'agentic AI consulting',
-    'AI automation Australia',
-    'cyber security consultant Melbourne',
-    'Essential Eight assessment',
-    'ISO 27001 readiness',
-    'AI governance',
-    'AI readiness review',
-    'LLM security testing',
-    'CRM implementation',
-    'Salesforce consulting',
-    'web and app development',
-    COMPANY.fullName,
-  ],
+  description: META_DESCRIPTION,
   authors: [{ name: COMPANY.fullName }],
   creator: COMPANY.fullName,
-  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_AU',
-    url: COMPANY.url,
     siteName: COMPANY.fullName,
     title,
-    description: COMPANY.description,
+    description: META_DESCRIPTION,
   },
   twitter: {
     card: 'summary_large_image',
     title,
-    description: COMPANY.description,
+    description: META_DESCRIPTION,
   },
   robots: { index: true, follow: true },
 };
@@ -76,9 +70,10 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const structuredData = {
+const organisation = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': `${COMPANY.url}/#organisation`,
   name: COMPANY.fullName,
   description: COMPANY.description,
   url: COMPANY.url,
@@ -100,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en-AU"
       data-theme="mission"
+      data-scroll-behavior="smooth"
       className={`${sans.variable} ${mono.variable} ${serif.variable}`}
       suppressHydrationWarning
     >
@@ -113,12 +109,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
         </noscript>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
-        />
+        <JsonLd data={organisation} />
       </head>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <Motion>
+          <Backdrop />
+          <ScrollProgress />
+          <Navbar />
+          <main id="main">{children}</main>
+          <Footer />
+          <StatusBar />
+          <CommandMenuLoader />
+        </Motion>
+        <RevealObserver />
+        <AttributionCapture />
+        {/* Vercel serves the analytics script from this site's own origin. It only exists on Vercel. */}
+        {process.env.VERCEL ? <Analytics /> : null}
+      </body>
     </html>
   );
 }

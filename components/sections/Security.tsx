@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Reveal } from '@/components/shared/Reveal';
 import { CELL_X, Section } from '@/components/shared/Section';
@@ -52,13 +53,13 @@ export function Security() {
                 <p className="label text-signal ws:text-bg/70">Flagship engagement</p>
                 <h3 className="display mt-5 text-4xl sm:text-5xl">{READINESS_REVIEW.title}</h3>
                 <p className="mt-6 leading-relaxed text-fg-2 ws:text-bg/75">{READINESS_REVIEW.description}</p>
-                <a
-                  href="#contact"
+                <Link
+                  href="/ai-readiness-review"
                   className="btn btn-primary btn-lg mt-9 ws:!bg-bg ws:!text-fg ws:hover:!bg-accent ws:hover:!text-on-accent"
                 >
-                  Book a readiness review
+                  See what the review covers
                   <ArrowRight size={16} aria-hidden="true" />
-                </a>
+                </Link>
               </div>
 
               <ol className="grid gap-px overflow-hidden border border-edge bg-edge sm:grid-cols-2 lg:col-span-7 mc:rounded-[3px] ws:rounded-2xl ws:border-bg/15 ws:bg-bg/15">

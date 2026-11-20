@@ -1,9 +1,34 @@
-import { ArrowRight, ArrowUpRight, Linkedin, Star } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Linkedin, Star } from 'lucide-react';
 import { Logo } from '@/components/shared/Logo';
 import { ThemeSwitch } from '@/components/theme/ThemeSwitch';
-import { COMPANY, NAV_ITEMS } from '@/lib/constants';
+import { COMPANY } from '@/lib/constants';
 
 const hasRealAbn = /[1-9]/.test(COMPANY.abn);
+
+const COLUMNS = [
+  {
+    heading: 'Services',
+    links: [
+      { label: 'AI agents and automation', href: '/services/ai-agents-automation' },
+      { label: 'Cyber security', href: '/services/cyber-security' },
+      { label: 'AI security', href: '/services/ai-security' },
+      { label: 'CRM, web, and apps', href: '/#build' },
+    ],
+  },
+  {
+    heading: 'Start here',
+    links: [
+      { label: 'AI Readiness Review', href: '/ai-readiness-review' },
+      { label: 'Free self-check', href: '/tools/ai-readiness-check' },
+      { label: 'Work', href: '/work' },
+      { label: 'Insights', href: '/insights' },
+    ],
+  },
+] as const;
+
+// Links are padded to at least 24px tall so they are easy to hit on a phone.
+const linkClass = 'inline-block py-1 text-sm text-fg-2 transition-colors hover:text-accent';
 
 export function Footer() {
   return (
@@ -15,15 +40,17 @@ export function Footer() {
             Have something slow, risky, or manual?{' '}
             <span className="muted">Tell us about it and we will say honestly whether we can help.</span>
           </p>
-          <a href="#contact" className="btn btn-primary btn-lg shrink-0 self-start lg:self-auto">
+          <Link href="/#contact" className="btn btn-primary btn-lg shrink-0 self-start lg:self-auto">
             Start a project
             <ArrowRight size={16} aria-hidden="true" />
-          </a>
+          </Link>
         </div>
 
         <div className="cell grid gap-12 px-5 py-14 sm:px-8 md:grid-cols-12 lg:px-14 lg:py-16">
-          <div className="md:col-span-5">
-            <Logo />
+          <div className="md:col-span-4">
+            <Link href="/" aria-label="WebAI ProTech home" className="inline-block">
+              <Logo />
+            </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-fg-2">{COMPANY.description}</p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -31,7 +58,7 @@ export function Footer() {
                 href={COMPANY.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="chip transition-colors hover:border-accent hover:text-accent"
+                className="chip !py-1.5 transition-colors hover:border-accent hover:text-accent"
               >
                 <Linkedin size={13} aria-hidden="true" />
                 LinkedIn
@@ -41,7 +68,7 @@ export function Footer() {
                 href={COMPANY.socials.freelancer}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="chip transition-colors hover:border-accent hover:text-accent"
+                className="chip !py-1.5 transition-colors hover:border-accent hover:text-accent"
               >
                 <Star size={13} className="fill-current" aria-hidden="true" />
                 {COMPANY.reviews.rating} on Freelancer
@@ -50,47 +77,58 @@ export function Footer() {
             </div>
           </div>
 
-          <nav aria-label="Footer" className="md:col-span-3 md:col-start-7">
-            <h2 className="label text-fg-3">Explore</h2>
-            <ul className="mt-4 space-y-2.5">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.href}>
-                  <a href={item.href} className="text-sm text-fg-2 transition-colors hover:text-accent">
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {COLUMNS.map((column, index) => (
+            <nav
+              key={column.heading}
+              aria-label={column.heading}
+              className={index === 0 ? 'md:col-span-3' : 'md:col-span-2'}
+            >
+              <h2 className="label text-fg-3">{column.heading}</h2>
+              <ul className="mt-3 space-y-1">
+                {column.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
 
           <div className="md:col-span-3">
             <h2 className="label text-fg-3">Contact</h2>
-            <ul className="mt-4 space-y-2.5 text-sm text-fg-2">
+            <ul className="mt-3 space-y-1">
               <li>
-                <a href={`mailto:${COMPANY.email}`} className="transition-colors hover:text-accent">
+                <a href={`mailto:${COMPANY.email}`} className={`${linkClass} whitespace-nowrap`}>
                   {COMPANY.email}
                 </a>
               </li>
               <li>
-                <a href={`tel:${COMPANY.phone.replace(/\s/g, '')}`} className="transition-colors hover:text-accent">
+                <a href={`tel:${COMPANY.phone.replace(/\s/g, '')}`} className={linkClass}>
                   {COMPANY.phone}
                 </a>
               </li>
-              <li>{COMPANY.location}</li>
-              <li>
-                <a href="#contact" className="inline-flex items-center gap-1 text-accent hover:underline">
-                  Start a project
-                  <ArrowUpRight size={14} aria-hidden="true" />
-                </a>
-              </li>
+              <li className="py-1 text-sm text-fg-2">{COMPANY.location}</li>
             </ul>
           </div>
         </div>
 
         <div className="cell flex flex-col gap-5 px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-14">
-          <p className="text-xs text-fg-3">
-            &copy; {new Date().getFullYear()} {COMPANY.fullName}. All rights reserved.
-            {hasRealAbn && <span className="ml-3">{COMPANY.abn}</span>}
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-3">
+            <span>
+              &copy; {new Date().getFullYear()} {COMPANY.fullName}. All rights reserved.
+            </span>
+            {hasRealAbn && <span>{COMPANY.abn}</span>}
+            <Link href="/privacy" className="inline-block py-1.5 underline-offset-4 hover:text-accent hover:underline">
+              Privacy
+            </Link>
+            <a
+              href="/.well-known/security.txt"
+              className="inline-block py-1.5 underline-offset-4 hover:text-accent hover:underline"
+            >
+              Report a security issue
+            </a>
           </p>
           <div className="flex items-center gap-3">
             <span className="label text-fg-3">Site style</span>

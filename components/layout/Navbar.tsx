@@ -1,23 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Menu, Search, X } from 'lucide-react';
-import { openCommandMenu } from '@/components/shared/CommandMenu';
 import { Logo } from '@/components/shared/Logo';
 import { StyleHint } from '@/components/theme/StyleHint';
 import { ThemeSwitch } from '@/components/theme/ThemeSwitch';
-import { NAV_ITEMS, SECTIONS } from '@/lib/constants';
+import { openCommandMenu } from '@/lib/commandMenu';
+import { NAV_ITEMS } from '@/lib/constants';
 import { useRestoreTheme } from '@/lib/theme';
-import { useActiveSection } from '@/lib/useActiveSection';
 import { cn } from '@/lib/utils';
 
-const SECTION_IDS = SECTIONS.map((section) => section.id);
+/** A nav item is current when the visitor is on that page or inside it. */
+function isCurrent(href: string, pathname: string) {
+  if (href.startsWith('/#')) return false;
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const active = useActiveSection(SECTION_IDS);
   useRestoreTheme();
 
   useEffect(() => {
@@ -26,6 +31,11 @@ export function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Close the mobile menu whenever the page changes.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   // Lock page scroll and listen for Escape while the mobile menu is open.
   useEffect(() => {
@@ -70,33 +80,31 @@ export function Navbar() {
           className={cn(
             'mx-auto flex h-16 max-w-site items-center justify-between gap-3 px-5 sm:px-8 lg:px-14',
             'ws:h-14 ws:max-w-[75.5rem] ws:rounded-full ws:border ws:pl-5 ws:pr-2.5 ws:transition-[background-color,border-color,box-shadow] ws:duration-300 sm:ws:pl-5 lg:ws:pl-5',
-            solid
-              ? 'ws:border-edge ws:bg-panel/85 ws:shadow-card ws:backdrop-blur-xl'
-              : 'ws:border-transparent'
+            solid ? 'ws:border-edge ws:bg-panel/85 ws:shadow-card ws:backdrop-blur-xl' : 'ws:border-transparent'
           )}
         >
-          <a href="#top" aria-label="WebAI ProTech home" className="shrink-0" onClick={() => setOpen(false)}>
+          <Link href="/" aria-label="WebAI ProTech home" className="shrink-0">
             <Logo />
-          </a>
+          </Link>
 
           <ul className="hidden h-full items-center lg:flex">
             {NAV_ITEMS.map((item) => {
-              const isActive = active === item.href.slice(1);
+              const current = isCurrent(item.href, pathname);
               return (
                 <li key={item.href} className="relative flex h-full items-center">
-                  <a
+                  <Link
                     href={item.href}
-                    aria-current={isActive ? 'true' : undefined}
+                    aria-current={current ? 'page' : undefined}
                     className={cn(
-                      'block whitespace-nowrap px-3 py-2 transition-colors duration-200',
-                      'mc:font-mono mc:text-[0.6875rem] mc:font-medium mc:uppercase mc:tracking-[0.14em]',
+                      'block whitespace-nowrap px-2.5 py-2 transition-colors duration-200 xl:px-3',
+                      'mc:font-mono mc:text-[0.6875rem] mc:font-medium mc:uppercase mc:tracking-[0.12em]',
                       'ws:rounded-full ws:text-sm ws:font-medium',
-                      isActive ? 'text-fg mc:text-accent ws:bg-raised' : 'text-fg-3 hover:text-fg'
+                      current ? 'text-fg mc:text-accent ws:bg-raised' : 'text-fg-3 hover:text-fg'
                     )}
                   >
                     {item.label}
-                  </a>
-                  {isActive && (
+                  </Link>
+                  {current && (
                     <span
                       className="mc-only absolute inset-x-3 -bottom-px h-px bg-accent shadow-[0_0_10px_rgb(var(--accent))]"
                       aria-hidden="true"
@@ -109,10 +117,10 @@ export function Navbar() {
 
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <div className="relative">
-              <div className="hidden xl:block">
+              <div className="hidden 2xl:block">
                 <ThemeSwitch size="full" />
               </div>
-              <div className="xl:hidden">
+              <div className="2xl:hidden">
                 <ThemeSwitch size="compact" />
               </div>
               <StyleHint />
@@ -125,16 +133,16 @@ export function Navbar() {
               className="hidden h-9 items-center gap-2 border border-edge-strong px-2.5 text-fg-3 transition-colors hover:border-accent hover:text-fg xl:flex mc:rounded-[3px] ws:rounded-full ws:bg-panel/70 ws:px-3"
             >
               <Search size={14} aria-hidden="true" />
-              <span className="whitespace-nowrap font-mono text-[0.6875rem] leading-none" aria-hidden="true">
+              <span className="whitespace-nowrap font-mono text-[0.6875rem] leading-none mc:hidden" aria-hidden="true">
                 <span className="mac-only">⌘</span>
                 <span className="pc-only">Ctrl </span>K
               </span>
             </button>
 
-            <a href="#contact" className="btn btn-primary btn-sm hidden sm:inline-flex">
+            <Link href="/#contact" className="btn btn-primary btn-sm hidden sm:inline-flex">
               Start a project
               <ArrowRight size={14} aria-hidden="true" />
-            </a>
+            </Link>
 
             <button
               type="button"
@@ -173,7 +181,7 @@ export function Navbar() {
                     transition={{ delay: 0.04 * index, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     className="border-b border-edge"
                   >
-                    <a
+                    <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
                       className="flex items-center justify-between py-4 text-fg"
@@ -183,7 +191,7 @@ export function Navbar() {
                         <span className="mc-only">0{index + 1}</span>
                         <ArrowRight size={16} className="ws-only" />
                       </span>
-                    </a>
+                    </Link>
                   </motion.li>
                 ))}
               </ul>
@@ -193,10 +201,10 @@ export function Navbar() {
                   <p className="label mb-3 text-fg-3">Site style</p>
                   <ThemeSwitch size="full" />
                 </div>
-                <a href="#contact" onClick={() => setOpen(false)} className="btn btn-primary btn-lg w-full">
+                <Link href="/#contact" onClick={() => setOpen(false)} className="btn btn-primary btn-lg w-full">
                   Start a project
                   <ArrowRight size={16} aria-hidden="true" />
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

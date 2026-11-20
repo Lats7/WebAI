@@ -1,6 +1,5 @@
-'use client';
-
-import { motion } from 'framer-motion';
+import { type CSSProperties } from 'react';
+import Link from 'next/link';
 import { ArrowRight, Star } from 'lucide-react';
 import { AgentConsole } from '@/components/shared/AgentConsole';
 import { CountUp } from '@/components/shared/CountUp';
@@ -8,14 +7,7 @@ import { CELL_X } from '@/components/shared/Section';
 import { COMPANY, STATS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
-const rise = {
-  hidden: { opacity: 0, y: 26 },
-  visible: (delay: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] as const },
-  }),
-};
+const delay = (seconds: number) => ({ '--rise-delay': `${seconds}s` }) as CSSProperties;
 
 export function Hero() {
   return (
@@ -23,12 +15,9 @@ export function Hero() {
       <div className="frame">
         {/* Headline */}
         <div className={cn(CELL_X, 'pb-12 pt-32 sm:pt-36 lg:pb-16 lg:pt-44')}>
-          <motion.p
-            variants={rise}
-            initial="hidden"
-            animate="visible"
-            custom={0.05}
-            className="label inline-flex items-center gap-2.5 border border-edge-strong bg-panel/60 px-3 py-2 text-fg-2 backdrop-blur mc:rounded-[2px] ws:rounded-full ws:bg-panel ws:shadow-card"
+          <p
+            className="rise label inline-flex items-center gap-2.5 border border-edge-strong bg-panel/60 px-3 py-2 text-fg-2 backdrop-blur mc:rounded-[2px] ws:rounded-full ws:bg-panel ws:shadow-card"
+            style={delay(0.05)}
           >
             <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ok" />
@@ -42,55 +31,39 @@ export function Hero() {
               </span>
               {COMPANY.location}
             </span>
-          </motion.p>
+          </p>
 
           <div className="mt-8 grid gap-8 xl:grid-cols-12 xl:items-end xl:gap-10">
             <div className="[container-type:inline-size] xl:col-span-8">
-              <motion.h1
-                variants={rise}
-                initial="hidden"
-                animate="visible"
-                custom={0.14}
-                className="display hero-title text-fg"
-              >
-                Put AI to work.
+              {/* Slides in fully opaque: this is the largest thing on the first screen. */}
+              <h1 className="rise-solid display hero-title text-fg">
+                Build the agent.
                 <br />
-                <span className="accent-word">Stay in control.</span>
-              </motion.h1>
+                <span className="accent-word">Prove it&rsquo;s safe.</span>
+              </h1>
             </div>
 
-            <motion.div
-              variants={rise}
-              initial="hidden"
-              animate="visible"
-              custom={0.28}
-              className="xl:col-span-4 xl:pb-2"
-            >
+            <div className="rise xl:col-span-4 xl:pb-2" style={delay(0.12)}>
               <p className="max-w-2xl text-lg leading-relaxed text-fg-2">
-                We build AI agents and automation that take real work off your team, with the security
-                engineering and governance to run them safely.{' '}
+                We build AI agents and automation that take real work off your team, then test and govern
+                them the way an attacker and an auditor would.{' '}
                 <span className="text-fg">Led by a cyber security engineer.</span>
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <a href="#contact" className="btn btn-primary btn-lg">
+                <Link href="/#contact" className="btn btn-primary btn-lg">
                   Start a project
                   <ArrowRight size={16} aria-hidden="true" />
-                </a>
-                <a href="#agents" className="btn btn-secondary btn-lg">
-                  See the agents
-                </a>
+                </Link>
+                <Link href="/ai-readiness-review" className="btn btn-secondary btn-lg">
+                  AI Readiness Review
+                </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Console on its stage */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="px-3 sm:px-6 lg:px-10"
-        >
+        <div className="rise px-3 sm:px-6 lg:px-10" style={delay(0.22)}>
           <div className="stage px-3 pb-4 pt-12 sm:px-6 sm:pb-6 lg:px-12 lg:pb-10 lg:pt-16 ws:pt-6 sm:ws:pt-8 lg:ws:pt-12">
             <div
               className="radar mc-only left-1/2 top-1/2 w-[70rem] -translate-x-1/2 -translate-y-1/2"
@@ -114,7 +87,7 @@ export function Hero() {
               A simulated run. Real agents stop at the same point and wait for a person.
             </p>
           </div>
-        </motion.div>
+        </div>
 
         {/* Proof row */}
         <dl className="mt-10 grid grid-cols-2 border-t border-edge lg:mt-14 lg:grid-cols-4">
@@ -136,7 +109,7 @@ export function Hero() {
                     href={COMPANY.socials.freelancer}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex gap-0.5 text-star"
+                    className="-m-2 flex gap-0.5 p-2 text-star"
                     aria-label="See the reviews on Freelancer (opens in a new tab)"
                   >
                     {Array.from({ length: 5 }).map((_, star) => (

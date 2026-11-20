@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   ArrowRight,
@@ -15,16 +16,10 @@ import {
   Star,
   type LucideIcon,
 } from 'lucide-react';
-import { COMPANY, SECTIONS } from '@/lib/constants';
+import { COMMAND_MENU_OPEN_EVENT, takePendingOpen } from '@/lib/commandMenu';
+import { COMPANY, PAGES } from '@/lib/constants';
 import { setTheme, useTheme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
-
-const OPEN_EVENT = 'webai:command-menu';
-
-/** Open the command menu from anywhere, for example a button in the nav. */
-export function openCommandMenu() {
-  window.dispatchEvent(new Event(OPEN_EVENT));
-}
 
 interface Command {
   id: string;
@@ -36,17 +31,13 @@ interface Command {
   run: () => void;
 }
 
-function goTo(id: string) {
-  document.getElementById(id)?.scrollIntoView();
-  history.replaceState(null, '', id === 'top' ? location.pathname : `#${id}`);
-}
-
 /**
  * Keyboard-first way around the site. Opens with Cmd+K or Ctrl+K.
  * Jump to a section, start a conversation, or switch the site style.
  */
 export function CommandMenu() {
   const theme = useTheme();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
@@ -64,14 +55,14 @@ export function CommandMenu() {
   const commands = useMemo<Command[]>(() => {
     const other = theme === 'mission' ? 'workspace' : 'mission';
     return [
-      ...SECTIONS.map((section, index) => ({
-        id: `go-${section.id}`,
+      ...PAGES.map((page, index) => ({
+        id: `go-${page.href}`,
         group: 'Go to' as const,
-        label: section.label,
+        label: page.label,
         hint: String(index + 1).padStart(2, '0'),
-        keywords: section.id,
+        keywords: page.href.replace(/[/-]/g, ' '),
         Icon: Hash,
-        run: () => goTo(section.id),
+        run: () => router.push(page.href),
       })),
       {
         id: 'start',
@@ -79,7 +70,7 @@ export function CommandMenu() {
         label: 'Start a project',
         keywords: 'contact brief hire quote',
         Icon: ArrowRight,
-        run: () => goTo('contact'),
+        run: () => router.push('/#contact'),
       },
       {
         id: 'email',
@@ -126,7 +117,7 @@ export function CommandMenu() {
         run: () => setTheme(other),
       },
     ];
-  }, [theme]);
+  }, [theme, router]);
 
   const results = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -155,10 +146,11 @@ export function CommandMenu() {
         }
       }
     };
-    window.addEventListener(OPEN_EVENT, show);
+    window.addEventListener(COMMAND_MENU_OPEN_EVENT, show);
     document.addEventListener('keydown', onKeyDown);
+    if (takePendingOpen()) show();
     return () => {
-      window.removeEventListener(OPEN_EVENT, show);
+      window.removeEventListener(COMMAND_MENU_OPEN_EVENT, show);
       document.removeEventListener('keydown', onKeyDown);
     };
   }, []);
@@ -246,7 +238,7 @@ export function CommandMenu() {
                 aria-controls="command-list"
                 aria-activedescendant={active ? `command-${active.id}` : undefined}
                 aria-label="Search commands"
-                placeholder="Jump to a section or run a command"
+                placeholder="Jump to a page or run a command"
                 autoComplete="off"
                 spellCheck={false}
                 className="h-14 min-w-0 flex-1 bg-transparent text-base text-fg outline-none placeholder:text-fg-3 mc:font-mono mc:text-sm"

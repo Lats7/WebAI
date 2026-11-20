@@ -1,3 +1,4 @@
+import { Founder } from '@/components/shared/Founder';
 import { Reveal } from '@/components/shared/Reveal';
 import { CELL_X, Section } from '@/components/shared/Section';
 import { Eyebrow, SectionHeader } from '@/components/shared/SectionHeader';
@@ -56,6 +57,8 @@ export function Approach() {
           })}
         </ul>
       </div>
+
+      <Founder />
     </Section>
   );
 }

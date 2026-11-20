@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { AgentFigure, AutomationFigure, SecurityFigure } from '@/components/shared/Figures';
 import { Reveal } from '@/components/shared/Reveal';
@@ -22,6 +23,7 @@ export function Services() {
       {/* Statement */}
       <Reveal className={cn(CELL_X, 'py-20 sm:py-24 lg:py-32')}>
         <Eyebrow code="01">What we do</Eyebrow>
+        <h2 className="sr-only">Services</h2>
         <p className="statement mt-8 max-w-5xl text-[clamp(1.7rem,3.7vw,3.1rem)]">
           AI, automation, and security from one team.{' '}
           <span className="muted">
@@ -56,9 +58,9 @@ export function Services() {
                 {Figure && <Figure className="mx-auto my-6 h-56 w-full max-w-[20rem] text-fg lg:my-8 lg:h-60" />}
 
                 <h3 className="display text-2xl text-fg sm:text-[1.75rem]">
-                  <a href={service.href} className="after:absolute after:inset-0 after:content-['']">
+                  <Link href={service.href} className="after:absolute after:inset-0 after:content-['']">
                     {service.title}
-                  </a>
+                  </Link>
                 </h3>
                 <p className="mt-3 leading-relaxed text-fg-2">{service.description}</p>
 
@@ -92,9 +94,9 @@ export function Services() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <h3 className="display text-xl text-fg">
-                    <a href={service.href} className="after:absolute after:inset-0 after:content-['']">
+                    <Link href={service.href} className="after:absolute after:inset-0 after:content-['']">
                       {service.title}
-                    </a>
+                    </Link>
                   </h3>
                   <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-fg-2">{service.description}</p>
                   <ul className="mt-4 flex flex-wrap gap-2">

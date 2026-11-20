@@ -94,7 +94,7 @@ export function Reviews() {
               <span className="accent-word">in {COMPANY.reviews.countries} countries.</span>
             </>
           }
-          description={`${COMPANY.reviews.count} verified reviews on Freelancer, covering AI builds, automation, web development, and server work.`}
+          description={`${COMPANY.reviews.count} verified reviews on Freelancer, covering AI builds, automation, web development, and server work. A selection is shown here, as the clients wrote them.`}
           aside={
             <div className="flex flex-wrap items-center gap-3">
               <a

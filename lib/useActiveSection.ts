@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from 'react';
 
-/** Returns the id of the section currently crossing the middle of the viewport. */
-export function useActiveSection(ids: readonly string[]) {
+/**
+ * Returns the id of the section currently crossing the middle of the viewport.
+ * Pass the current path as `key` so the observer re-attaches after navigation.
+ */
+export function useActiveSection(ids: readonly string[], key = '') {
   const [active, setActive] = useState<string>(ids[0] ?? '');
 
   useEffect(() => {
+    setActive(ids[0] ?? '');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -22,7 +26,7 @@ export function useActiveSection(ids: readonly string[]) {
     });
 
     return () => observer.disconnect();
-  }, [ids]);
+  }, [ids, key]);
 
   return active;
 }
