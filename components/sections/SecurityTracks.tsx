@@ -16,7 +16,7 @@ const COVERAGE_LABEL = ['None', 'Low', 'Partial', 'Strong'];
 
 function SampleFrame({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <figure className="card h-full">
+    <figure className="card bracketed shadow-pop">
       <figcaption className="flex items-center justify-between gap-3 border-b border-edge px-5 py-3.5">
         <span className="label text-fg-2">{title}</span>
         <span className="chip chip-k shrink-0" data-kind="trigger">
@@ -165,12 +165,12 @@ export function SecurityTracks() {
 
   return (
     <div>
-      <div className="no-scrollbar -mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0 mc:border-b mc:border-edge ws:py-1">
+      <div className="no-scrollbar overflow-x-auto border-t border-edge px-5 sm:px-8 lg:px-14 ws:py-4">
         <div
           role="tablist"
           aria-label="Security disciplines"
           onKeyDown={onKeyDown}
-          className="flex w-max mc:-mb-px ws:gap-1 ws:rounded-full ws:border ws:border-edge ws:bg-panel ws:p-1 ws:shadow-card"
+          className="flex w-max ws:gap-1 ws:rounded-full ws:border ws:border-edge ws:bg-panel ws:p-1 ws:shadow-card"
         >
           {SECURITY_TRACKS.map((item) => {
             const selected = item.id === activeId;
@@ -185,15 +185,15 @@ export function SecurityTracks() {
                 tabIndex={selected ? 0 : -1}
                 onClick={() => setActiveId(item.id)}
                 className={cn(
-                  'relative shrink-0 px-4 py-3 transition-colors duration-200 sm:px-5',
-                  'mc:border-b-2 mc:font-mono mc:text-xs mc:font-medium mc:uppercase mc:tracking-[0.14em]',
-                  'ws:rounded-full ws:py-2 ws:text-sm ws:font-semibold',
+                  'relative shrink-0 px-4 py-4 transition-colors duration-200 sm:px-6',
+                  'mc:-mt-px mc:border-t-2 mc:font-mono mc:text-xs mc:font-medium mc:uppercase mc:tracking-[0.12em]',
+                  'ws:rounded-full ws:py-2 ws:text-sm ws:font-medium',
                   selected
-                    ? 'mc:border-accent mc:text-accent ws:bg-fg ws:text-bg'
+                    ? 'mc:border-accent mc:bg-accent/[0.06] mc:text-accent ws:bg-fg ws:text-bg'
                     : 'text-fg-3 hover:text-fg mc:border-transparent'
                 )}
               >
-                <span className="mc-only mr-2 text-fg-3">{item.code}</span>
+                <span className="mc-only mr-2.5 text-signal">{item.code}</span>
                 {item.label}
               </button>
             );
@@ -206,31 +206,31 @@ export function SecurityTracks() {
         id="security-panel"
         aria-labelledby={`security-tab-${track.id}`}
         tabIndex={0}
-        className="mt-8 lg:mt-10"
+        className="border-t border-edge"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={track.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="grid gap-8 lg:grid-cols-12 lg:gap-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="grid lg:grid-cols-12"
           >
-            <div className="lg:col-span-7">
-              <h3 className="display text-2xl text-fg sm:text-3xl">{track.heading}</h3>
-              <p className="mt-3 max-w-xl leading-relaxed text-fg-2">{track.intro}</p>
+            <div className="min-w-0 px-5 py-12 sm:px-8 lg:col-span-7 lg:px-14 lg:py-16">
+              <h3 className="display text-[1.75rem] text-fg sm:text-4xl">{track.heading}</h3>
+              <p className="mt-4 max-w-xl leading-relaxed text-fg-2 sm:text-lg">{track.intro}</p>
 
-              <ul className="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2">
+              <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2">
                 {track.items.map((item) => {
                   const Icon = ICONS[item.icon];
                   return (
                     <li key={item.title} className="flex gap-3.5">
-                      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center border border-edge-strong text-accent mc:rounded-[2px] mc:bg-accent/10 ws:rounded-xl ws:border-transparent ws:bg-accent/10">
-                        {Icon && <Icon size={17} strokeWidth={1.75} aria-hidden="true" />}
+                      <span className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center border border-edge-strong text-accent mc:rounded-[3px] mc:bg-accent/10 ws:rounded-xl ws:border-transparent ws:bg-accent/10">
+                        {Icon && <Icon size={17} strokeWidth={1.6} aria-hidden="true" />}
                       </span>
                       <div>
-                        <h4 className="font-semibold leading-snug text-fg">{item.title}</h4>
+                        <h4 className="font-medium leading-snug text-fg">{item.title}</h4>
                         <p className="mt-1 text-sm leading-relaxed text-fg-2">{item.description}</p>
                       </div>
                     </li>
@@ -239,7 +239,7 @@ export function SecurityTracks() {
               </ul>
             </div>
 
-            <div className="lg:col-span-5">
+            <div className="dot-grid min-w-0 border-t border-edge p-3 sm:p-6 lg:col-span-5 lg:border-l lg:border-t-0 lg:p-10">
               <Sample />
             </div>
           </motion.div>

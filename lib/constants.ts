@@ -13,6 +13,7 @@ export const COMPANY = {
   email: 'info@webaiprotech.com',
   phone: '+61 433 062 942',
   location: 'Melbourne, Australia',
+  coordinates: { lat: '-37.8136', lon: '144.9631' },
   // The domain that serves the site. Canonical link, sitemap, and share image all build on it.
   url: 'https://www.webaiprotech.com',
   // Replace with your real ABN. The footer hides it while it is all zeros.
@@ -28,12 +29,29 @@ export const COMPANY = {
   },
 } as const;
 
+/** Shorter description for search results and share cards (under 155 characters). */
+export const META_DESCRIPTION =
+  'AI agents and automation built by a cyber security engineer in Melbourne, with the security testing and governance to run them safely.';
+
+/** Every page on the site, in the order used by the sitemap and the command menu. */
+export const PAGES = [
+  { href: '/', label: 'Home' },
+  { href: '/ai-readiness-review', label: 'AI Readiness Review' },
+  { href: '/tools/ai-readiness-check', label: 'AI readiness self-check' },
+  { href: '/services/ai-agents-automation', label: 'AI agents and automation' },
+  { href: '/services/cyber-security', label: 'Cyber security' },
+  { href: '/services/ai-security', label: 'AI security' },
+  { href: '/work', label: 'Work' },
+  { href: '/insights', label: 'Insights' },
+  { href: '/privacy', label: 'Privacy' },
+] as const;
+
 export const NAV_ITEMS = [
-  { label: 'Agents', href: '#agents' },
-  { label: 'Security', href: '#security' },
-  { label: 'CRM & Web', href: '#build' },
-  { label: 'Approach', href: '#approach' },
-  { label: 'Reviews', href: '#reviews' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Readiness review', href: '/ai-readiness-review' },
+  { label: 'Self-check', href: '/tools/ai-readiness-check' },
+  { label: 'Work', href: '/work' },
+  { label: 'Insights', href: '/insights' },
 ] as const;
 
 /** Section order, used by the mission status bar readout. */
@@ -66,6 +84,12 @@ export const STEP_KIND_LABEL: Record<StepKind, string> = {
 export interface AgentRun {
   id: string;
   title: string;
+  domain: string;
+  /** Role that signs off the approval step. */
+  approver: string;
+  autonomy: string;
+  /** Scope check, output check, and approval gate, in that order. */
+  guardrails: [string, string, string];
   steps: { t: string; kind: StepKind; text: string }[];
 }
 
@@ -74,6 +98,10 @@ export const AGENT_RUNS: AgentRun[] = [
   {
     id: 'invoice-intake',
     title: 'Invoice intake',
+    domain: 'Finance',
+    approver: 'Finance lead',
+    autonomy: 'Drafts, then asks',
+    guardrails: ['Least-privilege scope', 'Totals and ABN validated', 'Spend limit gate'],
     steps: [
       { t: '00:00.0', kind: 'trigger', text: 'New invoice email lands in the accounts inbox' },
       { t: '00:00.6', kind: 'plan', text: 'Extract the fields, match the purchase order, draft the bill' },
@@ -87,6 +115,10 @@ export const AGENT_RUNS: AgentRun[] = [
   {
     id: 'alert-triage',
     title: 'Security alert triage',
+    domain: 'Security operations',
+    approver: 'Duty analyst',
+    autonomy: 'Recommends only',
+    guardrails: ['Read-only scope', 'Evidence preserved', 'Containment gate'],
     steps: [
       { t: '00:00.0', kind: 'trigger', text: 'Impossible-travel sign-in alert raised by the SIEM' },
       { t: '00:00.5', kind: 'plan', text: 'Enrich the user, device, and IP, then score the risk' },
@@ -100,6 +132,10 @@ export const AGENT_RUNS: AgentRun[] = [
   {
     id: 'lead-response',
     title: 'Lead response',
+    domain: 'Sales',
+    approver: 'Account owner',
+    autonomy: 'Drafts, then asks',
+    guardrails: ['CRM scope only', 'Consent and messaging check', 'First-touch review'],
     steps: [
       { t: '00:00.0', kind: 'trigger', text: 'New enquiry submitted through the website form' },
       { t: '00:00.4', kind: 'plan', text: 'Qualify the lead, check CRM history, draft a reply' },
@@ -133,7 +169,7 @@ export const SERVICES: Service[] = [
     code: '01',
     title: 'Agentic AI',
     icon: 'Bot',
-    href: '#agents',
+    href: '/services/ai-agents-automation',
     tier: 'core',
     description:
       'Agents that plan, use your tools, and finish multi-step work, with a person approving the steps that matter.',
@@ -149,7 +185,7 @@ export const SERVICES: Service[] = [
     code: '02',
     title: 'Automation',
     icon: 'Workflow',
-    href: '#automation',
+    href: '/services/ai-agents-automation#automation',
     tier: 'core',
     description:
       'Workflows that move data between your systems on their own, so nobody is copying and pasting between tabs.',
@@ -165,14 +201,14 @@ export const SERVICES: Service[] = [
     code: '03',
     title: 'Cyber security',
     icon: 'ShieldCheck',
-    href: '#security',
+    href: '/services/cyber-security',
     tier: 'core',
     description:
       'Engineering and governance from a working practitioner. We harden it, monitor it, and help you prove it.',
     features: [
       'Security architecture and hardening',
       'Detection and incident readiness',
-      'Essential Eight and ISO 27001',
+      'Essential Eight, ASD Essentials, and ISO 27001',
       'AI security and governance',
     ],
   },
@@ -181,7 +217,7 @@ export const SERVICES: Service[] = [
     code: '04',
     title: 'CRM',
     icon: 'Contact',
-    href: '#build',
+    href: '/#build',
     tier: 'support',
     description:
       'A CRM your team wants to use: configured, cleaned up, integrated, and automated.',
@@ -192,7 +228,7 @@ export const SERVICES: Service[] = [
     code: '05',
     title: 'Web and app design',
     icon: 'AppWindow',
-    href: '#build',
+    href: '/#build',
     tier: 'support',
     description:
       'Websites, web apps, and mobile apps, designed and built end to end.',
@@ -342,6 +378,15 @@ export const AUTOMATIONS = [
   },
 ] as const;
 
+/** The stages drawn in the automation pipeline diagram. */
+export const AUTOMATION_PIPELINE = [
+  { icon: 'Inbox', label: 'Capture', detail: 'Email, forms, files' },
+  { icon: 'ScanSearch', label: 'Extract', detail: 'Fields and line items' },
+  { icon: 'ListChecks', label: 'Validate', detail: 'Rules and totals' },
+  { icon: 'GitBranch', label: 'Route', detail: 'By type and value' },
+  { icon: 'Database', label: 'Update', detail: 'CRM, accounts, reports' },
+] as const;
+
 /* -------------------------------------------------------------------------- */
 /* Cyber security                                                             */
 /* -------------------------------------------------------------------------- */
@@ -406,8 +451,9 @@ export const SECURITY_TRACKS: SecurityTrack[] = [
     items: [
       {
         icon: 'Gauge',
-        title: 'Essential Eight uplift',
-        description: 'A maturity assessment against the ASD Essential Eight and a costed plan to lift it.',
+        title: 'Essential Eight and ASD Essentials',
+        description:
+          'An assessment against the Essential Eight, a costed uplift plan, and a map of that work to the ASD Essentials as the guidance changes over.',
       },
       {
         icon: 'BadgeCheck',
@@ -540,9 +586,24 @@ export const READINESS_REVIEW = {
   ],
 } as const;
 
+/**
+ * Price and timing for the AI Readiness Review page. Leave a value as null and
+ * the page says the scope is fixed and the price is confirmed in writing first.
+ *
+ *   price:      for example '$2,950 + GST'
+ *   priceNote:  one sentence under the price, for example what it covers
+ *   turnaround: for example 'About two weeks from kick-off to written report.'
+ */
+export const READINESS_OFFER: { price: string | null; priceNote: string | null; turnaround: string | null } = {
+  price: null,
+  priceNote: null,
+  turnaround: null,
+};
+
 // Review this list so it names only the frameworks you work to.
 export const FRAMEWORKS = [
   'ASD Essential Eight',
+  'ASD Essentials',
   'ISO/IEC 27001',
   'NIST CSF 2.0',
   'MITRE ATT&CK',
@@ -639,7 +700,7 @@ export const DIFFERENTIATORS = [
     icon: 'MapPin',
     title: 'Melbourne based',
     description:
-      'Local hours and Australian context, including the Essential Eight and the Privacy Act.',
+      'Local hours and Australian context, including ASD guidance and the Privacy Act.',
   },
 ] as const;
 
@@ -649,6 +710,73 @@ export const STATS = [
   { value: '18', label: 'Verified reviews' },
   { value: '10+', label: 'Countries served' },
 ] as const;
+
+/* -------------------------------------------------------------------------- */
+/* Work and founder                                                           */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * "Who you will work with" section. It stays hidden until `enabled` is true.
+ * Fill in the details, set `enabled: true`, and it appears on the home page
+ * and the Work page.
+ *
+ *   photo: a path under /public, for example '/founder.jpg' (optional)
+ */
+export const FOUNDER: {
+  enabled: boolean;
+  name: string;
+  role: string;
+  bio: string[];
+  credentials: string[];
+  linkedin: string;
+  photo: string;
+} = {
+  enabled: false,
+  name: '',
+  role: '',
+  bio: [],
+  credentials: [],
+  linkedin: '',
+  photo: '',
+};
+
+/**
+ * Projects shown on the Work page. Each one is matched to its verified review
+ * by the reviewer's name.
+ *
+ * `kind` is a broad category inferred from the project title. Check each one.
+ *
+ * To turn a snapshot into a full case study, add any of the optional fields.
+ * Only add what is true and what the client is happy to see published:
+ *
+ *   summary:  one sentence on what was built
+ *   problem:  what was slow, risky, or manual before
+ *   approach: what you built and how
+ *   outcome:  what changed, ideally with a number
+ */
+export interface Project {
+  reviewer: string;
+  kind: 'AI agents' | 'Automation' | 'Web and apps' | 'Infrastructure';
+  summary?: string;
+  problem?: string;
+  approach?: string;
+  outcome?: string;
+}
+
+export const PROJECTS: Project[] = [
+  { reviewer: 'Mohammed A.', kind: 'AI agents' },
+  { reviewer: 'Christian G.', kind: 'AI agents' },
+  { reviewer: 'Matt J.', kind: 'AI agents' },
+  { reviewer: 'Jared A.', kind: 'AI agents' },
+  { reviewer: 'Brett C.', kind: 'Automation' },
+  { reviewer: 'Stefan P.', kind: 'Automation' },
+  { reviewer: 'Bradley M.', kind: 'Automation' },
+  { reviewer: 'Alwin N.', kind: 'Web and apps' },
+  { reviewer: 'Alessandro V.', kind: 'Web and apps' },
+  { reviewer: 'Former Client', kind: 'Web and apps' },
+  { reviewer: 'Jhoan A.', kind: 'Infrastructure' },
+  { reviewer: 'Rabih J.', kind: 'Infrastructure' },
+];
 
 /* -------------------------------------------------------------------------- */
 /* Reviews                                                                    */
@@ -736,6 +864,16 @@ export const TESTIMONIALS = [
     location: 'Australia',
   },
 ] as const;
+
+/**
+ * The review shown large above the others. `lead` and `rest` are the same
+ * quote split in two, so the first sentence can be set at full contrast.
+ */
+export const FEATURED_REVIEW = {
+  author: 'Mohammed A.',
+  lead: 'I recently collaborated with Stefan, a highly skilled professional in Python and AI projects.',
+  rest: "Their expertise and dedication significantly enhanced our project's success. I highly recommend Stefan for any Python or AI endeavors.",
+} as const;
 
 /* -------------------------------------------------------------------------- */
 /* Contact                                                                    */

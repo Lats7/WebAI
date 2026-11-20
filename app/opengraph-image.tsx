@@ -55,7 +55,7 @@ export default function OpenGraphImage() {
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', fontSize: 86, fontWeight: 700, letterSpacing: -4, lineHeight: 1.02 }}>
-            Put AI to work.
+            Build the agent.
           </div>
           <div
             style={{
@@ -67,7 +67,7 @@ export default function OpenGraphImage() {
               color: '#40c4ff',
             }}
           >
-            Stay in control.
+            Prove it's safe.
           </div>
         </div>
 
