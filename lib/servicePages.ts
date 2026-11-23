@@ -169,7 +169,7 @@ export const SERVICE_PAGES: ServicePage[] = [
     lead: 'If you run Copilot, a chatbot, or an agent, it can read and do things on your behalf. We test what it can be talked into, check what it can reach, and put the rules in place to keep it useful and safe.',
     metaTitle: 'AI and LLM security testing, Australia',
     metaDescription:
-      'AI and LLM security testing, agent permission design, and AI governance for Australian businesses. Prompt injection, data leakage, and tool abuse, tested by a security engineer.',
+      'AI and LLM security testing and governance for Australian businesses. Prompt injection, data leakage, and tool abuse, tested by a security engineer.',
     interest: 'Cyber security',
     statement: [
       'We build agents, so we know how they break.',

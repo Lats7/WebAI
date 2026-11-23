@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
 import { COMPANY } from '@/lib/constants';
+import { SHARE_IMAGE } from '@/lib/seo';
 
-export const alt = `${COMPANY.fullName}: AI agents, automation, and cyber security`;
-export const size = { width: 1200, height: 630 };
+export const alt = SHARE_IMAGE.alt;
+export const size = { width: SHARE_IMAGE.width, height: SHARE_IMAGE.height };
 export const contentType = 'image/png';
 
 const TAGS = ['Agentic AI', 'Automation', 'Cyber security', 'CRM', 'Web and apps'];

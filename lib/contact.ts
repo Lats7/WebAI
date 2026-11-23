@@ -28,6 +28,8 @@ const ATTRIBUTION_KEYS = [
   'utm_content',
 ] as const;
 
+export type Attribution = Partial<Record<(typeof ATTRIBUTION_KEYS)[number], string>>;
+
 export interface Brief {
   name: string;
   email: string;
@@ -35,13 +37,13 @@ export interface Brief {
   interest: string;
   message: string;
   source: string;
-  attribution: Partial<Record<(typeof ATTRIBUTION_KEYS)[number], string>>;
+  attribution: Attribution;
 }
 
 export type BriefResult = { ok: true; brief: Brief } | { ok: false; fields: string[] };
 
 /** Collapse control characters and line breaks, so a value cannot add email headers or lines. */
-function singleLine(value: unknown, max: number) {
+export function singleLine(value: unknown, max: number) {
   return String(value ?? '')
     .replace(/[\u0000-\u001f\u007f]+/g, ' ')
     .trim()
@@ -57,6 +59,37 @@ function multiLine(value: unknown, max: number) {
 }
 
 const EMAIL = /^[^\s@<>"',;]+@[^\s@<>"',;]+\.[^\s@<>"',;]{2,}$/;
+
+/** A single, plain address. Rejects lists, display names, and anything with spaces or quotes. */
+export function isEmail(value: string) {
+  return EMAIL.test(value);
+}
+
+/** Keep only the known attribution fields, each as one short line. */
+export function parseAttribution(input: unknown): Attribution {
+  const raw = (typeof input === 'object' && input !== null ? input : {}) as Record<string, unknown>;
+  const attribution: Attribution = {};
+  for (const key of ATTRIBUTION_KEYS) {
+    const value = singleLine(raw[key], LIMITS.attributionValue);
+    if (value) attribution[key] = value;
+  }
+  return attribution;
+}
+
+/** The "how they found the site" block shared by the emails the business receives. */
+export function attributionLines(attribution: Attribution) {
+  const campaign = (['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const)
+    .filter((key) => attribution[key])
+    .map((key) => `${key.replace('utm_', '')}: ${attribution[key]}`)
+    .join(', ');
+  return [
+    'How they found the site',
+    '-----------------------',
+    `Landing page: ${attribution.landing ?? 'Unknown'}`,
+    `Referrer: ${attribution.referrer ?? 'Direct or unknown'}`,
+    `Campaign: ${campaign || 'None'}`,
+  ];
+}
 
 /** Validate and normalise an untrusted request body into a brief. */
 export function parseBrief(input: unknown): BriefResult {
@@ -75,15 +108,7 @@ export function parseBrief(input: unknown): BriefResult {
   const rawInterest = singleLine(body.interest, 60);
   const interest = (CONTACT_INTERESTS as readonly string[]).includes(rawInterest) ? rawInterest : '';
 
-  const attribution: Brief['attribution'] = {};
-  const rawAttribution =
-    typeof body.attribution === 'object' && body.attribution !== null
-      ? (body.attribution as Record<string, unknown>)
-      : {};
-  for (const key of ATTRIBUTION_KEYS) {
-    const value = singleLine(rawAttribution[key], LIMITS.attributionValue);
-    if (value) attribution[key] = value;
-  }
+  const attribution = parseAttribution(body.attribution);
 
   if (fields.length > 0) return { ok: false, fields };
 
@@ -103,11 +128,6 @@ export function parseBrief(input: unknown): BriefResult {
 
 /** The notification email, as plain text. No HTML, so nothing a visitor types can be rendered as markup. */
 export function briefEmail(brief: Brief) {
-  const campaign = (['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'] as const)
-    .filter((key) => brief.attribution[key])
-    .map((key) => `${key.replace('utm_', '')}: ${brief.attribution[key]}`)
-    .join(', ');
-
   const text = [
     'New brief from the website',
     '',
@@ -121,11 +141,7 @@ export function briefEmail(brief: Brief) {
     '-------',
     brief.message,
     '',
-    'How they found the site',
-    '-----------------------',
-    `Landing page: ${brief.attribution.landing ?? 'Unknown'}`,
-    `Referrer: ${brief.attribution.referrer ?? 'Direct or unknown'}`,
-    `Campaign: ${campaign || 'None'}`,
+    ...attributionLines(brief.attribution),
   ].join('\n');
 
   const subject = `Website brief: ${brief.interest || 'General'} from ${brief.name}`.slice(0, 150);

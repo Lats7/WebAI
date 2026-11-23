@@ -7,10 +7,12 @@ import { Hero } from '@/components/sections/Hero';
 import { Reviews } from '@/components/sections/Reviews';
 import { Security } from '@/components/sections/Security';
 import { Services } from '@/components/sections/Services';
+import { SHARE_BASE } from '@/lib/seo';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
-  openGraph: { url: '/' },
+  // Setting any share detail here replaces the ones in the layout, so name them all.
+  openGraph: { ...SHARE_BASE, url: '/' },
 };
 
 export default function Home() {

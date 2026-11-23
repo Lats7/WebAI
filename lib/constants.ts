@@ -29,6 +29,21 @@ export const COMPANY = {
   },
 } as const;
 
+/**
+ * Optional "book a call" link, for example a Google Calendar appointment page,
+ * Cal.com, or Calendly. Every booking button stays hidden until this has a
+ * link that starts with https://. Set NEXT_PUBLIC_BOOKING_URL in the host, or
+ * put the link here, then redeploy.
+ */
+export const BOOKING: { url: string; label: string; note: string } = {
+  url: process.env.NEXT_PUBLIC_BOOKING_URL ?? '',
+  label: 'Book a call',
+  note: 'Pick a time that suits you.',
+};
+
+/** The booking link, or an empty string while it is not set or not a secure link. */
+export const BOOKING_URL = /^https:\/\/[^\s"'<>]+$/.test(BOOKING.url) ? BOOKING.url : '';
+
 /** Shorter description for search results and share cards (under 155 characters). */
 export const META_DESCRIPTION =
   'AI agents and automation built by a cyber security engineer in Melbourne, with the security testing and governance to run them safely.';

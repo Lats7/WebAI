@@ -3,9 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Check, RotateCcw } from 'lucide-react';
+import { BookingLink } from '@/components/shared/BookingLink';
 import { ContactForm } from '@/components/shared/ContactForm';
+import { ResultsEmail } from '@/components/tools/ResultsEmail';
 import { trackEvent } from '@/lib/analytics';
-import { CHECK_QUESTIONS, MAX_SCORE, bandFor } from '@/lib/selfCheck';
+import { BOOKING, BOOKING_URL } from '@/lib/constants';
+import { ANSWER_LABELS, CHECK_QUESTIONS, MAX_SCORE, bandFor, scoreOf } from '@/lib/selfCheck';
 import { cn } from '@/lib/utils';
 
 const TOTAL = CHECK_QUESTIONS.length;
@@ -43,18 +46,24 @@ function ScoreRing({ score, tone }: { score: number; tone: keyof typeof TONE }) 
   );
 }
 
+interface SelfCheckProps {
+  /** Show the "email me my results" form. Only true when the site can send email. */
+  canEmailResults?: boolean;
+}
+
 /**
  * Ten questions, one at a time, scored in the browser. Nothing is sent
- * anywhere unless the visitor chooses to send their result with a brief.
+ * anywhere unless the visitor asks for their results by email or sends their
+ * result with a brief.
  */
-export function SelfCheck() {
+export function SelfCheck({ canEmailResults = false }: SelfCheckProps) {
   const [answers, setAnswers] = useState<(number | undefined)[]>(() => Array(TOTAL).fill(undefined));
   const [step, setStep] = useState(0);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const started = useRef(false);
 
   const finished = step >= TOTAL;
-  const score = answers.reduce<number>((sum, value) => sum + (value ?? 0), 0);
+  const score = scoreOf(answers);
   const band = bandFor(score);
 
   // Move focus to the new question or the result, so keyboard and screen reader users follow along.
@@ -64,7 +73,7 @@ export function SelfCheck() {
   }, [step]);
 
   useEffect(() => {
-    if (finished) trackEvent('self_check_completed', { band: band.name });
+    if (finished) trackEvent('self_check_completed', { band: band.name, score });
     // Only when the result is first shown.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [finished]);
@@ -72,6 +81,12 @@ export function SelfCheck() {
   function go(next: number) {
     started.current = true;
     setStep(next);
+  }
+
+  function answer(index: number) {
+    // The first answer of a run counts as a start, so starts can be compared with completions.
+    if (answers.every((value) => value === undefined)) trackEvent('self_check_started');
+    setAnswers((current) => current.map((value, i) => (i === step ? index : value)));
   }
 
   function restart() {
@@ -149,9 +164,7 @@ export function SelfCheck() {
                       <span className={cn('h-2 w-2 shrink-0 rounded-full', TONE_BG[tone])} aria-hidden="true" />
                       {question.area}
                     </span>
-                    <span className={cn('label', TONE[tone])}>
-                      {value === 2 ? 'In place' : value === 1 ? 'Partial' : 'Gap'}
-                    </span>
+                    <span className={cn('label', TONE[tone])}>{ANSWER_LABELS[value]}</span>
                   </li>
                 );
               })}
@@ -162,11 +175,18 @@ export function SelfCheck() {
                 Start again
               </button>
               <p className="text-sm text-fg-3">
-                This is a quick indicator, not an assessment. Nothing you entered has left your browser.
+                This is a quick indicator, not an assessment. Your answers stay in your browser unless you choose
+                to send them.
               </p>
             </div>
           </div>
         </div>
+
+        {canEmailResults && (
+          <div className="mt-6">
+            <ResultsEmail key={answers.join('')} answers={answers.map((value) => value ?? 0)} band={band.name} />
+          </div>
+        )}
 
         <div className="mt-10">
           <h2 className="display text-3xl text-fg sm:text-4xl">
@@ -176,6 +196,12 @@ export function SelfCheck() {
             The AI Readiness Review checks these areas in your real environment. Your result is already in the
             message below. Add a line about your business and send it.
           </p>
+          {BOOKING_URL && (
+            <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <BookingLink source="self-check" />
+              <p className="text-sm text-fg-3">Prefer to talk it through? {BOOKING.note}</p>
+            </div>
+          )}
           <ContactForm
             key={score}
             source="self-check"
@@ -251,7 +277,7 @@ export function SelfCheck() {
                   name={`question-${step}`}
                   value={index}
                   checked={checked}
-                  onChange={() => setAnswers((current) => current.map((value, i) => (i === step ? index : value)))}
+                  onChange={() => answer(index)}
                   className="sr-only"
                 />
                 <span

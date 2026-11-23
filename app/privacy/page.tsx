@@ -1,7 +1,7 @@
 import { JsonLd } from '@/components/shared/JsonLd';
 import { PageHero } from '@/components/shared/PageHero';
 import { CELL_X } from '@/components/shared/Section';
-import { COMPANY } from '@/lib/constants';
+import { BOOKING_URL, COMPANY } from '@/lib/constants';
 import { breadcrumbData, pageMetadata } from '@/lib/seo';
 import { cn } from '@/lib/utils';
 
@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
  * stops being true and this page must change first.
  */
 
-const UPDATED = '20 November 2026';
+const UPDATED = '23 November 2026';
 const hasRealAbn = /[1-9]/.test(COMPANY.abn);
 
 export const metadata = pageMetadata({
@@ -74,9 +74,18 @@ export default function PrivacyPage() {
               </p>
               <h3>When you use the self-check</h3>
               <p>
-                Your answers stay in your browser. They reach us only if you choose to include your result in a
-                brief.
+                Your answers stay in your browser unless you choose to send them. There are two ways to do that.
               </p>
+              <ul>
+                <li>
+                  <strong>You ask us to email your results.</strong> We use the address you give to send them
+                  once. We also receive a note of the score and answers, and of how you arrived at the site. That
+                  note includes your address only if you tick the box asking us to follow up.
+                </li>
+                <li>
+                  <strong>You include your result in a brief.</strong> It reaches us with the rest of the brief.
+                </li>
+              </ul>
               <h3>Stored in your browser</h3>
               <p>
                 Your choice of site style (Mission Control or Workspace), so the site looks the same when you come
@@ -92,12 +101,13 @@ export default function PrivacyPage() {
               <h2>Why we collect it</h2>
               <ul>
                 <li>To reply to your enquiry and scope the work you ask about.</li>
+                <li>To send the self-check results you ask for, and to follow up only if you ask us to.</li>
                 <li>To see which pages and campaigns are useful, so we can improve the site.</li>
               </ul>
               <p>
                 We do not sell or trade personal information. We do not add you to a mailing list because you sent
-                a brief. If we ever send marketing email, it will be because you asked for it, and every message
-                will say who it is from and how to stop it.
+                a brief or asked for your self-check results. If we ever send marketing email, it will be because
+                you asked for it, and every message will say who it is from and how to stop it.
               </p>
 
               <h2>Where it goes</h2>
@@ -107,11 +117,18 @@ export default function PrivacyPage() {
                   <strong>Vercel</strong> hosts the site and provides the anonymous analytics.
                 </li>
                 <li>
-                  <strong>An email delivery service</strong> passes your brief to our inbox.
+                  <strong>An email delivery service</strong> passes your brief to our inbox and sends the
+                  self-check results you ask for. It keeps its own record of the messages it delivers.
                 </li>
                 <li>
                   <strong>Google Workspace</strong> provides our email.
                 </li>
+                {BOOKING_URL && (
+                  <li>
+                    <strong>A booking service</strong> takes the details you enter when you book a call. The
+                    booking page opens on that service&rsquo;s own site.
+                  </li>
+                )}
               </ul>
               <p>
                 These providers may store or process information outside Australia, including in the United
