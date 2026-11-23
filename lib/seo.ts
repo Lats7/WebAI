@@ -10,6 +10,25 @@ interface PageMeta {
   path: string;
 }
 
+/**
+ * The share card drawn by app/opengraph-image.tsx. A page that sets its own
+ * share details does not inherit the image from the home page, so every page
+ * names it here. Without it, links shared on LinkedIn or in chat show no picture.
+ */
+export const SHARE_IMAGE = {
+  url: '/opengraph-image',
+  width: 1200,
+  height: 630,
+  alt: `${COMPANY.fullName}: AI agents, automation, and cyber security`,
+};
+
+/** Share-card fields that are the same on every page. */
+export const SHARE_BASE = {
+  type: 'website',
+  locale: 'en_AU',
+  siteName: COMPANY.fullName,
+} as const;
+
 /** Title, description, canonical link, and share card for one page. */
 export function pageMetadata({ title, description, path }: PageMeta): Metadata {
   const fullTitle = `${title} | ${COMPANY.fullName}`;
@@ -18,14 +37,13 @@ export function pageMetadata({ title, description, path }: PageMeta): Metadata {
     description,
     alternates: { canonical: path },
     openGraph: {
-      type: 'website',
-      locale: 'en_AU',
+      ...SHARE_BASE,
       url: path,
-      siteName: COMPANY.fullName,
       title: fullTitle,
       description,
+      images: [SHARE_IMAGE],
     },
-    twitter: { card: 'summary_large_image', title: fullTitle, description },
+    twitter: { card: 'summary_large_image', title: fullTitle, description, images: [SHARE_IMAGE] },
   };
 }
 
