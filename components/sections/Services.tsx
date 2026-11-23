@@ -23,7 +23,7 @@ export function Services() {
       {/* Statement */}
       <Reveal className={cn(CELL_X, 'py-20 sm:py-24 lg:py-32')}>
         <Eyebrow code="01">What we do</Eyebrow>
-        <h2 className="sr-only">Services</h2>
+        <h2 className="sr-only">AI agents, automation, and cyber security services</h2>
         <p className="statement mt-8 max-w-5xl text-[clamp(1.7rem,3.7vw,3.1rem)]">
           AI, automation, and security from one team.{' '}
           <span className="muted">
