@@ -2,7 +2,7 @@
  * The AI readiness self-check: ten questions, three answers each.
  * Answers are scored 0, 1, or 2 in the order written (weakest first).
  * Everything runs in the visitor's browser. Nothing is sent anywhere unless
- * they choose to include their result in a brief.
+ * they ask for their results by email or include their result in a brief.
  */
 
 export interface CheckQuestion {
@@ -95,6 +95,22 @@ export const CHECK_QUESTIONS: CheckQuestion[] = [
 ];
 
 export const MAX_SCORE = CHECK_QUESTIONS.length * 2;
+
+/** What each answer value means in a result: 0, 1, then 2. */
+export const ANSWER_LABELS = ['Gap', 'Partial', 'In place'] as const;
+
+/** True for a complete set of answers: one value of 0, 1, or 2 per question. */
+export function isAnswerSet(value: unknown): value is number[] {
+  return (
+    Array.isArray(value) &&
+    value.length === CHECK_QUESTIONS.length &&
+    value.every((answer) => answer === 0 || answer === 1 || answer === 2)
+  );
+}
+
+export function scoreOf(answers: readonly (number | undefined)[]) {
+  return answers.reduce<number>((sum, value) => sum + (value ?? 0), 0);
+}
 
 export interface CheckBand {
   name: string;

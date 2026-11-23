@@ -1,4 +1,5 @@
 import { Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { BookingLink } from '@/components/shared/BookingLink';
 import { ContactForm } from '@/components/shared/ContactForm';
 import { Reveal } from '@/components/shared/Reveal';
 import { Section } from '@/components/shared/Section';
@@ -27,6 +28,8 @@ export function ContactDetails() {
           </li>
         ))}
       </ol>
+
+      <BookingLink source="contact" className="mt-8" />
 
       <ul className="mt-10 grid gap-px overflow-hidden border border-edge bg-edge mc:rounded-[3px] ws:rounded-2xl">
         {CHANNELS.map(({ Icon, label, value, href, external }) => {

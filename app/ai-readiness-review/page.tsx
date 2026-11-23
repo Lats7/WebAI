@@ -242,7 +242,7 @@ export default function ReadinessReviewPage() {
                   <Link href="/tools/ai-readiness-check" className="text-accent underline underline-offset-4">
                     free self-check
                   </Link>{' '}
-                  takes two minutes and nothing you enter leaves your browser.
+                  takes two minutes, and nothing you enter leaves your browser unless you choose to send it.
                 </p>
               </div>
             </Reveal>
