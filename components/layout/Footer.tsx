@@ -11,6 +11,7 @@ const COLUMNS = [
     heading: 'Services',
     links: [
       { label: 'AI agents and automation', href: '/services/ai-agents-automation' },
+      { label: 'IT support', href: '/services/it-support' },
       { label: 'Cyber security', href: '/services/cyber-security' },
       { label: 'AI security', href: '/services/ai-security' },
       { label: 'CRM, web, and apps', href: '/#build' },
@@ -37,7 +38,7 @@ export function Footer() {
         {/* Closing call to action */}
         <div className="cell cell-marks flex flex-col gap-8 px-5 py-16 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:px-14 lg:py-24">
           <p className="statement max-w-3xl text-[clamp(1.8rem,4vw,3.25rem)]">
-            Have something slow, risky, or manual?{' '}
+            Have something slow, manual, or costly?{' '}
             <span className="muted">Tell us about it and we will say honestly whether we can help.</span>
           </p>
           <Link href="/#contact" className="btn btn-primary btn-lg shrink-0 self-start lg:self-auto">

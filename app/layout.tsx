@@ -38,7 +38,7 @@ const serif = Instrument_Serif({
   style: ['normal', 'italic'],
 });
 
-const title = `${COMPANY.fullName} | Secure AI agents and automation, Melbourne`;
+const title = `${COMPANY.fullName} | AI automation and IT support, Melbourne`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(COMPANY.url),

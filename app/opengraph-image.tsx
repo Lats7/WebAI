@@ -6,7 +6,7 @@ export const alt = SHARE_IMAGE.alt;
 export const size = { width: SHARE_IMAGE.width, height: SHARE_IMAGE.height };
 export const contentType = 'image/png';
 
-const TAGS = ['Agentic AI', 'Automation', 'Cyber security', 'CRM', 'Web and apps'];
+const TAGS = ['AI agents', 'Automation', 'IT support', 'Security', 'CRM, web, apps'];
 
 /** Social share card, drawn in the Mission Control style. */
 export default function OpenGraphImage() {
@@ -56,7 +56,7 @@ export default function OpenGraphImage() {
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', fontSize: 86, fontWeight: 700, letterSpacing: -4, lineHeight: 1.02 }}>
-            Build the agent.
+            Cut the busywork.
           </div>
           <div
             style={{
@@ -68,7 +68,7 @@ export default function OpenGraphImage() {
               color: '#40c4ff',
             }}
           >
-            Prove it's safe.
+            Keep the savings.
           </div>
         </div>
 

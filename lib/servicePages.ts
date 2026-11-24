@@ -1,6 +1,7 @@
 import {
   AGENT_PRINCIPLES,
   AUTOMATIONS,
+  SAVINGS,
   SECURITY_TRACKS,
   type CONTACT_INTERESTS,
 } from '@/lib/constants';
@@ -13,6 +14,11 @@ import {
  *
  * OWNER NOTE: the questions and answers describe how you work. Check each one
  * is true for you before you send traffic to these pages.
+ *
+ * The IT support page was written from three answers: it covers Microsoft 365
+ * and Google Workspace administration, projects and migrations, and security.
+ * It says plainly that hardware, printers, and office networks are not
+ * included. Change that here if it is wrong.
  */
 
 export interface ServiceGroup {
@@ -51,20 +57,26 @@ export const SERVICE_PAGES: ServicePage[] = [
     name: 'AI agents and automation',
     eyebrow: 'AI agents and automation',
     title: ['AI agents and automation', 'that finish the job.'],
-    lead: 'We build agents and workflows that take real work off your team: reading documents, triaging alerts, answering enquiries, moving data between systems. Each one is scoped, tested, and logged so you can trust what it does.',
+    lead: 'We build agents and workflows that take hours of manual work off your team: reading documents, answering enquiries, moving data between systems. You get the time back, fewer errors, and a price agreed before we start.',
     metaTitle: 'AI agents and automation, Melbourne',
     metaDescription:
-      'AI agents and workflow automation for Australian businesses, built by a cyber security engineer. Least-privilege access, human approval, and a full audit log.',
+      'AI agents and workflow automation that take manual work and cost out of Australian businesses. Scoped and priced up front, and built securely in Melbourne.',
     interest: 'AI agents',
     statement: [
-      'An agent is only useful if you can trust it with real access.',
-      'So every build starts with what it is allowed to touch, who approves the risky steps, and how you will see what it did.',
+      'The cheapest hour of work is the one nobody has to do.',
+      'We look for the tasks that follow the same steps every time, automate them from start to end, and keep a person on the decisions that matter.',
     ],
     groups: [
       {
-        heading: 'How we engineer agents',
+        heading: 'Where the savings come from',
         intro:
-          'An agent can plan, call your systems, and complete a task from start to end. The same four rules apply to every one we ship.',
+          'Automation pays off in four ways. We look for all four before we recommend building anything.',
+        items: SAVINGS,
+      },
+      {
+        heading: 'Safe by design, which is why it ships sooner',
+        intro:
+          'An agent can plan, call your systems, and complete a task from start to end. Four rules are built into every one from the first day, so there is no security review to wait for at the end.',
         items: AGENT_PRINCIPLES,
       },
       {
@@ -76,6 +88,16 @@ export const SERVICE_PAGES: ServicePage[] = [
       },
     ],
     faqs: [
+      {
+        question: 'How do we know it will save money?',
+        answer:
+          'Before we build anything, we work out how many hours the task takes now and what the automation will cost to build and run. You see both numbers. If they do not stack up, we will say so, and sometimes the right answer is a simpler fix.',
+      },
+      {
+        question: 'Does building it securely slow things down?',
+        answer:
+          'No. The controls are part of the design from the first diagram, so there is no separate security review to wait for at the end. It also means fewer surprises when a customer or an insurer asks how the system works.',
+      },
       {
         question: 'What is the difference between an AI agent and automation?',
         answer:
@@ -107,6 +129,173 @@ export const SERVICE_PAGES: ServicePage[] = [
       title: ['Tell us what you want', 'off your plate.'],
       description:
         'Describe the task that eats your team’s time. We will tell you whether it needs an agent, plain automation, or neither.',
+    },
+  },
+  {
+    slug: 'it-support',
+    name: 'IT support',
+    eyebrow: 'IT support',
+    title: ['IT support that keeps', 'the business moving.'],
+    lead: 'We look after Microsoft 365 and Google Workspace, run your IT projects and migrations, and set security up properly from the start. Take it as a monthly plan or one job at a time.',
+    metaTitle: 'IT support for small business, Melbourne',
+    metaDescription:
+      'IT support for Australian small businesses: Microsoft 365 and Google Workspace admin, migrations and projects, and security built in. Monthly or by the job.',
+    interest: 'IT support',
+    statement: [
+      'Good IT is the kind you stop noticing.',
+      'Accounts that work, files where people expect them, and nothing that depends on one person’s memory. It is also what makes AI and automation possible later.',
+    ],
+    groups: [
+      {
+        heading: 'Microsoft 365 and Google Workspace',
+        intro: 'The day-to-day administration that keeps accounts, email, and files in order.',
+        items: [
+          {
+            icon: 'UserCheck',
+            title: 'Accounts and licences',
+            description:
+              'Starters set up on day one, leavers removed the day they go, and no licences paid for that nobody uses.',
+          },
+          {
+            icon: 'Inbox',
+            title: 'Email and domains',
+            description:
+              'Mailboxes, shared inboxes, and the records that keep your email out of spam folders.',
+          },
+          {
+            icon: 'Layers',
+            title: 'Files and sharing',
+            description:
+              'Shared drives and sites organised so people find things, with access that matches who should see what.',
+          },
+          {
+            icon: 'Gauge',
+            title: 'Tenant health',
+            description:
+              'Settings reviewed against a secure baseline, and every change written down so the setup is never a mystery.',
+          },
+        ],
+      },
+      {
+        heading: 'Projects and migrations',
+        intro: 'One-off jobs with a start, an end, and a scope agreed in writing.',
+        items: [
+          {
+            icon: 'ArrowRightLeft',
+            title: 'Email and cloud migrations',
+            description:
+              'Moving to Microsoft 365 or Google Workspace, or between them, planned so staff keep working through the change.',
+          },
+          {
+            icon: 'Wrench',
+            title: 'New business setup',
+            description:
+              'Domains, email, accounts, and file storage set up properly the first time, ready for your first hire.',
+          },
+          {
+            icon: 'Repeat',
+            title: 'Onboarding and offboarding',
+            description:
+              'A process that runs the same way for every starter and leaver, so access is granted and removed on time.',
+          },
+          {
+            icon: 'Database',
+            title: 'Backups',
+            description:
+              'Backups for the cloud data your provider does not protect for you, tested so you know a restore works.',
+          },
+        ],
+      },
+      {
+        heading: 'Security, set up from the start',
+        intro:
+          'The work is led by a cyber security engineer, so the secure setup is the default one. It does not add steps for your staff or weeks to the job.',
+        items: [
+          {
+            icon: 'Fingerprint',
+            title: 'Sign-in protection',
+            description: 'Multi-factor authentication for every account, with stronger rules for administrators.',
+          },
+          {
+            icon: 'ShieldCheck',
+            title: 'Email protection',
+            description:
+              'Phishing and impersonation filters turned on and tuned, plus the records that stop others sending as you.',
+          },
+          {
+            icon: 'KeyRound',
+            title: 'Least access',
+            description: 'Admin rights kept to the few who need them, and sharing defaults that start out safe.',
+          },
+          {
+            icon: 'Bot',
+            title: 'Ready for AI',
+            description:
+              'Sharing and permissions tidy enough that an assistant such as Copilot can be switched on without surprises.',
+          },
+        ],
+      },
+      {
+        heading: 'How we work',
+        intro: 'Two ways to buy it, and one way of working.',
+        items: [
+          {
+            icon: 'CalendarCheck',
+            title: 'Monthly plan',
+            description:
+              'Ongoing care from someone who knows your setup: changes, reviews, and problems dealt with.',
+          },
+          {
+            icon: 'ListChecks',
+            title: 'One job at a time',
+            description: 'A migration, a clean-up, or a new setup, scoped and priced in writing before we start.',
+          },
+          {
+            icon: 'MapPin',
+            title: 'Remote first',
+            description:
+              'Most work is done remotely, which keeps it quick and keeps the cost down. Site visits are available when a job needs one.',
+          },
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: 'What is not included?',
+        answer:
+          'Hardware repairs, printers, and office networks. We look after your cloud platform, your accounts, and your projects. If you need someone on site for devices every week, a local provider is a better fit for that part, and we are happy to work alongside one.',
+      },
+      {
+        question: 'Can we start with one job and move to a plan later?',
+        answer:
+          'Yes. A single job is a good way to see how we work. If you want ongoing care afterwards, the monthly plan picks up from what we already know about your setup.',
+      },
+      {
+        question: 'Do you come on site?',
+        answer:
+          'When a job needs it. Most of the work is done remotely, which keeps it quick and keeps the cost down. We are based in Melbourne.',
+      },
+      {
+        question: 'We already have an IT provider. Can you still help?',
+        answer:
+          'Yes. We can take a single project, review the security of your setup, or build automation on top of what they manage. We write everything up so they can keep running it.',
+      },
+      {
+        question: 'How does IT support connect to AI and automation?',
+        answer:
+          'Tidy accounts, permissions, and data are what make automation possible. Once we know your systems, we can see which manual jobs are worth automating and which are not. Some routine IT tasks, such as onboarding a new starter, can be automated too.',
+      },
+      {
+        question: 'What does it cost?',
+        answer:
+          'It depends on the size of your team and what you want covered. Either way, you get a price in writing before anything starts.',
+      },
+    ],
+    related: ['copilot-oversharing-checklist', 'one-page-ai-usage-policy'],
+    cta: {
+      title: ['Tell us what is', 'getting in the way.'],
+      description:
+        'A messy tenant, a migration you keep putting off, or nobody looking after IT at all. Say where things stand and we will tell you what we would do first.',
     },
   },
   {

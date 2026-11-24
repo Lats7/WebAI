@@ -7,21 +7,38 @@ import { SecurityTracks } from '@/components/sections/SecurityTracks';
 import { FRAMEWORKS, READINESS_REVIEW } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
+const VERTICAL_LINKS = [
+  { label: 'AI Readiness Review', href: '/ai-readiness-review' },
+  { label: 'Cyber security', href: '/services/cyber-security' },
+  { label: 'AI security testing', href: '/services/ai-security' },
+  { label: 'Free self-check', href: '/tools/ai-readiness-check' },
+];
+
 export function Security() {
   return (
     <Section id="security" flush>
       <div className={cn(CELL_X, 'pb-4 pt-20 sm:pt-24 lg:pt-32')}>
         <SectionHeader
-          code="03"
-          eyebrow="Cyber security"
+          code="04"
+          eyebrow="Security and AI readiness"
           title={
             <>
-              Security you can prove, <span className="accent-word">not just claim.</span>
+              Secure by default, <span className="accent-word">without slowing you down.</span>
             </>
           }
-          description="Hands-on engineering to harden and monitor your environment, and the governance to show customers, insurers, and auditors that it works."
+          description="Security is part of how we build and support everything above, not a gate at the end. When you need it on its own, we check that AI is safe to switch on, harden what you have, and help you prove it to customers, insurers, and auditors."
         />
       </div>
+
+      {/* The pages in this vertical */}
+      <Reveal className={cn(CELL_X, 'flex flex-wrap gap-3 border-t border-edge py-6')}>
+        {VERTICAL_LINKS.map((link) => (
+          <Link key={link.href} href={link.href} className="btn btn-secondary btn-sm">
+            {link.label}
+            <ArrowRight size={13} aria-hidden="true" />
+          </Link>
+        ))}
+      </Reveal>
 
       <Reveal>
         <SecurityTracks />

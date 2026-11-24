@@ -1,5 +1,5 @@
 /**
- * Line-art figures for the three core disciplines.
+ * Line-art figures for the core disciplines.
  * Strokes use currentColor at different strengths, so one drawing serves both
  * site styles. Accent parts use the theme accent.
  */
@@ -165,6 +165,49 @@ export function SecurityFigure({ className }: FigureProps) {
       />
       <path d={`M${contact.x + 8} ${contact.y - 8} h16`} {...thin} className="text-warn" opacity="0.8" />
       <circle cx={quiet.x} cy={quiet.y} r="2.2" fill="currentColor" opacity="0.5" />
+    </svg>
+  );
+}
+
+/** One managed platform at the top, with every account below it set up and checked. */
+export function SupportFigure({ className }: FigureProps) {
+  const accounts = [72, CX, 248];
+  const links = accounts.map((x) => `M${CX} 92 C ${CX} 128, ${x} 122, ${x} 154`);
+
+  return (
+    <svg viewBox={VIEW} className={className} aria-hidden="true">
+      {/* The organisation */}
+      <rect x="28" y="20" width="264" height="200" rx="10" {...thin} strokeDasharray="2 6" opacity="0.35" />
+
+      {links.map((path, index) => (
+        <path key={path} d={path} {...thin} strokeDasharray="3 5" className="animate-dash" opacity="0.55" style={{ animationDelay: `${index * -0.4}s` }} />
+      ))}
+
+      {/* The platform: a tenant with its apps */}
+      <rect x="126" y="40" width="68" height="52" rx="4" {...thin} className="fill-[rgb(var(--bg))]" />
+      <rect x="126" y="40" width="68" height="52" rx="4" {...thin} className="text-accent" opacity="0.8" />
+      {[140, 156, 172].map((x) => (
+        <rect key={x} x={x} y="52" width="9" height="9" rx="1.5" {...thin} className="text-accent" />
+      ))}
+      <path d="M140 72h40M140 80h26" {...thin} className="text-accent" opacity="0.7" />
+
+      {/* Accounts, each one checked */}
+      {accounts.map((x) => (
+        <g key={x}>
+          <circle cx={x} cy="174" r="20" {...thin} className="fill-[rgb(var(--bg))]" opacity="0.85" />
+          <circle cx={x} cy="168" r="5" {...thin} opacity="0.7" />
+          <path d={`M${x - 10} 186 c2 -9 18 -9 20 0`} {...thin} opacity="0.7" />
+          <circle cx={x + 16} cy="158" r="7" className="fill-[rgb(var(--bg))] text-accent" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+          <path d={`M${x + 12.5} 158 l2.5 2.5 4.5 -5`} {...thin} className="text-accent" />
+        </g>
+      ))}
+
+      {/* Changes going out */}
+      {links.map((path, index) => (
+        <circle key={path} r="2.6" className="motion-dot fill-accent">
+          <animateMotion dur="2.6s" begin={`${index * 0.8}s`} repeatCount="indefinite" path={path} />
+        </circle>
+      ))}
     </svg>
   );
 }

@@ -4,7 +4,7 @@ import { CELL_X, Section } from '@/components/shared/Section';
 import { Eyebrow, SectionHeader } from '@/components/shared/SectionHeader';
 import { ICONS } from '@/components/shared/icons';
 import { AgentExplorer } from '@/components/sections/AgentExplorer';
-import { AGENT_PRINCIPLES, AUTOMATIONS, AUTOMATION_PIPELINE } from '@/lib/constants';
+import { AGENT_PRINCIPLES, AUTOMATIONS, AUTOMATION_PIPELINE, SAVINGS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 /** A row of stages joined by lines, with data moving along them. */
@@ -61,14 +61,50 @@ export function Agents() {
       <div className={cn(CELL_X, 'pb-4 pt-20 sm:pt-24 lg:pt-32')}>
         <SectionHeader
           code="02"
-          eyebrow="Agents and automation"
+          eyebrow="AI and automation"
           title={
             <>
-              Agents that finish the job, <span className="accent-word">with a person on the switch.</span>
+              Hand the repetitive work <span className="accent-word">to software that finishes it.</span>
             </>
           }
-          description="An agent is software that can plan, call your systems, and complete a task from start to end. We build them to be useful on day one and still safe on day 300. Pick a pattern to see how one is put together."
+          description="Every business has work that follows the same steps each time: reading documents, answering routine enquiries, moving data between systems. We automate it from start to end, so your team gets those hours back."
         />
+      </div>
+
+      {/* Where the money is saved */}
+      <ul className="grid border-t border-edge sm:grid-cols-2 lg:grid-cols-4">
+        {SAVINGS.map((saving, index) => {
+          const Icon = ICONS[saving.icon];
+          return (
+            <li
+              key={saving.title}
+              className={cn(
+                'border-edge',
+                index > 0 && 'border-t sm:border-t-0',
+                index % 2 === 1 && 'sm:border-l',
+                index >= 2 && 'sm:border-t lg:border-t-0',
+                index === 2 && 'lg:border-l'
+              )}
+            >
+              <Reveal delay={index * 0.07} className="h-full">
+                <div className="spotlight h-full px-5 py-9 sm:px-8 lg:px-9 lg:py-10">
+                  <Icon size={22} strokeWidth={1.5} className="text-accent" aria-hidden="true" />
+                  <h3 className="display mt-6 text-xl text-fg">{saving.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-fg-2">{saving.description}</p>
+                </div>
+              </Reveal>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className={cn(CELL_X, 'border-t border-edge py-12 lg:py-16')}>
+        <Reveal>
+          <p className="statement max-w-3xl text-[clamp(1.5rem,2.8vw,2.25rem)]">
+            An agent can plan, call your systems, and complete a task on its own.{' '}
+            <span className="muted">Pick a pattern to see how one is put together.</span>
+          </p>
+        </Reveal>
       </div>
 
       <Reveal>
@@ -79,7 +115,11 @@ export function Agents() {
       <div className={cn(CELL_X, 'border-t border-edge py-14 lg:py-20')}>
         <Reveal>
           <h3 className="statement max-w-3xl text-[clamp(1.5rem,2.8vw,2.25rem)]">
-            Four rules apply to every agent we ship. <span className="muted">Whatever it does, and whoever it works for.</span>
+            Safe by design, which is why it ships sooner.{' '}
+            <span className="muted">
+              Four rules are built into every agent from the first day, so there is no security review to wait
+              for at the end.
+            </span>
           </h3>
         </Reveal>
       </div>

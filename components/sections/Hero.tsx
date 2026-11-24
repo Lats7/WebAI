@@ -37,25 +37,25 @@ export function Hero() {
             <div className="[container-type:inline-size] xl:col-span-8">
               {/* Slides in fully opaque: this is the largest thing on the first screen. */}
               <h1 className="rise-solid display hero-title text-fg">
-                Build the agent.
+                Cut the busywork.
                 <br />
-                <span className="accent-word">Prove it&rsquo;s safe.</span>
+                <span className="accent-word">Keep the savings.</span>
               </h1>
             </div>
 
             <div className="rise xl:col-span-4 xl:pb-2" style={delay(0.12)}>
               <p className="max-w-2xl text-lg leading-relaxed text-fg-2">
-                We build AI agents and automation that take real work off your team, then test and govern
-                them the way an attacker and an auditor would.{' '}
-                <span className="text-fg">Led by a cyber security engineer.</span>
+                We build AI agents and automation that take hours of manual work off your team, and we look
+                after the IT behind them.{' '}
+                <span className="text-fg">Secure from day one, without slowing you down.</span>
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link href="/#contact" className="btn btn-primary btn-lg">
                   Start a project
                   <ArrowRight size={16} aria-hidden="true" />
                 </Link>
-                <Link href="/ai-readiness-review" className="btn btn-secondary btn-lg">
-                  AI Readiness Review
+                <Link href="/services/ai-agents-automation" className="btn btn-secondary btn-lg">
+                  What we automate
                 </Link>
               </div>
             </div>

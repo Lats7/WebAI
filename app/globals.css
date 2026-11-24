@@ -175,13 +175,13 @@
   /* Sized to its column so each sentence stays on one line. */
   .hero-title {
     font-size: clamp(2.6rem, 7.6vw, 5.75rem);
-    font-size: clamp(2.5rem, 11.4cqw, 6.4rem);
+    font-size: clamp(2.3rem, 10.7cqw, 6.4rem);
     line-height: 0.96;
   }
 
   @media (min-width: 1280px) {
     .hero-title {
-      font-size: clamp(2.5rem, 12.1cqw, 6.4rem);
+      font-size: clamp(2.3rem, 11.3cqw, 6.4rem);
     }
   }
 
