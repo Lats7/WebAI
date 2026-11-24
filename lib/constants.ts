@@ -53,6 +53,7 @@ export const PAGES = [
   { href: '/', label: 'Home' },
   { href: '/services/ai-agents-automation', label: 'AI agents and automation' },
   { href: '/services/it-support', label: 'IT support' },
+  { href: '/tools/automation-savings-calculator', label: 'Automation savings calculator' },
   { href: '/ai-readiness-review', label: 'AI Readiness Review' },
   { href: '/tools/ai-readiness-check', label: 'AI readiness self-check' },
   { href: '/services/cyber-security', label: 'Cyber security' },

@@ -44,6 +44,10 @@ export interface ServicePage {
   statement: [string, string];
   groups: ServiceGroup[];
   faqs: { question: string; answer: string }[];
+  /** Second button in the page header. Defaults to the AI Readiness Review. */
+  secondary?: { label: string; href: string };
+  /** Optional extra block after the groups. "security-samples" shows the sample outputs and frameworks. */
+  showcase?: 'security-samples';
   /** Article slugs to link at the end of the page. */
   related: string[];
   cta: { title: [string, string]; description: string };
@@ -62,6 +66,7 @@ export const SERVICE_PAGES: ServicePage[] = [
     metaDescription:
       'AI agents and workflow automation that take manual work and cost out of Australian businesses. Scoped and priced up front, and built securely in Melbourne.',
     interest: 'AI agents',
+    secondary: { label: 'Savings calculator', href: '/tools/automation-savings-calculator' },
     statement: [
       'The cheapest hour of work is the one nobody has to do.',
       'We look for the tasks that follow the same steps every time, automate them from start to end, and keep a person on the decisions that matter.',
@@ -343,6 +348,7 @@ export const SERVICE_PAGES: ServicePage[] = [
           'A written report in plain language: what we found, how serious each finding is, what to fix first, and roughly what each fix involves. You own it, and you can act on it with us, with your IT provider, or yourselves.',
       },
     ],
+    showcase: 'security-samples',
     related: ['copilot-oversharing-checklist', 'one-page-ai-usage-policy'],
     cta: {
       title: ['Tell us what you need', 'to prove.'],

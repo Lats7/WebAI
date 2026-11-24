@@ -13,7 +13,13 @@ export function formatDate(iso: string) {
 /** A ruled row of article links. */
 export function ArticleCards({ articles }: { articles: readonly ArticleMeta[] }) {
   return (
-    <ul className={cn('grid gap-px border-t border-edge bg-edge', articles.length > 1 && 'md:grid-cols-2')}>
+    <ul
+      className={cn(
+        'grid gap-px border-t border-edge bg-edge',
+        // Columns are chosen so no row is left with an empty cell.
+        articles.length % 3 === 0 ? 'lg:grid-cols-3' : articles.length > 1 && 'md:grid-cols-2'
+      )}
+    >
       {articles.map((article, index) => (
         <li key={article.slug} className="bg-[rgb(var(--bg))]">
           <Reveal delay={(index % 2) * 0.06} className="h-full">

@@ -1228,6 +1228,13 @@
   font-size: 0.875em;
 }
 
+/* Slider, used by the savings calculator */
+.range {
+  height: 1.75rem;
+  cursor: pointer;
+  accent-color: rgb(var(--accent));
+}
+
 /* A block the reader can copy and adapt, such as a policy template */
 .prose-site .template {
   border: 1px solid rgb(var(--line) / var(--edge-strong-alpha));

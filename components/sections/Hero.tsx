@@ -54,8 +54,8 @@ export function Hero() {
                   Start a project
                   <ArrowRight size={16} aria-hidden="true" />
                 </Link>
-                <Link href="/services/ai-agents-automation" className="btn btn-secondary btn-lg">
-                  What we automate
+                <Link href="/tools/automation-savings-calculator" className="btn btn-secondary btn-lg">
+                  Savings calculator
                 </Link>
               </div>
             </div>

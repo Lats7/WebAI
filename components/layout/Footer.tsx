@@ -20,6 +20,7 @@ const COLUMNS = [
   {
     heading: 'Start here',
     links: [
+      { label: 'Savings calculator', href: '/tools/automation-savings-calculator' },
       { label: 'AI Readiness Review', href: '/ai-readiness-review' },
       { label: 'Free self-check', href: '/tools/ai-readiness-check' },
       { label: 'Work', href: '/work' },

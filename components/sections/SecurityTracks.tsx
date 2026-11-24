@@ -148,7 +148,12 @@ const SAMPLES: Record<SecurityTrack['id'], () => React.JSX.Element> = {
   ai: AiRiskRegister,
 };
 
-export function SecurityTracks() {
+interface SecurityTracksProps {
+  /** Show the sample output for each discipline without repeating the list of services. */
+  samplesOnly?: boolean;
+}
+
+export function SecurityTracks({ samplesOnly = false }: SecurityTracksProps) {
   const [activeId, setActiveId] = useState<SecurityTrack['id']>('technical');
   const activeIndex = SECURITY_TRACKS.findIndex((track) => track.id === activeId);
   const track = SECURITY_TRACKS[activeIndex];
@@ -221,7 +226,7 @@ export function SecurityTracks() {
               <h3 className="display text-[1.75rem] text-fg sm:text-4xl">{track.heading}</h3>
               <p className="mt-4 max-w-xl leading-relaxed text-fg-2 sm:text-lg">{track.intro}</p>
 
-              <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+              <ul className={cn('mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2', samplesOnly && 'hidden')}>
                 {track.items.map((item) => {
                   const Icon = ICONS[item.icon];
                   return (

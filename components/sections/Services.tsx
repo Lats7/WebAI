@@ -4,7 +4,6 @@ import { AgentFigure, AutomationFigure, SecurityFigure, SupportFigure } from '@/
 import { Reveal } from '@/components/shared/Reveal';
 import { CELL_X, Section } from '@/components/shared/Section';
 import { Eyebrow } from '@/components/shared/SectionHeader';
-import { ICONS } from '@/components/shared/icons';
 import { SERVICES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -60,7 +59,7 @@ export function Services() {
                   />
                 </div>
 
-                {Figure && <Figure className="mx-auto my-6 h-56 w-full max-w-[20rem] text-fg lg:my-8 xl:h-48" />}
+                {Figure && <Figure className="mx-auto my-5 h-44 w-full max-w-[20rem] text-fg sm:h-56 lg:my-8 xl:h-48" />}
 
                 <h3 className="display text-2xl text-fg sm:text-[1.75rem] xl:text-2xl">
                   <Link href={service.href} className="after:absolute after:inset-0 after:content-['']">
@@ -83,45 +82,30 @@ export function Services() {
         })}
       </div>
 
-      {/* Supporting services */}
-      <div className="grid border-t border-edge lg:grid-cols-2">
-        {support.map((service, index) => {
-          const Icon = ICONS[service.icon];
-          return (
-            <Reveal
-              key={service.slug}
-              delay={0.08 + index * 0.08}
-              className={cn('border-edge', index > 0 && 'border-t lg:border-l lg:border-t-0')}
-            >
-              <article className="spotlight group relative flex h-full items-start gap-5 px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
-                <span className="grid h-11 w-11 shrink-0 place-items-center border border-edge-strong text-accent mc:rounded-[3px] mc:bg-accent/10 ws:rounded-xl ws:border-transparent ws:bg-accent/10">
-                  <Icon size={20} strokeWidth={1.6} aria-hidden="true" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h3 className="display text-xl text-fg">
-                    <Link href={service.href} className="after:absolute after:inset-0 after:content-['']">
-                      {service.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-fg-2">{service.description}</p>
-                  <ul className="mt-4 flex flex-wrap gap-2">
-                    {service.features.map((feature) => (
-                      <li key={feature} className="chip">
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <ArrowUpRight
-                  size={18}
-                  className="mt-1 hidden shrink-0 text-fg-3 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent sm:block"
-                  aria-hidden="true"
-                />
-              </article>
-            </Reveal>
-          );
-        })}
-      </div>
+      {/* Supporting services, in one line. The detail is in the section further down. */}
+      <Reveal
+        className={cn(
+          CELL_X,
+          'flex flex-col gap-4 border-t border-edge py-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10'
+        )}
+      >
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <p className="label shrink-0 text-fg-3">Also</p>
+          {support.map((service) => (
+            <span key={service.slug} className="chip">
+              {service.title}
+            </span>
+          ))}
+          <p className="text-sm text-fg-2">The systems around the automation, built by the same team.</p>
+        </div>
+        <Link
+          href="/#build"
+          className="inline-flex shrink-0 items-center gap-2 py-1 text-sm text-accent underline-offset-4 hover:underline"
+        >
+          CRM, web, and apps
+          <ArrowUpRight size={15} aria-hidden="true" />
+        </Link>
+      </Reveal>
     </Section>
   );
 }
