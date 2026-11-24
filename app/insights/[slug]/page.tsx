@@ -76,6 +76,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <p>{meta.description}</p>
             <p className="label mt-5 text-fg-3">
               {formatDate(meta.published)} <span aria-hidden="true">·</span> {meta.minutes} min read
+              {meta.updated && meta.updated !== meta.published && (
+                <>
+                  {' '}
+                  <span aria-hidden="true">·</span> Updated {formatDate(meta.updated)}
+                </>
+              )}
             </p>
           </>
         }
@@ -97,7 +103,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <h2 className="display mt-4 text-2xl text-fg">Take the two-minute self-check</h2>
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-fg-2">
                   Ten questions on how ready your business is to use AI safely. Nothing you enter leaves your
-                  browser.
+                  browser unless you choose to send it.
                 </p>
                 <Link href="/tools/ai-readiness-check" className="btn btn-primary mt-6 w-full">
                   Start the self-check

@@ -9,16 +9,27 @@ export const meta: ArticleMeta = {
     'Copilot can draw on anything a person can already open. Here is how to find the files that were shared too widely before an assistant finds them for you.',
   topic: 'Microsoft 365',
   published: '2026-11-20',
-  minutes: 6,
+  updated: '2026-11-23',
+  minutes: 7,
 };
 
 export function Body() {
   return (
     <>
       <p>
-        Microsoft 365 Copilot does not break your permissions. It uses them. When someone asks it a question, it
-        can draw on anything that person is already allowed to open.
+        Copilot in Microsoft 365 does not break your permissions. It uses them. When someone asks it a question,
+        it can draw on anything that person is already allowed to open. Microsoft&rsquo;s{' '}
+        <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy">
+          own documentation
+        </a>{' '}
+        puts it this way:
       </p>
+      <blockquote>
+        <p>
+          Microsoft Copilot only surfaces organizational data to which individual users have at least view
+          permissions.
+        </p>
+      </blockquote>
       <p>
         That sounds safe, and it would be if permissions were tidy. In most small tenants they are not. A payroll
         spreadsheet shared with the whole company in 2021 has been sitting quietly ever since, protected only by
@@ -27,6 +38,31 @@ export function Body() {
       </p>
       <p>
         So the work before a Copilot rollout is mostly a clean-up of sharing. This is the order we do it in.
+      </p>
+
+      <h2>Where the surprises come from</h2>
+      <p>
+        Copilot also draws on a person&rsquo;s own mailbox, chats, and calendar. Those are theirs already, so
+        they rarely cause trouble. The surprises are almost always in shared files and sites, and they tend to
+        come from the same three habits:
+      </p>
+      <ul>
+        <li>
+          <strong>Sharing with everyone because it was quicker.</strong> Someone needed three people to see a
+          folder, picked &ldquo;Everyone except external users&rdquo;, and moved on.
+        </li>
+        <li>
+          <strong>Links that outlive their purpose.</strong> A link made for one meeting still works two years
+          later, for anyone in the company who has it or can find it.
+        </li>
+        <li>
+          <strong>Sites nobody owns.</strong> The project finished and the person who ran it left. The site
+          still holds the contract, the pricing, and the staff list.
+        </li>
+      </ul>
+      <p>
+        None of this was created by AI. An assistant just makes it easy to find, which is why a rollout is a good
+        reason to fix it.
       </p>
 
       <h2>A test you can run today</h2>
@@ -82,16 +118,86 @@ export function Body() {
         </li>
       </ol>
 
+      <h2>If you only have a day</h2>
+      <p>
+        Do the search test above, then steps 1 to 3. Shared-with-everyone content, anonymous links, and the
+        obvious sensitive folders account for most of the damage a rollout can do. The rest of the list makes the
+        clean-up last. Those three make the first week safe.
+      </p>
+
       <h2>The tools Microsoft gives you</h2>
       <p>
-        Microsoft provides reports and controls for this work in the SharePoint admin centre and in Microsoft
-        Purview. They can show you which sites are shared broadly, restrict what search and Copilot can reach
-        while you clean up, and apply labels automatically.
+        Microsoft&rsquo;s{' '}
+        <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-blueprint-oversharing">
+          deployment guidance for Copilot
+        </a>{' '}
+        is built on three pillars: remediate oversharing, set up guardrails, and meet regulations. It points to
+        two products for the work, SharePoint Advanced Management and Microsoft Purview. This is what they give
+        you, as documented in November 2026.
+      </p>
+      <ul>
+        <li>
+          <strong>Data access governance reports.</strong> Part of SharePoint Advanced Management, which
+          Microsoft&rsquo;s guidance says is included with a Copilot licence. The{' '}
+          <a href="https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports">reports</a> find
+          sites that hold overshared or sensitive content. They cover site permissions across the organisation,
+          sharing links, and content shared with &ldquo;Everyone except external users&rdquo;. This is the
+          fastest way to do steps 1 and 2.
+        </li>
+        <li>
+          <strong>Restricted Content Discovery.</strong> A{' '}
+          <a href="https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery">setting</a> that
+          keeps a specific site out of organisation-wide search and Copilot responses while you review it.
+          Microsoft describes it as a temporary control. Use it to buy time for a site you cannot fix this week,
+          not as the fix.
+        </li>
+        <li>
+          <strong>Data risk assessments in Purview.</strong> Microsoft Purview&rsquo;s{' '}
+          <a href="https://learn.microsoft.com/en-us/purview/dspm-for-ai">
+            Data Security Posture Management for AI
+          </a>{' '}
+          includes assessments designed to find and monitor oversharing. By default one runs every week across
+          your 100 most-used SharePoint sites.
+        </li>
+        <li>
+          <strong>Sensitivity labels.</strong> Labels travel with the file, so the protection holds wherever the
+          file is copied. They take longer to set up than the reports, which is why they come later in the list.
+        </li>
+      </ul>
+      <p>
+        One warning about older guides. Many of them recommend Restricted SharePoint Search, which limited search
+        and Copilot to an approved list of up to 100 sites. Microsoft is{' '}
+        <a href="https://learn.microsoft.com/en-us/sharepoint/restricted-sharepoint-search">retiring it</a>, and
+        has blocked new enablement since 31 July 2026. Do not plan a rollout around it.
       </p>
       <p>
-        What you get depends on your licence, and the names and packaging change often. Check Microsoft&rsquo;s
-        current documentation before you plan around a feature, and treat any blog post, including this one, as a
-        starting point.
+        What you get still depends on your licence, and the names and packaging change often. The Purview page
+        above is already marked as the classic version of a feature Microsoft has replaced. Check the current
+        documentation before you plan around anything, and treat any blog post, including this one, as a starting
+        point.
+      </p>
+
+      <h2>Who decides what</h2>
+      <p>
+        The reports tell you where content is exposed. They cannot tell you who should be able to see it. That is
+        a business decision, and it is the part that stalls most clean-ups.
+      </p>
+      <ul>
+        <li>
+          <strong>The business owner or a manager</strong> decides who needs access to each sensitive area, and
+          names an owner for each site.
+        </li>
+        <li>
+          <strong>Whoever runs your IT</strong> pulls the reports, makes the permission changes, and sets the
+          defaults so new sharing starts out safe.
+        </li>
+        <li>
+          <strong>Site owners</strong> confirm the membership of their own sites, and do it again each quarter.
+        </li>
+      </ul>
+      <p>
+        Book an hour with the people who can make those decisions before anyone opens an admin centre. It saves
+        days.
       </p>
 
       <h2>How long this takes</h2>
@@ -104,6 +210,41 @@ export function Body() {
         If you would like someone to do the first pass with you, that is part of the{' '}
         <Link href="/ai-readiness-review">AI Readiness Review</Link>.
       </p>
+
+      <h2>Sources and further reading</h2>
+      <ul>
+        <li>
+          Microsoft Learn,{' '}
+          <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-privacy">
+            Data, privacy, and security for Microsoft Copilot
+          </a>
+        </li>
+        <li>
+          Microsoft Learn,{' '}
+          <a href="https://learn.microsoft.com/en-us/copilot/microsoft-365/microsoft-365-copilot-blueprint-oversharing">
+            Secure and governed data foundation for Microsoft Copilot
+          </a>
+        </li>
+        <li>
+          Microsoft Learn,{' '}
+          <a href="https://learn.microsoft.com/en-us/sharepoint/data-access-governance-reports">
+            Data access governance reports for SharePoint sites
+          </a>
+        </li>
+        <li>
+          Microsoft Learn,{' '}
+          <a href="https://learn.microsoft.com/en-us/sharepoint/restricted-content-discovery">
+            Restrict discovery of SharePoint sites and content
+          </a>
+        </li>
+        <li>
+          Microsoft Learn,{' '}
+          <a href="https://learn.microsoft.com/en-us/sharepoint/restricted-sharepoint-search">
+            Restricted SharePoint Search
+          </a>{' '}
+          (retiring)
+        </li>
+      </ul>
     </>
   );
 }

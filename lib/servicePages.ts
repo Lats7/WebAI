@@ -113,7 +113,7 @@ export const SERVICE_PAGES: ServicePage[] = [
     slug: 'cyber-security',
     name: 'Cyber security',
     eyebrow: 'Cyber security',
-    title: ['Security you can prove,', 'not just claim.'],
+    title: ['Cyber security you can prove,', 'not just claim.'],
     lead: 'Hands-on engineering to harden and monitor your environment, and the governance to show customers, insurers, and auditors that it works. From a practising security engineer, not a reseller.',
     metaTitle: 'Cyber security and governance, Melbourne',
     metaDescription:
@@ -165,7 +165,7 @@ export const SERVICE_PAGES: ServicePage[] = [
     slug: 'ai-security',
     name: 'AI security',
     eyebrow: 'AI security',
-    title: ['Test and govern your AI', 'before someone else does.'],
+    title: ['AI security testing,', 'before an attacker does it for you.'],
     lead: 'If you run Copilot, a chatbot, or an agent, it can read and do things on your behalf. We test what it can be talked into, check what it can reach, and put the rules in place to keep it useful and safe.',
     metaTitle: 'AI and LLM security testing, Australia',
     metaDescription:

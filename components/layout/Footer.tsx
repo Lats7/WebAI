@@ -83,7 +83,7 @@ export function Footer() {
               aria-label={column.heading}
               className={index === 0 ? 'md:col-span-3' : 'md:col-span-2'}
             >
-              <h2 className="label text-fg-3">{column.heading}</h2>
+              <p className="label text-fg-3">{column.heading}</p>
               <ul className="mt-3 space-y-1">
                 {column.links.map((link) => (
                   <li key={link.href}>
@@ -97,7 +97,7 @@ export function Footer() {
           ))}
 
           <div className="md:col-span-3">
-            <h2 className="label text-fg-3">Contact</h2>
+            <p className="label text-fg-3">Contact</p>
             <ul className="mt-3 space-y-1">
               <li>
                 <a href={`mailto:${COMPANY.email}`} className={`${linkClass} whitespace-nowrap`}>
