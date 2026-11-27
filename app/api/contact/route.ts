@@ -7,6 +7,7 @@ import {
   reply,
   sendEmail,
 } from '@/lib/apiGuard';
+import { isHolding } from '@/lib/holding';
 import { MIN_FILL_MS, briefEmail, parseBrief } from '@/lib/contact';
 
 export const runtime = 'nodejs';
@@ -29,6 +30,9 @@ const MAX_BODY_BYTES = 12_000;
 const limited = createLimiter(10 * 60 * 1000, 5);
 
 export async function POST(request: Request) {
+  // The site is showing its holding page. Nothing is accepted. See lib/holding.ts.
+  if (isHolding()) return reply({ ok: false, code: 'unavailable' }, 503);
+
   if (!isSameOrigin(request)) return reply({ ok: false, code: 'forbidden' }, 403);
 
   const json = await readJson(request, MAX_BODY_BYTES);

@@ -1,4 +1,16 @@
 const isDev = process.env.NODE_ENV !== 'production';
+const holdingConfig = require('./holding.json');
+
+/**
+ * The holding page switch. The same rule lives in lib/holding.ts, which
+ * explains it. Keep the two in step.
+ */
+function isHolding() {
+  const override = process.env.HOLDING_PAGE;
+  if (override === 'on') return true;
+  if (override === 'off') return false;
+  return holdingConfig.enabled === true && process.env.VERCEL_ENV === 'production';
+}
 
 /**
  * Content Security Policy.
@@ -32,6 +44,20 @@ const nextConfig = {
   poweredByHeader: false,
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
+  },
+  async redirects() {
+    if (!isHolding()) return [];
+    // While the holding page is on, every address except the home page, the
+    // site's own files, and the files robots and security researchers look
+    // for sends the visitor to the home page. Temporary, so nothing is remembered.
+    return [
+      {
+        source:
+          '/:path((?!_next/|api/|\\.well-known/|robots\\.txt$|sitemap\\.xml$|security\\.txt$|icon\\.svg$|favicon\\.ico$|opengraph-image).+)',
+        destination: '/',
+        permanent: false,
+      },
+    ];
   },
   async rewrites() {
     // The standard location for security.txt. The route itself lives at /security.txt.

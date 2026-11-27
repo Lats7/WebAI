@@ -1,14 +1,17 @@
 import { ArticleCards } from '@/components/shared/ArticleCards';
 import { JsonLd } from '@/components/shared/JsonLd';
 import { PageHero } from '@/components/shared/PageHero';
-import { Section } from '@/components/shared/Section';
-import { ARTICLES } from '@/content/articles';
+import { Reveal } from '@/components/shared/Reveal';
+import { CELL_X, Section } from '@/components/shared/Section';
+import { Eyebrow } from '@/components/shared/SectionHeader';
+import { BUSINESS_ARTICLES, SAFETY_ARTICLES } from '@/content/articles';
 import { breadcrumbData, pageMetadata } from '@/lib/seo';
+import { cn } from '@/lib/utils';
 
 export const metadata = pageMetadata({
-  title: 'Insights on using AI safely',
+  title: 'Guides on automation, IT, and safe AI',
   description:
-    'Practical guides on adopting AI safely: usage policies, Copilot readiness, prompt injection, and giving agents the right access. Written by a security engineer.',
+    'Practical guides for small businesses: what to automate first, whether it will pay back, the IT underneath, and how to use AI safely. No sign-up.',
   path: '/insights',
 });
 
@@ -21,7 +24,7 @@ export default function InsightsPage() {
         trail={[{ name: 'Insights', path: '/insights' }]}
         title={
           <>
-            Practical notes on <span className="accent-word">using AI safely.</span>
+            Practical notes on automation, IT, <span className="accent-word">and using AI safely.</span>
           </>
         }
         lead={
@@ -31,8 +34,25 @@ export default function InsightsPage() {
           </p>
         }
       />
-      <Section id="articles" flush>
-        <ArticleCards articles={ARTICLES} />
+
+      <Section id="automation" flush>
+        <Reveal className={cn(CELL_X, 'py-12 lg:py-14')}>
+          <Eyebrow code="01">Automation and IT</Eyebrow>
+          <h2 className="display mt-6 text-[clamp(1.75rem,3.4vw,2.6rem)] text-fg">
+            Where to start, and whether it pays.
+          </h2>
+        </Reveal>
+        <ArticleCards articles={BUSINESS_ARTICLES} />
+      </Section>
+
+      <Section id="safety" flush tint>
+        <Reveal className={cn(CELL_X, 'py-12 lg:py-14')}>
+          <Eyebrow code="02">Using AI safely</Eyebrow>
+          <h2 className="display mt-6 text-[clamp(1.75rem,3.4vw,2.6rem)] text-fg">
+            Policy, Copilot, and keeping agents in check.
+          </h2>
+        </Reveal>
+        <ArticleCards articles={SAFETY_ARTICLES} />
       </Section>
     </>
   );

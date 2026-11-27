@@ -7,9 +7,9 @@ export const COMPANY = {
   name: 'WebAI',
   suffix: 'ProTech',
   fullName: 'WebAI ProTech',
-  tagline: 'AI agents, automation, and cyber security',
+  tagline: 'AI automation, IT support, and security',
   description:
-    'AI agents and automation that take real work off your team, with the security engineering and governance to keep it safe. Led by a cyber security engineer in Melbourne.',
+    'AI agents and automation that take manual work and cost out of your business, with IT support to keep it running. Secure by default, without slowing you down. Based in Melbourne.',
   email: 'info@webaiprotech.com',
   phone: '+61 433 062 942',
   location: 'Melbourne, Australia',
@@ -46,14 +46,16 @@ export const BOOKING_URL = /^https:\/\/[^\s"'<>]+$/.test(BOOKING.url) ? BOOKING.
 
 /** Shorter description for search results and share cards (under 155 characters). */
 export const META_DESCRIPTION =
-  'AI agents and automation built by a cyber security engineer in Melbourne, with the security testing and governance to run them safely.';
+  'AI agents and automation that cut manual work and cost, plus IT support for Australian businesses. Built securely by a Melbourne team.';
 
 /** Every page on the site, in the order used by the sitemap and the command menu. */
 export const PAGES = [
   { href: '/', label: 'Home' },
+  { href: '/services/ai-agents-automation', label: 'AI agents and automation' },
+  { href: '/services/it-support', label: 'IT support' },
+  { href: '/tools/automation-savings-calculator', label: 'Automation savings calculator' },
   { href: '/ai-readiness-review', label: 'AI Readiness Review' },
   { href: '/tools/ai-readiness-check', label: 'AI readiness self-check' },
-  { href: '/services/ai-agents-automation', label: 'AI agents and automation' },
   { href: '/services/cyber-security', label: 'Cyber security' },
   { href: '/services/ai-security', label: 'AI security' },
   { href: '/work', label: 'Work' },
@@ -61,11 +63,18 @@ export const PAGES = [
   { href: '/privacy', label: 'Privacy' },
 ] as const;
 
+/** The top navigation, in priority order: what we do first, then proof. Keep it to five so it fits. */
 export const NAV_ITEMS = [
-  { label: 'Services', href: '/#services' },
-  { label: 'Readiness review', href: '/ai-readiness-review' },
+  { label: 'AI & automation', href: '/services/ai-agents-automation' },
+  { label: 'IT support', href: '/services/it-support' },
+  { label: 'Security', href: '/services/cyber-security' },
   { label: 'Self-check', href: '/tools/ai-readiness-check' },
   { label: 'Work', href: '/work' },
+] as const;
+
+/** Extra links shown in the phone menu, where there is room for them. */
+export const NAV_MORE = [
+  { label: 'Readiness review', href: '/ai-readiness-review' },
   { label: 'Insights', href: '/insights' },
 ] as const;
 
@@ -73,8 +82,9 @@ export const NAV_ITEMS = [
 export const SECTIONS = [
   { id: 'top', label: 'Overview' },
   { id: 'services', label: 'Services' },
-  { id: 'agents', label: 'Agents & automation' },
-  { id: 'security', label: 'Cyber security' },
+  { id: 'agents', label: 'AI & automation' },
+  { id: 'it-support', label: 'IT support' },
+  { id: 'security', label: 'Security & AI readiness' },
   { id: 'build', label: 'CRM, web & apps' },
   { id: 'approach', label: 'Approach' },
   { id: 'reviews', label: 'Reviews' },
@@ -171,23 +181,27 @@ export interface Service {
   slug: string;
   code: string;
   title: string;
-  icon: 'Bot' | 'Workflow' | 'ShieldCheck' | 'Contact' | 'AppWindow';
+  icon: 'Bot' | 'Workflow' | 'CloudCog' | 'ShieldCheck' | 'Contact' | 'AppWindow';
   href: string;
   tier: 'core' | 'support';
   description: string;
   features: string[];
 }
 
+/**
+ * The order here is the order of priority on the site: AI and automation
+ * first, IT support second, then security and AI readiness as one vertical.
+ */
 export const SERVICES: Service[] = [
   {
     slug: 'agentic-ai',
     code: '01',
-    title: 'Agentic AI',
+    title: 'AI agents',
     icon: 'Bot',
     href: '/services/ai-agents-automation',
     tier: 'core',
     description:
-      'Agents that plan, use your tools, and finish multi-step work, with a person approving the steps that matter.',
+      'Agents that plan, use your tools, and finish multi-step work, so your team gets those hours back. A person approves the steps that matter.',
     features: [
       'Single and multi-agent systems',
       'RAG and knowledge assistants',
@@ -203,7 +217,7 @@ export const SERVICES: Service[] = [
     href: '/services/ai-agents-automation#automation',
     tier: 'core',
     description:
-      'Workflows that move data between your systems on their own, so nobody is copying and pasting between tabs.',
+      'Workflows that move data between your systems on their own. Cheaper to run than a person retyping it, and the same result every time.',
     features: [
       'Workflow orchestration',
       'Document processing',
@@ -212,24 +226,40 @@ export const SERVICES: Service[] = [
     ],
   },
   {
-    slug: 'cyber-security',
+    slug: 'it-support',
     code: '03',
-    title: 'Cyber security',
-    icon: 'ShieldCheck',
-    href: '/services/cyber-security',
+    title: 'IT support',
+    icon: 'CloudCog',
+    href: '/services/it-support',
     tier: 'core',
     description:
-      'Engineering and governance from a working practitioner. We harden it, monitor it, and help you prove it.',
+      'Microsoft 365 and Google Workspace looked after, projects and migrations done properly, and security set up from the start.',
     features: [
-      'Security architecture and hardening',
-      'Detection and incident readiness',
-      'Essential Eight, ASD Essentials, and ISO 27001',
-      'AI security and governance',
+      'Microsoft 365 and Google Workspace',
+      'Projects and migrations',
+      'Security set up from the start',
+      'Monthly plan or one-off jobs',
+    ],
+  },
+  {
+    slug: 'cyber-security',
+    code: '04',
+    title: 'Security and AI readiness',
+    icon: 'ShieldCheck',
+    href: '/#security',
+    tier: 'core',
+    description:
+      'Know that AI is safe to switch on, and prove your security to the people who ask. It is built into everything above, and available on its own.',
+    features: [
+      'AI Readiness Review',
+      'AI and LLM security testing',
+      'Hardening and monitoring',
+      'Essential Eight, ASD Essentials, ISO 27001',
     ],
   },
   {
     slug: 'crm',
-    code: '04',
+    code: '05',
     title: 'CRM',
     icon: 'Contact',
     href: '/#build',
@@ -240,7 +270,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'web-app',
-    code: '05',
+    code: '06',
     title: 'Web and app design',
     icon: 'AppWindow',
     href: '/#build',
@@ -250,6 +280,91 @@ export const SERVICES: Service[] = [
     features: ['Websites', 'Web apps and SaaS', 'Mobile apps'],
   },
 ];
+
+/**
+ * Where automation saves money. Shown on the home page and the AI agents and
+ * automation page.
+ *
+ * OWNER NOTE: these describe outcomes in general terms, with no figures. If
+ * you have real numbers from client work, add them here. Do not add a figure
+ * you could not back up if a client asked.
+ */
+export const SAVINGS = [
+  {
+    icon: 'Clock',
+    title: 'Hours back',
+    description:
+      'Work that took someone an afternoon runs on its own. Your team spends that time on customers instead.',
+  },
+  {
+    icon: 'CheckCheck',
+    title: 'Fewer mistakes',
+    description:
+      'Data is entered once and moved by software, so nothing is retyped, missed, or sent to the wrong place.',
+  },
+  {
+    icon: 'Zap',
+    title: 'Faster turnaround',
+    description:
+      'Quotes, invoices, and replies go out when the work arrives, not when someone gets to it.',
+  },
+  {
+    icon: 'Receipt',
+    title: 'Costs you can plan',
+    description:
+      'You get a scope and a price in writing before we start, with the running costs worked out up front.',
+  },
+] as const;
+
+/* -------------------------------------------------------------------------- */
+/* IT support                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * OWNER NOTE: this is what the site says IT support covers. It was written
+ * from three answers: Microsoft 365 and Google Workspace administration,
+ * projects and migrations, and security. It does not offer a staff helpdesk
+ * or device and network support. Change it here if that is wrong.
+ */
+export const IT_SUPPORT = {
+  covers: [
+    {
+      icon: 'CloudCog',
+      title: 'Microsoft 365 and Google Workspace',
+      description:
+        'Accounts, licences, email, and shared files kept in order. Starters set up on day one, leavers removed the day they go.',
+    },
+    {
+      icon: 'ArrowRightLeft',
+      title: 'Projects and migrations',
+      description:
+        'Moving email or files to the cloud, setting up a new business, or cleaning up a tenant that grew without a plan.',
+    },
+    {
+      icon: 'ShieldCheck',
+      title: 'Security from the start',
+      description:
+        'Multi-factor authentication, email protection, and safe sharing defaults are part of the setup, not an extra.',
+    },
+  ],
+  ways: [
+    {
+      icon: 'CalendarCheck',
+      title: 'Monthly plan',
+      description: 'Ongoing care from someone who knows your setup: changes, reviews, and problems dealt with.',
+    },
+    {
+      icon: 'ListChecks',
+      title: 'One job at a time',
+      description: 'A migration, a clean-up, or a new setup, scoped and priced in writing before we start.',
+    },
+    {
+      icon: 'MapPin',
+      title: 'Remote first',
+      description: 'Most work is done remotely, which keeps it quick. Site visits are available when a job needs one.',
+    },
+  ],
+} as const;
 
 /* -------------------------------------------------------------------------- */
 /* Agents & automation                                                        */
@@ -666,7 +781,7 @@ export const PROCESS_STEPS = [
     number: '01',
     title: 'Discover',
     description:
-      'We map the work, the systems, and the risks before recommending anything. Sometimes the answer is not AI.',
+      'We map the work, what it costs you in time, and the risks before recommending anything. Sometimes the answer is not AI.',
     outputs: ['Process map', 'Risk snapshot'],
   },
   {
@@ -694,10 +809,16 @@ export const PROCESS_STEPS = [
 
 export const DIFFERENTIATORS = [
   {
-    icon: 'ShieldCheck',
-    title: 'Security is the day job',
+    icon: 'Clock',
+    title: 'We start with the saving',
     description:
-      'The person designing your agents also threat-models them. Controls are built in from the first diagram.',
+      'Before anything is built we work out what the task costs you now and what the fix will cost. If it does not stack up, we say so.',
+  },
+  {
+    icon: 'ShieldCheck',
+    title: 'Secure, without the slowdown',
+    description:
+      'The person designing your systems also threat-models them. Controls are in the first diagram, so nothing waits on a review at the end.',
   },
   {
     icon: 'Wrench',
@@ -897,6 +1018,7 @@ export const FEATURED_REVIEW = {
 export const CONTACT_INTERESTS = [
   'AI agents',
   'Automation',
+  'IT support',
   'Cyber security',
   'AI Readiness Review',
   'CRM',

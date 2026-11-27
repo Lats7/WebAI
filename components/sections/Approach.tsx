@@ -12,7 +12,7 @@ export function Approach() {
     <Section id="approach" flush>
       <div className={cn(CELL_X, 'pb-4 pt-20 sm:pt-24 lg:pt-32')}>
         <SectionHeader
-          code="05"
+          code="06"
           eyebrow="Approach"
           title={
             <>
@@ -30,10 +30,11 @@ export function Approach() {
         <Reveal className={cn(CELL_X, 'py-14 lg:col-span-7 lg:py-24')}>
           <Eyebrow>Why {COMPANY.fullName}</Eyebrow>
           <p className="statement mt-8 text-[clamp(1.6rem,3vw,2.5rem)]">
-            The person who designs your agents also threat-models them.{' '}
+            One team builds it, runs it, and keeps it secure.{' '}
             <span className="muted">
-              {COMPANY.fullName} is a Melbourne consultancy led by a cyber security engineer, so controls are
-              in the first diagram and not bolted on before launch.
+              {COMPANY.fullName} is a Melbourne consultancy led by a cyber security engineer. You get
+              automation that saves real hours, IT that stays out of the way, and controls that are in the
+              first diagram instead of bolted on before launch.
             </span>
           </p>
         </Reveal>

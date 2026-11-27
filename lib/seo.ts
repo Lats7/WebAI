@@ -19,7 +19,7 @@ export const SHARE_IMAGE = {
   url: '/opengraph-image',
   width: 1200,
   height: 630,
-  alt: `${COMPANY.fullName}: AI agents, automation, and cyber security`,
+  alt: `${COMPANY.fullName}: AI automation, IT support, and security`,
 };
 
 /** Share-card fields that are the same on every page. */

@@ -1,10 +1,12 @@
 import { Fragment } from 'react';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { Reveal } from '@/components/shared/Reveal';
 import { CELL_X, Section } from '@/components/shared/Section';
 import { Eyebrow, SectionHeader } from '@/components/shared/SectionHeader';
 import { ICONS } from '@/components/shared/icons';
 import { AgentExplorer } from '@/components/sections/AgentExplorer';
-import { AGENT_PRINCIPLES, AUTOMATIONS, AUTOMATION_PIPELINE } from '@/lib/constants';
+import { AUTOMATIONS, AUTOMATION_PIPELINE, SAVINGS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 /** A row of stages joined by lines, with data moving along them. */
@@ -61,34 +63,23 @@ export function Agents() {
       <div className={cn(CELL_X, 'pb-4 pt-20 sm:pt-24 lg:pt-32')}>
         <SectionHeader
           code="02"
-          eyebrow="Agents and automation"
+          eyebrow="AI and automation"
           title={
             <>
-              Agents that finish the job, <span className="accent-word">with a person on the switch.</span>
+              Hand the repetitive work <span className="accent-word">to software that finishes it.</span>
             </>
           }
-          description="An agent is software that can plan, call your systems, and complete a task from start to end. We build them to be useful on day one and still safe on day 300. Pick a pattern to see how one is put together."
+          description="Every business has work that follows the same steps each time: reading documents, answering routine enquiries, moving data between systems. We automate it from start to end, so your team gets those hours back."
         />
       </div>
 
-      <Reveal>
-        <AgentExplorer />
-      </Reveal>
-
-      {/* Engineering rules */}
-      <div className={cn(CELL_X, 'border-t border-edge py-14 lg:py-20')}>
-        <Reveal>
-          <h3 className="statement max-w-3xl text-[clamp(1.5rem,2.8vw,2.25rem)]">
-            Four rules apply to every agent we ship. <span className="muted">Whatever it does, and whoever it works for.</span>
-          </h3>
-        </Reveal>
-      </div>
-      <ol className="grid border-t border-edge sm:grid-cols-2 lg:grid-cols-4">
-        {AGENT_PRINCIPLES.map((principle, index) => {
-          const Icon = ICONS[principle.icon];
+      {/* Where the money is saved */}
+      <ul className="grid border-t border-edge sm:grid-cols-2 lg:grid-cols-4">
+        {SAVINGS.map((saving, index) => {
+          const Icon = ICONS[saving.icon];
           return (
             <li
-              key={principle.title}
+              key={saving.title}
               className={cn(
                 'border-edge',
                 index > 0 && 'border-t sm:border-t-0',
@@ -98,21 +89,63 @@ export function Agents() {
               )}
             >
               <Reveal delay={index * 0.07} className="h-full">
-                <div className="spotlight h-full px-5 py-9 sm:px-8 lg:px-9 lg:py-11">
-                  <div className="flex items-center justify-between">
-                    <Icon size={22} strokeWidth={1.5} className="text-accent" aria-hidden="true" />
-                    <span className="label tabular-nums text-signal ws:text-fg-3">
-                      <span className="mc-only">R.</span>0{index + 1}
-                    </span>
-                  </div>
-                  <h4 className="display mt-7 text-xl text-fg">{principle.title}</h4>
-                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-fg-2">{principle.description}</p>
+                <div className="spotlight h-full px-5 py-9 sm:px-8 lg:px-9 lg:py-10">
+                  <Icon size={22} strokeWidth={1.5} className="text-accent" aria-hidden="true" />
+                  <h3 className="display mt-6 text-xl text-fg">{saving.title}</h3>
+                  <p className="mt-2 text-[0.9375rem] leading-relaxed text-fg-2">{saving.description}</p>
                 </div>
               </Reveal>
             </li>
           );
         })}
-      </ol>
+      </ul>
+
+      <Reveal
+        className={cn(
+          CELL_X,
+          'flex flex-col gap-4 border-t border-edge py-7 sm:flex-row sm:items-center sm:justify-between'
+        )}
+      >
+        <p className="text-fg-2">Pick one task and see what it costs you in a year.</p>
+        <Link href="/tools/automation-savings-calculator" className="btn btn-primary shrink-0 self-start sm:self-auto">
+          Open the savings calculator
+          <ArrowRight size={15} aria-hidden="true" />
+        </Link>
+      </Reveal>
+
+      <div className={cn(CELL_X, 'border-t border-edge py-12 lg:py-16')}>
+        <Reveal>
+          <p className="statement max-w-3xl text-[clamp(1.5rem,2.8vw,2.25rem)]">
+            An agent can plan, call your systems, and complete a task on its own.{' '}
+            <span className="muted">Pick a pattern to see how one is put together.</span>
+          </p>
+        </Reveal>
+      </div>
+
+      <Reveal>
+        <AgentExplorer />
+      </Reveal>
+
+      {/* Safe by design: the detail is on the AI agents and automation page */}
+      <div className={cn(CELL_X, 'border-t border-edge py-14 lg:py-20')}>
+        <Reveal>
+          <h3 className="statement max-w-4xl text-[clamp(1.5rem,2.8vw,2.25rem)]">
+            Safe by design, which is why it ships sooner.{' '}
+            <span className="muted">
+              Least privilege, a person on the switch, tested before trusted, and everything on the record. Four
+              rules built into every agent from the first day, so there is no security review to wait for at the
+              end.
+            </span>
+          </h3>
+          <Link
+            href="/services/ai-agents-automation"
+            className="mt-7 inline-flex items-center gap-2 py-1 text-accent underline-offset-4 hover:underline"
+          >
+            How we build agents
+            <ArrowRight size={15} aria-hidden="true" />
+          </Link>
+        </Reveal>
+      </div>
 
       {/* Automation */}
       <div id="automation" className={cn(CELL_X, 'scroll-mt-24 border-t border-edge py-16 lg:py-24')}>

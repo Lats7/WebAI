@@ -9,6 +9,7 @@ import {
   reply,
   sendEmail,
 } from '@/lib/apiGuard';
+import { isHolding } from '@/lib/holding';
 import { MIN_FILL_MS } from '@/lib/contact';
 import { leadEmail, parseResultRequest, resultEmail } from '@/lib/selfCheckEmail';
 
@@ -42,6 +43,9 @@ const recipientLimited = createLimiter(24 * ONE_HOUR, 2);
 const overallLimited = createLimiter(ONE_HOUR, 40);
 
 export async function POST(request: Request) {
+  // The site is showing its holding page. Nothing is accepted. See lib/holding.ts.
+  if (isHolding()) return reply({ ok: false, code: 'unavailable' }, 503);
+
   if (!isSameOrigin(request)) return reply({ ok: false, code: 'forbidden' }, 403);
 
   const json = await readJson(request, MAX_BODY_BYTES);

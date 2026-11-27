@@ -70,7 +70,7 @@ export function Contact() {
   return (
     <Section id="contact">
       <SectionHeader
-        code="07"
+        code="08"
         eyebrow="Contact"
         title={
           <>

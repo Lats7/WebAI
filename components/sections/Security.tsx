@@ -1,82 +1,99 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Reveal } from '@/components/shared/Reveal';
 import { CELL_X, Section } from '@/components/shared/Section';
 import { SectionHeader } from '@/components/shared/SectionHeader';
-import { SecurityTracks } from '@/components/sections/SecurityTracks';
-import { FRAMEWORKS, READINESS_REVIEW } from '@/lib/constants';
+import { ICONS } from '@/components/shared/icons';
 import { cn } from '@/lib/utils';
+
+/**
+ * Security and AI readiness as one vertical. The home page shows a summary of
+ * each part and links to its page, where the detail lives.
+ */
+const PARTS = [
+  {
+    icon: 'ListChecks',
+    title: 'AI Readiness Review',
+    href: '/ai-readiness-review',
+    description:
+      'A structured review before you roll out AI: what it will be able to see, what could go wrong, and what to fix first.',
+  },
+  {
+    icon: 'ShieldCheck',
+    title: 'Cyber security',
+    href: '/services/cyber-security',
+    description:
+      'Hardening and monitoring for the systems you already own, and the governance to prove it: Essential Eight, ASD Essentials, and ISO 27001.',
+  },
+  {
+    icon: 'Bug',
+    title: 'AI security testing',
+    href: '/services/ai-security',
+    description:
+      'We test what your chatbot, Copilot, or agent can be talked into, and what it can reach, before someone else does.',
+  },
+];
 
 export function Security() {
   return (
     <Section id="security" flush>
       <div className={cn(CELL_X, 'pb-4 pt-20 sm:pt-24 lg:pt-32')}>
         <SectionHeader
-          code="03"
-          eyebrow="Cyber security"
+          code="04"
+          eyebrow="Security and AI readiness"
           title={
             <>
-              Security you can prove, <span className="accent-word">not just claim.</span>
+              Secure by default, <span className="accent-word">without slowing you down.</span>
             </>
           }
-          description="Hands-on engineering to harden and monitor your environment, and the governance to show customers, insurers, and auditors that it works."
+          description="Security is part of how we build and support everything above, not a gate at the end. When you need it on its own, we check that AI is safe to switch on, harden what you have, and help you prove it to customers, insurers, and auditors."
         />
       </div>
 
-      <Reveal>
-        <SecurityTracks />
-      </Reveal>
+      <div className="grid border-t border-edge md:grid-cols-3">
+        {PARTS.map((part, index) => {
+          const Icon = ICONS[part.icon];
+          return (
+            <Reveal
+              key={part.href}
+              delay={index * 0.08}
+              className={cn('border-edge', index > 0 && 'border-t md:border-l md:border-t-0')}
+            >
+              <article className="spotlight group relative flex h-full flex-col px-5 py-9 sm:px-8 lg:px-10 lg:py-11">
+                <div className="flex items-center justify-between">
+                  <span className="grid h-11 w-11 place-items-center border border-edge-strong text-accent mc:rounded-[3px] mc:bg-accent/10 ws:rounded-xl ws:border-transparent ws:bg-accent/10">
+                    <Icon size={20} strokeWidth={1.6} aria-hidden="true" />
+                  </span>
+                  <ArrowUpRight
+                    size={18}
+                    className="text-fg-3 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
+                    aria-hidden="true"
+                  />
+                </div>
+                <h3 className="display mt-7 text-2xl text-fg">
+                  <Link href={part.href} className="after:absolute after:inset-0 after:content-['']">
+                    {part.title}
+                  </Link>
+                </h3>
+                <p className="mt-3 leading-relaxed text-fg-2">{part.description}</p>
+              </article>
+            </Reveal>
+          );
+        })}
+      </div>
 
-      {/* Frameworks */}
       <Reveal
         className={cn(
           CELL_X,
-          'flex flex-col gap-4 border-t border-edge py-7 lg:flex-row lg:items-center lg:gap-10'
+          'flex flex-col gap-4 border-t border-edge py-7 sm:flex-row sm:items-center sm:justify-between'
         )}
       >
-        <p className="label shrink-0 text-fg-3">Frameworks we work to</p>
-        <ul className="flex flex-wrap gap-2">
-          {FRAMEWORKS.map((framework) => (
-            <li key={framework} className="chip">
-              {framework}
-            </li>
-          ))}
-        </ul>
+        <p className="text-fg-2">Not sure where you stand? The free self-check takes two minutes.</p>
+        <Link href="/tools/ai-readiness-check" className="btn btn-secondary shrink-0 self-start sm:self-auto">
+          Take the self-check
+          <ArrowRight size={15} aria-hidden="true" />
+        </Link>
       </Reveal>
-
-      {/* Flagship engagement */}
-      <div className="border-t border-edge p-3 sm:p-6 lg:p-10">
-        <Reveal>
-          <div className="card bracketed mc:border-accent/40 mc:shadow-[0_0_90px_-30px_rgb(var(--accent)/0.55)] ws:rounded-stage ws:border-transparent ws:bg-fg ws:text-bg">
-            <div className="grid gap-10 p-7 sm:p-10 lg:grid-cols-12 lg:gap-12 lg:p-14">
-              <div className="lg:col-span-5">
-                <p className="label text-signal ws:text-bg/70">Flagship engagement</p>
-                <h3 className="display mt-5 text-4xl sm:text-5xl">{READINESS_REVIEW.title}</h3>
-                <p className="mt-6 leading-relaxed text-fg-2 ws:text-bg/75">{READINESS_REVIEW.description}</p>
-                <Link
-                  href="/ai-readiness-review"
-                  className="btn btn-primary btn-lg mt-9 ws:!bg-bg ws:!text-fg ws:hover:!bg-accent ws:hover:!text-on-accent"
-                >
-                  See what the review covers
-                  <ArrowRight size={16} aria-hidden="true" />
-                </Link>
-              </div>
-
-              <ol className="grid gap-px overflow-hidden border border-edge bg-edge sm:grid-cols-2 lg:col-span-7 mc:rounded-[3px] ws:rounded-2xl ws:border-bg/15 ws:bg-bg/15">
-                {READINESS_REVIEW.steps.map((step, index) => (
-                  <li key={step.title} className="bg-panel p-6 lg:p-7 ws:bg-fg">
-                    <span className="label tabular-nums text-signal ws:text-bg/60">
-                      <span className="mc-only">Step </span>0{index + 1}
-                    </span>
-                    <h4 className="display mt-4 text-xl">{step.title}</h4>
-                    <p className="mt-2 text-sm leading-relaxed text-fg-2 ws:text-bg/70">{step.description}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </Reveal>
-      </div>
     </Section>
   );
 }

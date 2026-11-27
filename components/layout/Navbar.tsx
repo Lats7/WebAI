@@ -9,7 +9,7 @@ import { Logo } from '@/components/shared/Logo';
 import { StyleHint } from '@/components/theme/StyleHint';
 import { ThemeSwitch } from '@/components/theme/ThemeSwitch';
 import { openCommandMenu } from '@/lib/commandMenu';
-import { NAV_ITEMS } from '@/lib/constants';
+import { NAV_ITEMS, NAV_MORE } from '@/lib/constants';
 import { useRestoreTheme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
 
@@ -173,7 +173,7 @@ export function Navbar() {
           >
             <div className="flex min-h-full flex-col px-5 pb-10 pt-24 sm:px-8">
               <ul className="border-t border-edge">
-                {NAV_ITEMS.map((item, index) => (
+                {[...NAV_ITEMS, ...NAV_MORE].map((item, index) => (
                   <motion.li
                     key={item.href}
                     initial={{ opacity: 0, y: 12 }}

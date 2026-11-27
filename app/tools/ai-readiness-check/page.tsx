@@ -7,7 +7,7 @@ import { Reveal } from '@/components/shared/Reveal';
 import { CELL_X, Section } from '@/components/shared/Section';
 import { Eyebrow } from '@/components/shared/SectionHeader';
 import { SelfCheck } from '@/components/tools/SelfCheck';
-import { ARTICLES } from '@/content/articles';
+import { SAFETY_ARTICLES } from '@/content/articles';
 import { emailConfigured } from '@/lib/apiGuard';
 import { CHECK_BANDS, CHECK_QUESTIONS, MAX_SCORE } from '@/lib/selfCheck';
 import { breadcrumbData, pageMetadata } from '@/lib/seo';
@@ -158,7 +158,7 @@ export default function SelfCheckPage() {
         <Reveal className={cn(CELL_X, 'py-14 lg:py-16')}>
           <Eyebrow>Guides for the most common gaps</Eyebrow>
         </Reveal>
-        <ArticleCards articles={ARTICLES} />
+        <ArticleCards articles={SAFETY_ARTICLES} />
       </Section>
     </>
   );

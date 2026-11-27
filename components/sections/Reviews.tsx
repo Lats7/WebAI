@@ -86,7 +86,7 @@ export function Reviews() {
     <Section id="reviews" flush tint>
       <div className={cn(CELL_X, 'pb-4 pt-20 sm:pt-24 lg:pt-32')}>
         <SectionHeader
-          code="06"
+          code="07"
           eyebrow="Reviews"
           title={
             <>

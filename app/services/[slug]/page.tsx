@@ -12,8 +12,9 @@ import { Reveal } from '@/components/shared/Reveal';
 import { CELL_X, Section } from '@/components/shared/Section';
 import { Eyebrow } from '@/components/shared/SectionHeader';
 import { ProcessSteps } from '@/components/sections/ProcessSteps';
+import { SecurityTracks } from '@/components/sections/SecurityTracks';
 import { ARTICLES } from '@/content/articles';
-import { COMPANY } from '@/lib/constants';
+import { COMPANY, FRAMEWORKS } from '@/lib/constants';
 import { absoluteUrl, breadcrumbData, pageMetadata } from '@/lib/seo';
 import { SERVICE_PAGES, getServicePage } from '@/lib/servicePages';
 import { cn } from '@/lib/utils';
@@ -73,8 +74,8 @@ export default async function ServicePageRoute({ params }: { params: Promise<{ s
               Start a brief
               <ArrowRight size={16} aria-hidden="true" />
             </a>
-            <Link href="/ai-readiness-review" className="btn btn-secondary btn-lg">
-              AI Readiness Review
+            <Link href={page.secondary?.href ?? '/ai-readiness-review'} className="btn btn-secondary btn-lg">
+              {page.secondary?.label ?? 'AI Readiness Review'}
             </Link>
           </>
         }
@@ -101,6 +102,41 @@ export default async function ServicePageRoute({ params }: { params: Promise<{ s
           <ItemGrid items={group.items} />
         </Section>
       ))}
+
+      {page.showcase === 'security-samples' && (
+        <Section id="samples" flush tint>
+          <Reveal className={cn(CELL_X, 'pb-4 pt-14 lg:pt-20')}>
+            <Eyebrow>What you get</Eyebrow>
+            <div className="mb-10 mt-7 grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10">
+              <h2 className="display text-[clamp(2rem,4.4vw,3.4rem)] text-fg lg:col-span-7">
+                Evidence you can <span className="accent-word">hand to whoever asks.</span>
+              </h2>
+              <p className="text-base leading-relaxed text-fg-2 sm:text-lg lg:col-span-5 lg:pb-1.5">
+                Each piece of work ends in something you can read and reuse. These are samples of the kind of
+                output, across the three disciplines.
+              </p>
+            </div>
+          </Reveal>
+          <Reveal>
+            <SecurityTracks samplesOnly />
+          </Reveal>
+          <Reveal
+            className={cn(
+              CELL_X,
+              'flex flex-col gap-4 border-t border-edge py-7 lg:flex-row lg:items-center lg:gap-10'
+            )}
+          >
+            <p className="label shrink-0 text-fg-3">Frameworks we work to</p>
+            <ul className="flex flex-wrap gap-2">
+              {FRAMEWORKS.map((framework) => (
+                <li key={framework} className="chip">
+                  {framework}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </Section>
+      )}
 
       {/* How an engagement runs */}
       <Section id="approach" flush tint>

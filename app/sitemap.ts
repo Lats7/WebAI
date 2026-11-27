@@ -1,9 +1,13 @@
 import type { MetadataRoute } from 'next';
 import { ARTICLES } from '@/content/articles';
 import { PAGES } from '@/lib/constants';
+import { isHolding } from '@/lib/holding';
 import { absoluteUrl } from '@/lib/seo';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // Every other address redirects to the home page while the holding page is on.
+  if (isHolding()) return [{ url: absoluteUrl('/') }];
+
   const pages = PAGES.map((page) => ({
     url: absoluteUrl(page.href),
     changeFrequency: 'monthly' as const,
