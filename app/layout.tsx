@@ -12,6 +12,7 @@ import { Motion } from '@/components/shared/Motion';
 import { RevealObserver } from '@/components/shared/RevealObserver';
 import { ScrollProgress } from '@/components/shared/ScrollProgress';
 import { COMPANY, META_DESCRIPTION, SERVICES } from '@/lib/constants';
+import { HOLDING_MESSAGE, isHolding } from '@/lib/holding';
 import { THEME_INIT_SCRIPT, THEME_META } from '@/lib/theme-config';
 import './globals.css';
 
@@ -40,7 +41,17 @@ const serif = Instrument_Serif({
 
 const title = `${COMPANY.fullName} | AI automation and IT support, Melbourne`;
 
-export const metadata: Metadata = {
+// While the holding page is on, the site shows one message and no navigation. See lib/holding.ts.
+const holding = isHolding();
+
+const holdingMetadata: Metadata = {
+  metadataBase: new URL(COMPANY.url),
+  title: COMPANY.fullName,
+  description: HOLDING_MESSAGE,
+  robots: { index: false, follow: false },
+};
+
+const siteMetadata: Metadata = {
   metadataBase: new URL(COMPANY.url),
   title: {
     default: title,
@@ -63,6 +74,8 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
 };
+
+export const metadata: Metadata = holding ? holdingMetadata : siteMetadata;
 
 export const viewport: Viewport = {
   themeColor: THEME_META.mission.themeColor,
@@ -109,22 +122,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }}
           />
         </noscript>
-        <JsonLd data={organisation} />
+        {!holding && <JsonLd data={organisation} />}
       </head>
       <body className="font-sans antialiased">
-        <Motion>
-          <Backdrop />
-          <ScrollProgress />
-          <Navbar />
+        {holding ? (
+          // The holding page stands alone: no navigation, no footer, no tracking.
           <main id="main">{children}</main>
-          <Footer />
-          <StatusBar />
-          <CommandMenuLoader />
-        </Motion>
-        <RevealObserver />
-        <AttributionCapture />
-        {/* Vercel serves the analytics script from this site's own origin. It only exists on Vercel. */}
-        {process.env.VERCEL ? <Analytics /> : null}
+        ) : (
+          <>
+            <Motion>
+              <Backdrop />
+              <ScrollProgress />
+              <Navbar />
+              <main id="main">{children}</main>
+              <Footer />
+              <StatusBar />
+              <CommandMenuLoader />
+            </Motion>
+            <RevealObserver />
+            <AttributionCapture />
+            {/* Vercel serves the analytics script from this site's own origin. It only exists on Vercel. */}
+            {process.env.VERCEL ? <Analytics /> : null}
+          </>
+        )}
       </body>
     </html>
   );

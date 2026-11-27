@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { COMPANY } from '@/lib/constants';
+import { HOLDING_MESSAGE, isHolding } from '@/lib/holding';
 import { SHARE_IMAGE } from '@/lib/seo';
 
 export const alt = SHARE_IMAGE.alt;
@@ -10,6 +11,32 @@ const TAGS = ['AI agents', 'Automation', 'IT support', 'Security', 'CRM, web, ap
 
 /** Social share card, drawn in the Mission Control style. */
 export default function OpenGraphImage() {
+  if (isHolding()) {
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 96,
+            backgroundColor: '#05080d',
+            color: '#e9eff9',
+            fontFamily: 'sans-serif',
+            fontSize: 52,
+            lineHeight: 1.25,
+            textAlign: 'center',
+          }}
+        >
+          {HOLDING_MESSAGE}
+        </div>
+      ),
+      size
+    );
+  }
+
   return new ImageResponse(
     (
       <div
